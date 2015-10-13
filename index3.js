@@ -30,11 +30,19 @@ function Pool(options) {
 
     var self = this;
     this.available.forEach(function (cp) {
-        cp.on('message', function (msg) {
-            switch (msg) {
-                case 'isAvailable':
+        cp.on('message', function (data) {
+            switch (data.msg) {
+                case 'done':
                     delegateCP.bind(self)(cp);
+                    if(data.error){
+                        cb(new Error(data.error));
+                    }
+                    else{
+                        cb(null,data.result);
+                    }
                     break;
+                default:
+                    console.log('warning: your Poolio worker sent a message that was not recognized.');
             }
         });
     });
@@ -46,12 +54,13 @@ function delegateCP(cp) {
         cp.send(this.msgQueue.shift());
     }
     else {
+        console.log('should be done...for now');
         this.available.push(cp);
     }
 }
 
 
-Pool.prototype.any = function (msg) {
+Pool.prototype.any = function (msg, cb) {
 
     console.log('pool size:', this.available.length);
 

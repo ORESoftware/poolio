@@ -17,7 +17,11 @@ function DoIt() {
 
     setTimeout(function () {
 
-        process.send('isAvailable');
+        process.send({
+            msg:'done',
+            error:'beetles',
+            result:null
+        });
 
     }, 100);
 

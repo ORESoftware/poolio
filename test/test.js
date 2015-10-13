@@ -13,8 +13,12 @@ var pool = new Pool({
 });
 
 setTimeout(function(){
-    pool.any('run');
-}, Math.random() * 1000);
+
+    pool.any('run', function(err,result){
+        console.log('ERROR:',err,'RESULT:',result);
+    });
+
+}, Math.random() * 10);
 
 setTimeout(function(){
     pool.any('run');
