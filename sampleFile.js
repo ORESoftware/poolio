@@ -7,7 +7,10 @@
 process.on('message', function (msg) {
 
     if(msg === 'run'){
-        DoIt();
+        DoRun(msg);
+    }
+    else if(msg === 'big'){
+        DoBig(msg);
     }
     else{
         console.log('msg is not "run"',msg);
@@ -16,16 +19,35 @@ process.on('message', function (msg) {
 });
 
 
-function DoIt() {
+function DoRun() {
 
     console.log('working...');
 
     setTimeout(function () {
 
-        process.send('isAvailable');
+        process.send({
+            msg:'done',
+            error:'beetles',
+            result:null
+        });
 
-    }, Math.random() * 1000);
+    }, 100);
 
 }
 
 
+function DoBig() {
+
+    console.log('working...');
+
+    setTimeout(function () {
+
+        process.send({
+            msg:'done',
+            error:null,
+            result: 'parties'
+        });
+
+    }, 100);
+
+}
