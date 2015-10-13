@@ -66,20 +66,23 @@ Pool.prototype.any = function (msg) {
             }
         }
         else {
-            self.ee.on('newly available cp', function (cp) {
+            self.ee.on('newly available cp', cb);
+
+             function cb (cp) {
+                self.ee.removeListener('newly available cp',cb);
                 //console.log('newly available cp cb');
                 self.lock.readLock(function (release) {
+                    self.available.push(cp);
+                    //console.log('found');
                     if (!found) {
                         found = true;
-                        cp.send(msg);
-                    }
-                    else{
-                        console.log('nooooot found');
-                        self.available.push(cp);
+                        //console.log('not found, msg:', msg);
+                        var $cp = self.available.shift();
+                        $cp.send(msg);
                     }
                     release();
                 });
-            });
+            };
         }
         release();
     });

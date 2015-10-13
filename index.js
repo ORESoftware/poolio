@@ -14,7 +14,7 @@ function Pool(options) {
 
     this.available = [];
 
-    this.lock = new ReadWriteLock();
+    this.lock = new ReadWriteLock(); //locks available array
 
     this.ee = new EE();
     this.ee.setMaxListeners(300);
@@ -70,7 +70,10 @@ Pool.prototype.any = function (msg) {
     });
 
 
-    this.ee.on('newly available cp', function (cp) {
+    this.ee.on('newly available cp', cb);
+
+    var cb = function (cp) {
+        self.ee.removeListener('newly available cp',cb);
         //console.log('newly available cp cb');
         self.lock.readLock(function (release) {
             self.available.push(cp);
@@ -83,7 +86,7 @@ Pool.prototype.any = function (msg) {
             }
             release();
         });
-    });
+    };
 
 
 };
