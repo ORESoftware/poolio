@@ -52,7 +52,6 @@ Pool.prototype.any = function (msg) {
 
     console.log('pool size:', this.available.length);
 
-    var found = false;
     var self = this;
 
     this.lock.readLock(function (release) {
@@ -62,27 +61,27 @@ Pool.prototype.any = function (msg) {
                 found = true;
                 cp.send(msg);
             }
-            else{
-                console.log('first not found');
+            else {
+                console.log('!!first not found!!');
             }
         }
+        else {
+            self.ee.on('newly available cp', function (cp) {
+                //console.log('newly available cp cb');
+                self.lock.readLock(function (release) {
+                    if (!found) {
+                        found = true;
+                        cp.send(msg);
+                    }
+                    else{
+                        console.log('nooooot found');
+                        self.available.push(cp);
+                    }
+                    release();
+                });
+            });
+        }
         release();
-    });
-
-
-    this.ee.on('newly available cp', function (cp) {
-        //console.log('newly available cp cb');
-        self.lock.readLock(function (release) {
-            self.available.push(cp);
-            //console.log('found');
-            if (!found) {
-                found = true;
-                //console.log('not found, msg:', msg);
-                var $cp = self.available.shift();
-                $cp.send(msg);
-            }
-            release();
-        });
     });
 
 

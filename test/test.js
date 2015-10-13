@@ -4,7 +4,7 @@
 
 
 
-var Pool = require('../index');
+var Pool = require('../index2');
 
 
 var pool = new Pool({
@@ -15,23 +15,65 @@ var pool = new Pool({
 
 
 pool.any('run');
-
+pool.any('run');
+pool.any('run');
+pool.any('run');
 pool.any('run');
 
 pool.any('run');
 
-pool.any('run');
+setTimeout(function(){
+    pool.any('run');
+}, Math.random() * 1000);
+
+setTimeout(function(){
+    pool.any('run');
+}, Math.random() * 1000);
 
 
-pool.any('run');
-
-pool.any('run');
-
-pool.any('run');
-
-pool.any('run');
-
-pool.any('run');
+setTimeout(function(){
+    pool.any('run');
+}, Math.random() * 1000);
 
 
-pool.any('run');
+setTimeout(function(){
+    pool.any('run');
+}, Math.random() * 1000);
+
+setTimeout(function(){
+    pool.any('run');
+}, Math.random() * 1000);
+
+setTimeout(function(){
+    pool.any('run');
+}, Math.random() * 1000);
+
+
+setTimeout(function(){
+    pool.any('run');
+}, Math.random() * 1000);
+
+
+setTimeout(function(){
+    pool.any('run');
+}, Math.random() * 1000);
+
+
+
+setTimeout(function(){
+    pool.any('run');
+}, Math.random() * 1000);
+
+setTimeout(function(){
+    pool.any('run');
+}, Math.random() * 1000);
+
+
+setTimeout(function(){
+    pool.any('run');
+}, Math.random() * 1000);
+
+
+setTimeout(function(){
+    pool.any('run');
+}, Math.random() * 1000);
