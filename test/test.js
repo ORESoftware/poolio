@@ -4,34 +4,23 @@
 
 
 
-var Pool = require('../index');
+var Pool = require('../index2');
 
 
 var pool = new Pool({
-    size: 3,
+    size: 1,
     filePath: 'sampleFile.js'
 });
 
 
 
 pool.any('run');
-
 pool.any('run');
-
 pool.any('run');
-
 pool.any('run');
-
-
 pool.any('run');
-
 pool.any('run');
-
 pool.any('run');
-
 pool.any('run');
-
 pool.any('run');
-
-
 pool.any('run');

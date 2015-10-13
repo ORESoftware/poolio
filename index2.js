@@ -7,6 +7,9 @@ var cp = require('child_process');
 var _ = require('underscore');
 var EE = require('events');
 var path = require('path');
+var ReadWriteLock = require('rwlock');
+
+var lock = new ReadWriteLock();
 
 function Pool(options) {
 
@@ -33,11 +36,11 @@ function Pool(options) {
     var self = this;
     this.available.forEach(function (cp) {
         cp.on('message', function (msg) {
-
             //console.log('message received by pool:',msg);
             switch (msg) {
                 case 'isAvailable':
-                    self.ee.emit('newly available cp', cp);
+                    self.available.push(cp);
+                    self.ee.emit('newly available cp');
                     break;
             }
         });
@@ -48,18 +51,26 @@ function Pool(options) {
 
 Pool.prototype.any = function (msg) {
 
-    console.log(msg);
     console.log('pool size:',this.available.length);
+
     var self = this;
-    var cp = null;
-    if (cp = findFirst(self.available)) {
-        cp.send(msg);
-    }
-    else {
-        this.ee.on('newly available cp', function (cp) {
+
+    lock.readLock(function (release) {
+
+        var cp = null;
+        if (cp = findFirst(self.available)) {
             cp.send(msg);
-        });
-    }
+            release();
+        }
+        else {
+            self.ee.on('newly available cp', function () {
+                cp = findFirst(self.available);
+                cp.send(msg);
+                release();
+            });
+        }
+    });
+
 };
 
 

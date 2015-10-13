@@ -6,7 +6,12 @@
 
 process.on('message', function (msg) {
 
-    DoIt();
+    if(msg === 'run'){
+        DoIt();
+    }
+    else{
+        console.log('msg is not "run"',msg);
+    }
 
 });
 
