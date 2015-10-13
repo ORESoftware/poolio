@@ -19,7 +19,7 @@ function DoIt() {
 
         process.send('isAvailable');
 
-    }, Math.random() * 1000);
+    }, 100);
 
 }
 

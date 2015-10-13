@@ -4,23 +4,51 @@
 
 
 
-var Pool = require('../index2');
+var Pool = require('../index3');
 
 
 var pool = new Pool({
-    size: 3,
+    size: 1,
     filePath: 'sampleFile.js'
 });
 
+setTimeout(function(){
+    pool.any('run');
+}, Math.random() * 1000);
+
+setTimeout(function(){
+    pool.any('run');
+}, Math.random() * 1000);
 
 
-pool.any('run');
-pool.any('run');
-pool.any('run');
-pool.any('run');
-pool.any('run');
+setTimeout(function(){
+    pool.any('run');
+}, Math.random() * 1000);
 
-pool.any('run');
+
+setTimeout(function(){
+    pool.any('run');
+}, Math.random() * 1000);
+
+setTimeout(function(){
+    pool.any('run');
+}, Math.random() * 1000);
+
+setTimeout(function(){
+    pool.any('run');
+}, Math.random() * 1000);
+
+
+setTimeout(function(){
+    pool.any('run');
+}, Math.random() * 1000);
+
+
+setTimeout(function(){
+    pool.any('run');
+}, Math.random() * 1000);
+
+
 
 setTimeout(function(){
     pool.any('run');
