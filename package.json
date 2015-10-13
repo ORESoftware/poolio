@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "colors": "^1.1.2",
+    "debug": "^2.2.0",
     "path": "^0.12.7",
     "underscore": "^1.8.3"
   }

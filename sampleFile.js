@@ -12,6 +12,9 @@ process.on('message', function (msg) {
     else if(msg === 'big'){
         DoBig(msg);
     }
+    else if(msg === 'SIGTERM'){
+        console.log('dead');
+    }
     else{
         console.log('msg is not "run"',msg);
     }

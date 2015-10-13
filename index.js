@@ -6,10 +6,15 @@
 var cp = require('child_process');
 var _ = require('underscore');
 var path = require('path');
+var debug = require('debug')('poolio');
+var colors = require('colors/safe');
 
 
 function Pool(options) {
 
+    this.kill = false;
+
+    this.all = [];
     this.available = [];
     this.msgQueue = [];
     this.callbacks = [];
@@ -27,7 +32,9 @@ function Pool(options) {
     }
 
     for (var i = 0; i < this.size; i++) {
-        this.available.push(cp.fork(path.resolve(__dirname + '/' + this.filePath)));
+        var n = cp.fork(path.resolve(__dirname + '/' + this.filePath));
+        this.available.push(n);
+        this.all.push(n);
     }
 
     var self = this;
@@ -40,7 +47,7 @@ function Pool(options) {
                     handleCallback.bind(self)(workId,data);
                     break;
                 default:
-                    console.log('warning: your Poolio worker sent a message that was not recognized.');
+                    console.log(colors.bgYellow('warning: your Poolio worker sent a message that was not recognized.'));
             }
         });
     });
@@ -67,7 +74,7 @@ function findRemoveAndReturn(workId){
 function handleCallback(workId,data){
 
     if(workId === -1){
-        console.log('no cb passed so do nothing');
+        debug('no cb passed so do nothing');
         return;
     }
 
@@ -82,19 +89,25 @@ function handleCallback(workId,data){
         }
     }
     else{
-        throw new Error('this shouldnt happen');
+        debug(colors.bgRed('this shouldnt happen'));
     }
 }
 
 
 function delegateCP(cp) {
+
+    if(this.kill){
+        cp.send('SIGTERM');
+        return;
+    }
+
     if (this.msgQueue.length > 0) {
         var obj = this.msgQueue.shift();
         cp.workId =obj.workId;
         cp.send(obj.msg);
     }
     else {
-        console.log('worker is available and is back in the pool');
+        debug(colors.yellow('worker is available and is back in the pool'));
         delete cp.workId;
         this.available.push(cp);
     }
@@ -103,7 +116,12 @@ function delegateCP(cp) {
 
 Pool.prototype.any = function (msg, cb) {
 
-    console.log('pool size:', this.available.length);
+    if(this.kill){
+        console.log('warning: pool.any called on pool of dead/dying workers');
+        return;
+    }
+
+    debug('pool size:', this.available.length);
 
     var workId = this.counter++;
 
@@ -128,6 +146,26 @@ Pool.prototype.any = function (msg, cb) {
             msg: msg
         });
     }
+
+};
+
+
+Pool.prototype.killAll = function () {
+
+    this.kill = true;
+    this.available.forEach(function(cp){
+         cp.send('SIGTERM');
+    });
+
+};
+
+
+Pool.prototype.killAllImmediate = function () {
+
+    this.kill = true;
+    this.all.forEach(function(cp){
+        cp.send('SIGTERM');
+    });
 
 };
 

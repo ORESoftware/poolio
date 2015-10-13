@@ -4,7 +4,7 @@
 
 
 
-var Pool = require('../index3');
+var Pool = require('../index');
 
 
 var pool = new Pool({
@@ -15,12 +15,22 @@ var pool = new Pool({
 setTimeout(function () {
 
     pool.any('run', function (err, result) {
-        console.log('ERROR:', err, 'RESULT:', result);
+        if(err){
+            console.error(err);
+        }
+        else{
+            console.log('RESULT:', result);
+        }
     });
 
 
     pool.any('big',function(err,result){
-        console.log('ERROR:', err, 'RESULT:', result);
+        if(err){
+            console.error(err);
+        }
+        else{
+            console.log('RESULT:', result);
+        }
     });
 
     pool.any('run');
@@ -33,7 +43,13 @@ setTimeout(function () {
     pool.any('run');
     pool.any('run');
 
-}, Math.random() * 10);
+}, Math.random() * 1000);
+
+setTimeout(function () {
+    pool.any('run');
+}, Math.random() * 1000);
+
+//pool.killAll();
 
 setTimeout(function () {
     pool.any('run');
@@ -45,9 +61,7 @@ setTimeout(function () {
 }, Math.random() * 1000);
 
 
-setTimeout(function () {
-    pool.any('run');
-}, Math.random() * 1000);
+pool.killAllImmediate();
 
 setTimeout(function () {
     pool.any('run');
