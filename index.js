@@ -10,6 +10,8 @@ var debug = require('debug')('poolio');
 var colors = require('colors/safe');
 
 
+var id = 0;
+
 function Pool(options) {
 
     this.kill = false;
@@ -22,7 +24,8 @@ function Pool(options) {
     this.counter = 0;
 
     var opts = _.defaults(options, {
-        size: 1
+        size: 1,
+        pool_id:'@pool_' + id++
     });
 
     for (var option in opts) {
@@ -110,6 +113,7 @@ function delegateCP(cp) {
         debug(colors.yellow('worker is available and is back in the pool'));
         delete cp.workId;
         this.available.push(cp);
+        debug('pool size for pool ' + this.pool_id + ' is: ' + this.available.length);
     }
 }
 
@@ -121,7 +125,7 @@ Pool.prototype.any = function (msg, cb) {
         return;
     }
 
-    debug('pool size:', this.available.length);
+    debug('current available pool size for pool_id ' + this.pool_id + ' is: ' + this.available.length);
 
     var workId = this.counter++;
 

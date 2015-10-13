@@ -8,9 +8,25 @@ var Pool = require('../index');
 
 
 var pool = new Pool({
+    pool_id:'***',
+    size: 17,
+    filePath: 'sampleFile.js'
+});
+
+var pool_1 = new Pool({
+    pool_id:'###',
     size: 5,
     filePath: 'sampleFile.js'
 });
+
+var pool_2 = new Pool({
+    size: 12,
+    filePath: 'sampleFile.js'
+});
+
+
+pool_1.any('dog');
+pool_2.any('big');
 
 setTimeout(function () {
 
@@ -35,10 +51,10 @@ setTimeout(function () {
 
     pool.any('run');
     pool.any('run');
+    pool_1.any('run');
     pool.any('run');
     pool.any('run');
-    pool.any('run');
-    pool.any('run');
+    pool_2.any('run');
     pool.any('run');
     pool.any('run');
     pool.any('run');
@@ -52,7 +68,7 @@ setTimeout(function () {
 //pool.killAll();
 
 setTimeout(function () {
-    pool.any('run');
+    pool_1.any('run');
 }, Math.random() * 1000);
 
 
@@ -61,19 +77,14 @@ setTimeout(function () {
 }, Math.random() * 1000);
 
 
-pool.killAllImmediate();
+//pool.killAllImmediate();
 
 setTimeout(function () {
     pool.any('run');
 }, Math.random() * 1000);
 
 setTimeout(function () {
-    pool.any('run');
-}, Math.random() * 1000);
-
-
-setTimeout(function () {
-    pool.any('run');
+    pool_2.any('run');
 }, Math.random() * 1000);
 
 
@@ -86,18 +97,23 @@ setTimeout(function () {
     pool.any('run');
 }, Math.random() * 1000);
 
+
+setTimeout(function () {
+    pool_1.any('run');
+}, Math.random() * 1000);
+
 setTimeout(function () {
     pool.any('run');
 }, Math.random() * 1000);
 
 
 setTimeout(function () {
-    pool.any('run');
+    pool_2.any('run');
 }, Math.random() * 1000);
 
 
 setTimeout(function () {
-    pool.any('run');
+    pool_1.any('run');
 }, Math.random() * 1000);
 
 setTimeout(function () {

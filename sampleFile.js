@@ -16,9 +16,12 @@ process.on('message', function (msg) {
         console.log('dead');
     }
     else{
-        console.log('msg is not "run"',msg);
+        process.send({
+            msg:'done',
+            error:'unknown message',
+            result: null
+        });
     }
-
 });
 
 
