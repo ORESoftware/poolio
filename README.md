@@ -1,15 +1,14 @@
 # poolio
 
 much like https://github.com/thisandagain/fork-pool
-
 except simpler implementation and clearer documentation (for now)
-
 this lib utilizes a child_process pool, using child_process.fork() like so: 
 
 
+```javascript
 var cp = require('child_process');
 cp.fork('your_file.js');
-
+```
 
 as per:
 
@@ -18,13 +17,13 @@ https://nodejs.org/api/child_process.html
 
 
 
-## Installation
+### Installation
 
 ```bash
 npm install --save poolio
 ```
 
-## Basic Use
+#### Basic Use
 
 ```javascript
 
