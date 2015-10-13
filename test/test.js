@@ -29,7 +29,7 @@ setTimeout(function () {
             console.error(err);
         }
         else{
-            console.log('RESULT:', result);
+            console.log(result);
         }
     });
 

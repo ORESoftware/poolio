@@ -32,21 +32,26 @@ npm install --save poolio
 var Pool = require('poolio');
 
 var pool = new Pool({
-    filePath: 'child.js',
+    filePath: 'child.js',    //path is relative to root of your project
     size: 3
 });
 
 var msg = {'do that':'do that that that'};
 
 pool.any(msg,function(err,result){
-      console.log(err,result);
+       if(err){
+             console.error(err);
+        }
+        else{
+             console.log(result);
+       }
 });
 
 ```
 
 ```javascript
 
-// Child process
+// in a child process
 
 process.on('message', function (msg) {
 
@@ -72,7 +77,6 @@ function doRun(msg){
   
 }
     
-});
 
 ```
 
