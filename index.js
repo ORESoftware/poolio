@@ -2,6 +2,8 @@
  * Created by amills001c on 10/12/15.
  */
 
+//TODO: https://devnet.jetbrains.com/message/5507221
+//TODO: https://youtrack.jetbrains.com/issue/WEB-1919
 
 var cp = require('child_process');
 var _ = require('underscore');
@@ -26,7 +28,7 @@ function Pool(options) {
 
     var opts = _.defaults(options, {
         size: 1,
-        pool_id:'@pool_' + id++
+        pool_id: '@pool_' + id++
     });
 
     for (var option in opts) {
@@ -35,12 +37,14 @@ function Pool(options) {
         }
     }
 
-    if(this.filePath == null){
+    if (this.filePath == null) {
         throw new Error('need to provide filepath value for Poolio constructor');
     }
 
     for (var i = 0; i < this.size; i++) {
-        var n = cp.fork(path.resolve(appRootPath + '/' + this.filePath));
+        var n = cp.fork(path.resolve(appRootPath + '/' + this.filePath), [], {
+            execArgs: []
+        });
         this.available.push(n);
         this.all.push(n);
     }
@@ -52,7 +56,7 @@ function Pool(options) {
                 case 'done':
                     var workId = cp.workId;
                     delegateCP.bind(self)(cp);
-                    handleCallback.bind(self)(workId,data);
+                    handleCallback.bind(self)(workId, data);
                     break;
                 default:
                     console.log(colors.bgYellow('warning: your Poolio worker sent a message that was not recognized.'));
@@ -63,32 +67,32 @@ function Pool(options) {
 }
 
 
-function findRemoveAndReturn(workId){
+function findRemoveAndReturn(workId) {
 
     var ret = null;
 
-    for(var i = 0; i < this.callbacks.length; i++){
-        if(this.callbacks[i].workId === workId){
+    for (var i = 0; i < this.callbacks.length; i++) {
+        if (this.callbacks[i].workId === workId) {
             ret = this.callbacks[i].cb;
             break;
         }
     }
 
-    this.callbacks = this.callbacks.splice(i-1,1);
+    this.callbacks = this.callbacks.splice(i - 1, 1);
     return ret;
 
 }
 
-function handleCallback(workId,data){
+function handleCallback(workId, data) {
 
-    if(workId === -1){
+    if (workId === -1) {
         debug('no cb passed so do nothing');
         return;
     }
 
     var cb = findRemoveAndReturn.bind(this)(workId);
 
-    if(cb){
+    if (cb) {
         if (data.error) {
             cb(new Error(data.error));
         }
@@ -96,7 +100,7 @@ function handleCallback(workId,data){
             cb(null, data.result);
         }
     }
-    else{
+    else {
         debug(colors.bgRed('this shouldnt happen'));
     }
 }
@@ -104,14 +108,14 @@ function handleCallback(workId,data){
 
 function delegateCP(cp) {
 
-    if(this.kill){
+    if (this.kill) {
         cp.send('SIGTERM');
         return;
     }
 
     if (this.msgQueue.length > 0) {
         var obj = this.msgQueue.shift();
-        cp.workId =obj.workId;
+        cp.workId = obj.workId;
         cp.send(obj.msg);
     }
     else {
@@ -125,7 +129,7 @@ function delegateCP(cp) {
 
 Pool.prototype.any = function (msg, cb) {
 
-    if(this.kill){
+    if (this.kill) {
         console.log('warning: pool.any called on pool of dead/dying workers');
         return;
     }
@@ -140,7 +144,7 @@ Pool.prototype.any = function (msg, cb) {
             cb: cb
         });
     }
-    else{
+    else {
         workId = -1;
     }
 
@@ -162,8 +166,8 @@ Pool.prototype.any = function (msg, cb) {
 Pool.prototype.killAll = function () {
 
     this.kill = true;
-    this.available.forEach(function(cp){
-         cp.send('SIGTERM');
+    this.available.forEach(function (cp) {
+        cp.send('SIGTERM');
     });
 
 };
@@ -172,7 +176,7 @@ Pool.prototype.killAll = function () {
 Pool.prototype.killAllImmediate = function () {
 
     this.kill = true;
-    this.all.forEach(function(cp){
+    this.all.forEach(function (cp) {
         cp.send('SIGTERM');
     });
 
