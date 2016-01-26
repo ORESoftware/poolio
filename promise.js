@@ -1,4 +1,8 @@
 /**
+ * Created by denman on 1/25/2016.
+ */
+
+/**
  * Created by amills001c on 10/12/15.
  */
 
@@ -18,12 +22,10 @@ var id = 0;
 function Pool(options) {
 
     this.kill = false;
-
     this.all = [];
     this.available = [];
     this.msgQueue = [];
-    this.resolutions = [];
-
+    this.resolutions = {};
     this.counter = 0;
 
     var opts = _.defaults(options, {
@@ -50,6 +52,7 @@ function Pool(options) {
     }
 
     var self = this;
+
     this.available.forEach(function (cp) {
         cp.on('message', function (data) {
             switch (data.msg) {
@@ -67,41 +70,38 @@ function Pool(options) {
 }
 
 
-function findRemoveAndReturn(workId) {
-
-    var ret = null;
-
-    for (var i = 0; i < this.resolutions.length; i++) {
-        if (this.resolutions[i].workId === workId) {
-            ret = this.resolutions[i].cb;
-            break;
-        }
-    }
-
-    this.resolutions = this.resolutions.splice(i - 1, 1);
-    return ret;
-
-}
-
 function handleCallback(workId, data) {
 
-    if (workId === -1) {
-        debug('no cb passed so do nothing');
-        return;
-    }
+    var cbOrPromise = this.resolutions[workId];
+    delete this.resolutions[workId];
 
-    var cb = findRemoveAndReturn.bind(this)(workId);
-
-    if (cb) {
+    if (cbOrPromise) {
         if (data.error) {
-            cb(new Error(data.error));
+            var err = new Error(data.error);
+            if (cbOrPromise.cb) {
+                cbOrPromise.cb(err);
+            }
+            else if (cbOrPromise.reject) {
+                cbOrPromise.reject(err)
+            }
+            else {
+                console.error('this should not happen 1')
+            }
         }
         else {
-            cb(null, data.result);
+            if (cbOrPromise.cb) {
+                cbOrPromise.cb(null, data.result);
+            }
+            else if (cbOrPromise.resolve) {
+                cbOrPromise.resolve(data.result);
+            }
+            else {
+                console.error('this should not happen 2')
+            }
         }
     }
     else {
-        debug(colors.bgRed('this shouldnt happen'));
+        console.error('this should not happen 3')
     }
 }
 
@@ -129,6 +129,7 @@ function delegateCP(cp) {
 
 Pool.prototype.any = function (msg, cb) {
 
+
     if (this.kill) {
         console.log('warning: pool.any called on pool of dead/dying workers');
         return;
@@ -138,26 +139,38 @@ Pool.prototype.any = function (msg, cb) {
 
     var workId = this.counter++;
 
-    if (typeof cb === 'function') {
-        this.resolutions.push({
-            workId: workId,
-            cb: cb
-        });
-    }
-    else {
-        workId = -1;
-    }
+    var self = this;
 
-    if (this.available.length > 0) {
-        var cp = this.available.shift();
-        cp.workId = workId;
-        cp.send(msg);
+    setImmediate(function () {
+        if (self.available.length > 0) {
+            var cp = self.available.shift();
+            cp.workId = workId;
+            cp.send(msg);
+        }
+        else {
+            self.msgQueue.push({
+                workId: workId,
+                msg: msg
+            });
+        }
+    });
+
+    if (typeof cb === 'function') {
+        self.resolutions[workId] = {
+            cb: cb
+        };
     }
     else {
-        this.msgQueue.push({
-            workId: workId,
-            msg: msg
+
+        return new Promise(function (resolve, reject) {
+
+            self.resolutions[workId] = {
+                resolve: resolve,
+                reject: reject
+            };
+
         });
+
     }
 
 };

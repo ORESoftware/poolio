@@ -6,19 +6,19 @@
 
 process.on('message', function (msg) {
 
-    if(msg === 'run'){
+    if (msg === 'run') {
         DoRun(msg);
     }
-    else if(msg === 'big'){
+    else if (msg === 'big') {
         DoBig(msg);
     }
-    else if(msg === 'SIGTERM'){
+    else if (msg === 'SIGTERM') {
         console.log('dead');
     }
-    else{
+    else {
         process.send({
-            msg:'done',
-            error:'unknown message',
+            msg: 'done',
+            error: 'unknown message',
             result: null
         });
     }
@@ -32,9 +32,9 @@ function DoRun() {
     setTimeout(function () {
 
         process.send({
-            msg:'done',
-            error:'beetles',
-            result:null
+            msg: 'done',
+            error: 'beetles',
+            result: null
         });
 
     }, 100);
@@ -49,8 +49,8 @@ function DoBig() {
     setTimeout(function () {
 
         process.send({
-            msg:'done',
-            error:null,
+            msg: 'done',
+            error: null,
             result: 'parties'
         });
 
