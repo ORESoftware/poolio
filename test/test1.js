@@ -54,5 +54,56 @@ Promise.all([
     pool.any('run')
 ]).then(function(results){
     console.log('rolo:\n',results);
-    process.exit();
+
+    pool.removeWorker();
+    pool.removeWorker();
+    console.log(pool.getCurrentSize());
+    pool.removeWorker();
+    pool.addWorker();
+    pool.addWorker();
+    pool.addWorker();
+    pool.addWorker();
+
+
+    pool.any('run').then(function(results){
+        console.log('cholo1:\n',results);
+    });
+    pool.any('run').then(function(results){
+        console.log('cholo2:\n',results);
+    });
+
+    console.log(pool.getCurrentSize());
+
+
+    pool.removeWorker();
+    pool.removeWorker();
+
+    pool.removeWorker();
+    pool.removeWorker();
+
+    pool.removeWorker();
+    pool.removeWorker();
+
+    pool.removeWorker();
+    pool.removeWorker();
+
+    pool.removeWorker();
+    pool.removeWorker();
+
+    pool.any('run').then(function(results){
+        console.log('cholo555:\n',results);
+    });
+
+    setTimeout(function(){
+        console.log('now replenishing');
+        pool.addWorker();
+        pool.addWorker();
+        pool.addWorker();
+    },3000);
+
+
+    pool.any('run').then(function(results){
+        console.log('cholo666:\n',results);
+    });
+
 });

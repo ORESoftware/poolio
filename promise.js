@@ -8,6 +8,7 @@
 
 //TODO: https://devnet.jetbrains.com/message/5507221
 //TODO: https://youtrack.jetbrains.com/issue/WEB-1919
+//TODO: after spawning cps, how do we know if they are ready to receive messages and do work?
 
 var cp = require('child_process');
 var _ = require('underscore');
@@ -15,7 +16,7 @@ var path = require('path');
 var debug = require('debug')('poolio');
 var colors = require('colors/safe');
 var appRootPath = require('app-root-path');
-
+var EE = require('events');
 
 var id = 0;
 
@@ -26,7 +27,11 @@ function Pool(options) {
     this.available = [];
     this.msgQueue = [];
     this.resolutions = {};
+    this.removeNext = false;
     this.counter = 0;
+    this.okToDelegate = false;
+
+    this.ee = new EE();
 
     var opts = _.defaults(options, {
         size: 1,
@@ -44,30 +49,73 @@ function Pool(options) {
     }
 
     for (var i = 0; i < this.size; i++) {
-        var n = cp.fork(path.resolve(appRootPath + '/' + this.filePath), [], {
-            execArgs: []
-        });
-        this.available.push(n);
-        this.all.push(n);
+        this.addWorker();
     }
 
-    var self = this;
-
-    this.available.forEach(function (cp) {
-        cp.on('message', function (data) {
-            switch (data.msg) {
-                case 'done':
-                    var workId = cp.workId;
-                    delegateCP.bind(self)(cp);
-                    handleCallback.bind(self)(workId, data);
-                    break;
-                default:
-                    console.log(colors.bgYellow('warning: your Poolio worker sent a message that was not recognized.'));
-            }
-        });
-    });
+    this.okToDelegate = true;
 
 }
+
+
+Pool.prototype.addWorker = function () {
+
+    var n = cp.fork(path.resolve(appRootPath + '/' + this.filePath), [], {
+        execArgs: []
+    });
+
+    this.all.push(n);
+
+    n.on('message', data => {
+        switch (data.msg) {
+            case 'done':
+                var workId = n.workId;
+                delegateCP.bind(this)(n);
+                handleCallback.bind(this)(workId, data);
+                break;
+            default:
+                console.log(colors.bgYellow('warning: your Poolio worker sent a message that was not recognized.'));
+        }
+    });
+
+    if(this.okToDelegate){
+        if (this.msgQueue.length > 0) {
+            var obj = this.msgQueue.shift();
+            n.workId = obj.workId;
+            n.send(obj.msg);
+        }
+        else {
+            debug(colors.yellow('worker is available and is back in the pool'));
+            delete n.workId;
+            this.available.push(n);
+            debug('pool size for pool ' + this.pool_id + ' is: ' + this.available.length);
+        }
+    }
+    else{
+        this.available.push(n);
+    }
+};
+
+Pool.prototype.removeWorker = function () {
+
+    var n = this.available.pop();
+
+    if (n) {
+        n.tempId = 'gonna-die';
+        this.all = _.without(this.all, _.findWhere(this.all, {tempId: 'gonna-die'}));
+        n.kill();
+    }
+    else {
+        this.removeNext = true;
+    }
+
+};
+
+Pool.prototype.getCurrentSize = function () {
+    return {
+        available: this.available.length,
+        all: this.all.length
+    }
+};
 
 
 function handleCallback(workId, data) {
@@ -106,22 +154,31 @@ function handleCallback(workId, data) {
 }
 
 
-function delegateCP(cp) {
+function delegateCP(n) {
 
     if (this.kill) {
-        cp.send('SIGTERM');
+        //cp.send('SIGTERM');
+        n.kill();
         return;
+    }
+
+    if (this.removeNext) {
+        this.removeNext = false;
+        n.tempId = 'gonna-die';
+        this.all = _.without(this.all, _.findWhere(this.all, {tempId: 'gonna-die'}));
+        n.kill();
+        return;  //don't push cp back on available queue
     }
 
     if (this.msgQueue.length > 0) {
         var obj = this.msgQueue.shift();
-        cp.workId = obj.workId;
-        cp.send(obj.msg);
+        n.workId = obj.workId;
+        n.send(obj.msg);
     }
     else {
         debug(colors.yellow('worker is available and is back in the pool'));
-        delete cp.workId;
-        this.available.push(cp);
+        delete n.workId;
+        this.available.push(n);
         debug('pool size for pool ' + this.pool_id + ' is: ' + this.available.length);
     }
 }
@@ -139,16 +196,19 @@ Pool.prototype.any = function (msg, cb) {
 
     var workId = this.counter++;
 
-    var self = this;
-
-    setImmediate(function () {
-        if (self.available.length > 0) {
-            var cp = self.available.shift();
-            cp.workId = workId;
-            cp.send(msg);
+    setImmediate(() => {
+        if (this.available.length > 0) {
+            var n = this.available.shift();
+            n.workId = workId;
+            n.send(msg);
         }
         else {
-            self.msgQueue.push({
+
+            if (this.all.length < 1) {
+                console.log('warning: Poolio pool has been reduced to size of 0 workers.');
+            }
+
+            this.msgQueue.push({
                 workId: workId,
                 msg: msg
             });
@@ -156,43 +216,58 @@ Pool.prototype.any = function (msg, cb) {
     });
 
     if (typeof cb === 'function') {
-        self.resolutions[workId] = {
+        this.resolutions[workId] = {
             cb: cb
         };
     }
     else {
-
-        return new Promise(function (resolve, reject) {
-
-            self.resolutions[workId] = {
+        return new Promise((resolve, reject) => {
+            this.resolutions[workId] = {
                 resolve: resolve,
                 reject: reject
             };
-
         });
-
     }
-
 };
 
 
 Pool.prototype.killAll = function () {
 
     this.kill = true;
-    this.available.forEach(function (cp) {
-        cp.send('SIGTERM');
+    this.available.forEach(n => {
+        n.kill();
+        n.once('exit', () => {
+            this.ee.emit('killed');
+        });
+        n.once('error', (err) => {
+            this.ee.emit('error', err);
+        });
     });
 
+    return this.ee;
 };
 
 
 Pool.prototype.killAllImmediate = function () {
 
     this.kill = true;
-    this.all.forEach(function (cp) {
-        cp.send('SIGTERM');
+    var length = this.all.length;
+    var killed = 0;
+    this.all.forEach(n => {
+        n.kill();
+        n.once('exit', () => {
+            killed++;
+            this.ee.emit('killed');
+            if (killed >= length) {
+                this.ee.emit('all-killed');
+            }
+        });
+        n.once('error', (err) => {
+            this.ee.emit('error', err);
+        });
     });
 
+    return this.ee;
 };
 
 

@@ -35,6 +35,6 @@ function DoRun() {
             result: 'chicken'
         });
 
-    }, 1000);
+    }, 300);
 
 }
