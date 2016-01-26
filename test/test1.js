@@ -3,7 +3,7 @@
  */
 
 
-var Pool = require('../promise');
+var Pool = require('../index');
 
 var pool = new Pool({
     pool_id: '***',
@@ -99,11 +99,28 @@ Promise.all([
         pool.addWorker();
         pool.addWorker();
         pool.addWorker();
+
+        pool.removeWorker();
+        pool.removeWorker();
+
+        pool.removeWorker();
+        pool.removeWorker();
+
+        pool.removeWorker();
+        pool.removeWorker();
+
+        pool.removeWorker();
+        pool.removeWorker();
+
+        console.log(pool.getCurrentSize());
+
     },3000);
 
 
     pool.any('run').then(function(results){
         console.log('cholo666:\n',results);
     });
+
+
 
 });

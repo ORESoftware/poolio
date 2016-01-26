@@ -1,9 +1,14 @@
 /**
+ * Created by denman on 1/25/2016.
+ */
+
+/**
  * Created by amills001c on 10/12/15.
  */
 
 //TODO: https://devnet.jetbrains.com/message/5507221
 //TODO: https://youtrack.jetbrains.com/issue/WEB-1919
+//TODO: after spawning cps, how do we know if they are ready to receive messages and do work?
 
 var cp = require('child_process');
 var _ = require('underscore');
@@ -11,20 +16,22 @@ var path = require('path');
 var debug = require('debug')('poolio');
 var colors = require('colors/safe');
 var appRootPath = require('app-root-path');
-
+var EE = require('events');
 
 var id = 0;
 
 function Pool(options) {
 
     this.kill = false;
-
     this.all = [];
     this.available = [];
     this.msgQueue = [];
-    this.resolutions = [];
-
+    this.resolutions = {};
+    this.removeNext = false;
     this.counter = 0;
+    this.okToDelegate = false;
+
+    this.ee = new EE();
 
     var opts = _.defaults(options, {
         size: 1,
@@ -37,99 +44,177 @@ function Pool(options) {
         }
     }
 
-    if (this.filePath == null) {
+    if (this.filePath == null || this.size == null) {
         throw new Error('need to provide filepath value for Poolio constructor');
     }
 
     for (var i = 0; i < this.size; i++) {
-        var n = cp.fork(path.resolve(appRootPath + '/' + this.filePath), [], {
-            execArgs: []
-        });
-        this.available.push(n);
-        this.all.push(n);
+        this.addWorker();
     }
 
-    var self = this;
-    this.available.forEach(function (cp) {
-        cp.on('message', function (data) {
-            switch (data.msg) {
-                case 'done':
-                    var workId = cp.workId;
-                    delegateCP.bind(self)(cp);
-                    handleCallback.bind(self)(workId, data);
-                    break;
-                default:
-                    console.log(colors.bgYellow('warning: your Poolio worker sent a message that was not recognized.'));
-            }
-        });
+    this.okToDelegate = true;
+
+}
+
+
+Pool.prototype.addWorker = function () {
+
+    var n = cp.fork(path.resolve(appRootPath + '/' + this.filePath), [], {
+        execArgs: []
     });
 
-}
+    this.all.push(n);
 
+    n.on('message', data => {
+        var workId = n.workId;
+        switch (data.msg) {
+            case 'done':
+                handleCallback.bind(this)(workId, data);
+                break;
+            case 'return/to/pool':
+                delegateCP.bind(this)(n);
+                break;
+            case 'done/return/to/pool':
+                delegateCP.bind(this)(n);
+                handleCallback.bind(this)(workId, data);
+                break;
+            case 'error':
+                console.error(data);
+                removeWorker.bind(this)(n);
+                break;
+            default:
+                console.log(colors.bgYellow('warning: your Poolio worker sent a message that was not recognized.'));
+        }
+    });
 
-function findRemoveAndReturn(workId) {
-
-    var ret = null;
-
-
-    for (var i = 0; i < this.resolutions.length; i++) {
-        if (this.resolutions[i].workId === workId) {
-            ret = this.resolutions[i].cb;
-            break;
+    if(this.okToDelegate){
+        //TODO: bug - we should be able to just call delegateCP from here, but there is some problem with that
+        if (this.msgQueue.length > 0) {
+            var obj = this.msgQueue.shift();
+            n.workId = obj.workId;
+            n.send(obj.msg);
+        }
+        else {
+            debug(colors.yellow('worker is available and is back in the pool'));
+            delete n.workId;
+            this.available.push(n);
+            debug('pool size for pool ' + this.pool_id + ' is: ' + this.available.length);
         }
     }
+    else{
+        this.available.push(n);
+    }
+};
 
-    this.resolutions = this.resolutions.splice(i - 1, 1);
 
-    return ret;
+function removeWorker(n){
 
+    if (n) {
+        n.tempId = 'gonna-die';
+        this.available = _.without(this.available, _.findWhere(this.available, {tempId: 'gonna-die'}));
+        this.all = _.without(this.all, _.findWhere(this.all, {tempId: 'gonna-die'}));
+        n.kill();
+    }
+    else{
+        console.error('no worker passed to removeWorker function.');
+    }
 }
+
+
+Pool.prototype.removeWorker = function () {
+
+    var n = this.available.pop();
+
+    if (n) {
+        n.tempId = 'gonna-die';
+        this.all = _.without(this.all, _.findWhere(this.all, {tempId: 'gonna-die'}));
+        n.kill();
+    }
+    else {
+        this.removeNext = true;
+    }
+
+};
+
+
+
+
+Pool.prototype.getCurrentSize = function () {
+    return {
+        available: this.available.length,
+        all: this.all.length
+    }
+};
+
 
 function handleCallback(workId, data) {
 
-    if (workId === -1) {
-        debug('no cb passed so do nothing');
-        return;
-    }
+    var cbOrPromise = this.resolutions[workId];
+    delete this.resolutions[workId];
 
-    var cb = findRemoveAndReturn.bind(this)(workId);
-
-    if (cb) {
+    if (cbOrPromise) {
         if (data.error) {
-            cb(new Error(data.error));
+            var err = new Error(data.error);
+            if (cbOrPromise.cb) {
+                cbOrPromise.cb(err);
+            }
+            else if (cbOrPromise.reject) {
+                cbOrPromise.reject(err)
+            }
+            else {
+                console.error('this should not happen 1')
+            }
         }
         else {
-            cb(null, data.result);
+            if (cbOrPromise.cb) {
+                cbOrPromise.cb(null, data.result);
+            }
+            else if (cbOrPromise.resolve) {
+                cbOrPromise.resolve(data.result);
+            }
+            else {
+                console.error('this should not happen 2')
+            }
         }
     }
     else {
-        debug(colors.bgRed('this shouldnt happen'));
+        console.error('this should not happen 3')
     }
 }
 
 
-function delegateCP(cp) {
+function delegateCP(n) {
 
     if (this.kill) {
-        cp.send('SIGTERM');
+        //cp.send('SIGTERM');
+        n.kill();
         return;
+    }
+
+    if (this.removeNext) {
+        this.removeNext = false;
+        n.tempId = 'gonna-die';
+        this.all = _.without(this.all, _.findWhere(this.all, {tempId: 'gonna-die'}));
+        n.kill();
+        return;  //don't push cp back on available queue
     }
 
     if (this.msgQueue.length > 0) {
         var obj = this.msgQueue.shift();
-        cp.workId = obj.workId;
-        cp.send(obj.msg);
+        n.workId = obj.workId;
+        n.send(obj.msg);
     }
     else {
         debug(colors.yellow('worker is available and is back in the pool'));
-        delete cp.workId;
-        this.available.push(cp);
+        delete n.workId;
+        this.available.push(n);
         debug('pool size for pool ' + this.pool_id + ' is: ' + this.available.length);
     }
 }
 
 
 Pool.prototype.any = function (msg, cb) {
+
 
     if (this.kill) {
         console.log('warning: pool.any called on pool of dead/dying workers');
@@ -140,48 +225,78 @@ Pool.prototype.any = function (msg, cb) {
 
     var workId = this.counter++;
 
+    setImmediate(() => {
+        if (this.available.length > 0) {
+            var n = this.available.shift();
+            n.workId = workId;
+            n.send(msg);
+        }
+        else {
+
+            if (this.all.length < 1) {
+                console.log('warning: Poolio pool has been reduced to size of 0 workers, you will have to add a worker to process new and/or existing messages.');
+            }
+
+            this.msgQueue.push({
+                workId: workId,
+                msg: msg
+            });
+        }
+    });
+
     if (typeof cb === 'function') {
-        this.resolutions.push({
-            workId: workId,
+        this.resolutions[workId] = {
             cb: cb
-        });
+        };
     }
     else {
-        workId = -1;
-    }
-
-    if (this.available.length > 0) {
-        var cp = this.available.shift();
-        cp.workId = workId;
-        cp.send(msg);
-    }
-    else {
-        this.msgQueue.push({
-            workId: workId,
-            msg: msg
+        return new Promise((resolve, reject) => {
+            this.resolutions[workId] = {
+                resolve: resolve,
+                reject: reject
+            };
         });
     }
-
 };
 
 
 Pool.prototype.killAll = function () {
 
     this.kill = true;
-    this.available.forEach(function (cp) {
-        cp.send('SIGTERM');
+    this.available.forEach(n => {
+        n.kill();
+        n.once('exit', () => {
+            this.ee.emit('killed');
+        });
+        n.once('error', (err) => {
+            this.ee.emit('error', err);
+        });
     });
 
+    return this.ee;
 };
 
 
 Pool.prototype.killAllImmediate = function () {
 
     this.kill = true;
-    this.all.forEach(function (cp) {
-        cp.send('SIGTERM');
+    var length = this.all.length;
+    var killed = 0;
+    this.all.forEach(n => {
+        n.kill();
+        n.once('exit', () => {
+            killed++;
+            this.ee.emit('killed');
+            if (killed >= length) {
+                this.ee.emit('all-killed');
+            }
+        });
+        n.once('error', (err) => {
+            this.ee.emit('error', err);
+        });
     });
 
+    return this.ee;
 };
 
 
