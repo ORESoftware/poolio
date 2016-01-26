@@ -8,6 +8,7 @@ var _ = require('underscore');
 var path = require('path');
 var debug = require('debug')('poolio');
 var colors = require('colors/safe');
+var appRootPath = require('app-root-path');
 
 
 var id = 0;
@@ -34,8 +35,12 @@ function Pool(options) {
         }
     }
 
+    if(this.filePath == null){
+        throw new Error('need to provide filepath value for Poolio constructor');
+    }
+
     for (var i = 0; i < this.size; i++) {
-        var n = cp.fork(path.resolve(__dirname + '/' + this.filePath));
+        var n = cp.fork(path.resolve(appRootPath + '/' + this.filePath));
         this.available.push(n);
         this.all.push(n);
     }
