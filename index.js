@@ -2,6 +2,8 @@
  * Created by amills001c on 10/12/15.
  */
 
+//TODO: https://devnet.jetbrains.com/message/5507221
+//TODO: https://youtrack.jetbrains.com/issue/WEB-1919
 
 var cp = require('child_process');
 var _ = require('underscore');
@@ -20,7 +22,7 @@ function Pool(options) {
     this.all = [];
     this.available = [];
     this.msgQueue = [];
-    this.callbacks = [];
+    this.resolutions = [];
 
     this.counter = 0;
 
@@ -40,7 +42,9 @@ function Pool(options) {
     }
 
     for (var i = 0; i < this.size; i++) {
-        var n = cp.fork(path.resolve(appRootPath + '/' + this.filePath));
+        var n = cp.fork(path.resolve(appRootPath + '/' + this.filePath), [], {
+            execArgs: []
+        });
         this.available.push(n);
         this.all.push(n);
     }
@@ -67,14 +71,16 @@ function findRemoveAndReturn(workId) {
 
     var ret = null;
 
-    for (var i = 0; i < this.callbacks.length; i++) {
-        if (this.callbacks[i].workId === workId) {
-            ret = this.callbacks[i].cb;
+
+    for (var i = 0; i < this.resolutions.length; i++) {
+        if (this.resolutions[i].workId === workId) {
+            ret = this.resolutions[i].cb;
             break;
         }
     }
 
-    this.callbacks = this.callbacks.splice(i - 1, 1);
+    this.resolutions = this.resolutions.splice(i - 1, 1);
+
     return ret;
 
 }
@@ -135,7 +141,7 @@ Pool.prototype.any = function (msg, cb) {
     var workId = this.counter++;
 
     if (typeof cb === 'function') {
-        this.callbacks.push({
+        this.resolutions.push({
             workId: workId,
             cb: cb
         });

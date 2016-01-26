@@ -9,19 +9,19 @@ var Pool = require('../index');
 
 var pool = new Pool({
     pool_id:'***',
-    size: 17,
-    filePath: 'sampleFile.js'
+    size: 6,
+    filePath: 'test/sample-file.js'
 });
 
 var pool_1 = new Pool({
     pool_id:'###',
     size: 5,
-    filePath: 'sampleFile.js'
+    filePath: 'test/sample-file.js'
 });
 
 var pool_2 = new Pool({
-    size: 12,
-    filePath: 'sampleFile.js'
+    size: 4,
+    filePath: 'test/sample-file.js'
 });
 
 
