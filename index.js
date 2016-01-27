@@ -80,6 +80,11 @@ Pool.prototype.addWorker = function () {
             case 'error':
                 console.error(data);
                 handleCallback.bind(this)(data);
+                delegateCP.bind(this)(n);
+                break;
+            case 'fatal':
+                console.error(data);
+                handleCallback.bind(this)(data);
                 removeSpecificWorker.bind(this)(n);
                 break;
             default:
