@@ -5,16 +5,19 @@
 
 process.on('message', function (msg) {
 
-    if (msg === 'run') {
-        DoRun(msg);
-    }
-    else if (msg === 'big') {
-        DoBig(msg);
-    }
-    else if (msg === 'SIGTERM') {
-        console.log('dead');
+    console.log(msg);
+
+    if (msg.msg === 'run') {
+        setImmediate(function(){
+            process.send({
+                msg: 'return/to/pool',
+                workId: msg.workId
+            });
+        });
+        run(msg);
     }
     else {
+        console.log('unknown message!');
         process.send({
             msg: 'done',
             error: 'unknown message',
@@ -24,7 +27,7 @@ process.on('message', function (msg) {
 });
 
 
-function DoRun() {
+function run(msg) {
 
     console.log('working...');
 
@@ -32,6 +35,7 @@ function DoRun() {
 
         process.send({
             msg: 'done',
+            workId: msg.workId,
             result: 'chicken'
         });
 

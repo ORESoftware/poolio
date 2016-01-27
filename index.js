@@ -14,8 +14,6 @@ var cp = require('child_process');
 var _ = require('underscore');
 var path = require('path');
 var debug = require('debug')('poolio');
-var colors = require('colors/safe');
-var appRootPath = require('app-root-path');
 var EE = require('events');
 
 var id = 0;
@@ -45,7 +43,7 @@ function Pool(options) {
     }
 
     if (this.filePath == null || this.size == null) {
-        throw new Error('need to provide filepath value for Poolio constructor');
+        throw new Error('need to provide filePath value and size value for Poolio constructor');
     }
 
     for (var i = 0; i < this.size; i++) {
@@ -59,55 +57,54 @@ function Pool(options) {
 
 Pool.prototype.addWorker = function () {
 
-    var n = cp.fork(path.resolve(appRootPath + '/' + this.filePath), [], {
+    var n = cp.fork(path.resolve(this.filePath), [], {
         execArgs: []
     });
 
     this.all.push(n);
 
     n.on('message', data => {
-        var workId = n.workId;
+        debug('message from worker: ' + data);
+        var workId = data.workId;
         switch (data.msg) {
             case 'done':
-                handleCallback.bind(this)(workId, data);
+                handleCallback.bind(this)(data);
                 break;
             case 'return/to/pool':
                 delegateCP.bind(this)(n);
                 break;
-            case 'done/return/to/pool':
-                delegateCP.bind(this)(n);
-                handleCallback.bind(this)(workId, data);
-                break;
+            //case 'done/return/to/pool':
+            //    delegateCP.bind(this)(n);
+            //    handleCallback.bind(this)(workId, data);
+            //    break;
             case 'error':
                 console.error(data);
-                removeWorker.bind(this)(n);
+                handleCallback.bind(this)(data);
+                removeSpecificWorker.bind(this)(n);
                 break;
             default:
-                console.log(colors.bgYellow('warning: your Poolio worker sent a message that was not recognized.'));
+                console.error('warning: your Poolio worker sent a message that was not recognized.');
         }
     });
 
-    if(this.okToDelegate){
+    if (this.okToDelegate) {
         //TODO: bug - we should be able to just call delegateCP from here, but there is some problem with that
         if (this.msgQueue.length > 0) {
-            var obj = this.msgQueue.shift();
-            n.workId = obj.workId;
-            n.send(obj.msg);
+            n.send(this.msgQueue.shift());
         }
         else {
-            debug(colors.yellow('worker is available and is back in the pool'));
-            delete n.workId;
+            debug('worker is available and is back in the pool');
             this.available.push(n);
             debug('pool size for pool ' + this.pool_id + ' is: ' + this.available.length);
         }
     }
-    else{
+    else {
         this.available.push(n);
     }
 };
 
 
-function removeWorker(n){
+function removeSpecificWorker(n) {
 
     if (n) {
         n.tempId = 'gonna-die';
@@ -115,7 +112,7 @@ function removeWorker(n){
         this.all = _.without(this.all, _.findWhere(this.all, {tempId: 'gonna-die'}));
         n.kill();
     }
-    else{
+    else {
         console.error('no worker passed to removeWorker function.');
     }
 }
@@ -137,8 +134,6 @@ Pool.prototype.removeWorker = function () {
 };
 
 
-
-
 Pool.prototype.getCurrentSize = function () {
     return {
         available: this.available.length,
@@ -147,9 +142,16 @@ Pool.prototype.getCurrentSize = function () {
 };
 
 
-function handleCallback(workId, data) {
+function handleCallback(data) {
+
+    console.log('data in handleCallback:',data);
+
+    var workId = data.workId;
 
     var cbOrPromise = this.resolutions[workId];
+
+    debug('cbOrPromise: ' + cbOrPromise);
+
     delete this.resolutions[workId];
 
     if (cbOrPromise) {
@@ -178,7 +180,7 @@ function handleCallback(workId, data) {
         }
     }
     else {
-        console.error('this should not happen 3')
+        console.error('this should not happen 3 - but might if a callback is attempted to be called more than once.')
     }
 }
 
@@ -200,13 +202,10 @@ function delegateCP(n) {
     }
 
     if (this.msgQueue.length > 0) {
-        var obj = this.msgQueue.shift();
-        n.workId = obj.workId;
-        n.send(obj.msg);
+        n.send(this.msgQueue.shift());
     }
     else {
-        debug(colors.yellow('worker is available and is back in the pool'));
-        delete n.workId;
+        debug('worker is available and is back in the pool');
         this.available.push(n);
         debug('pool size for pool ' + this.pool_id + ' is: ' + this.available.length);
     }
@@ -228,8 +227,10 @@ Pool.prototype.any = function (msg, cb) {
     setImmediate(() => {
         if (this.available.length > 0) {
             var n = this.available.shift();
-            n.workId = workId;
-            n.send(msg);
+            n.send({
+                msg: msg,
+                workId: workId
+            });
         }
         else {
 

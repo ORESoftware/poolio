@@ -6,8 +6,10 @@
 
 process.on('message', function (msg) {
 
-    if (msg === 'run') {
-        DoRun(msg);
+    console.log(msg);
+
+    if (msg.msg === 'run') {
+        run(msg);
     }
     else if (msg === 'big') {
         DoBig(msg);
@@ -25,7 +27,7 @@ process.on('message', function (msg) {
 });
 
 
-function DoRun() {
+function run() {
 
     console.log('working...');
 

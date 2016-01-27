@@ -2,13 +2,13 @@
  * Created by denman on 1/25/2016.
  */
 
-
+var path = require('path');
 var Pool = require('../index');
 
 var pool = new Pool({
     pool_id: '***',
     size: 2,
-    filePath: 'test/sample-file1.js'
+    filePath: path.resolve('./sample-file1.js')
 });
 
 
