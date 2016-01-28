@@ -86,6 +86,7 @@ Pool.prototype.addWorker = function () {
                 console.error(data);
                 handleCallback.bind(this)(data);
                 removeSpecificWorker.bind(this)(n);
+                this.addWorker();
                 break;
             default:
                 console.error('warning: your Poolio worker sent a message that was not recognized.');
