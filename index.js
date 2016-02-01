@@ -2,9 +2,6 @@
  * Created by denman on 1/25/2016.
  */
 
-/**
- * Created by amills001c on 10/12/15.
- */
 
 //TODO: https://devnet.jetbrains.com/message/5507221
 //TODO: https://youtrack.jetbrains.com/issue/WEB-1919
@@ -15,6 +12,8 @@ var _ = require('underscore');
 var path = require('path');
 var debug = require('debug')('poolio');
 var EE = require('events');
+
+var acceptableConstructorOptions = ['execArgs', 'args', 'size', 'filePath'];
 
 var id = 0;
 
@@ -28,19 +27,31 @@ function Pool(options) {
     this.removeNext = false;
     this.counter = 0;
     this.okToDelegate = false;
+    this.filePath = null;
+    this.size = null;
 
     this.ee = new EE();
 
-    var opts = _.defaults(options, {
+    if (typeof options !== 'object') {
+        throw new Error('Options object should be defined for your poolio pool, even if it is an empty object, it is needed');
+    }
+
+    var opts = _.defaults(_.pick(options, acceptableConstructorOptions), {
         size: 1,
-        pool_id: '@pool_' + id++
+        __pool_id: '@poolio_pool_' + id++
     });
 
-    for (var option in opts) {
-        if (opts.hasOwnProperty(option)) {
-            this[option] = opts[option];
-        }
+    if(opts.args && !Array.isArray(opts.args)){
+        throw new Error('"args" option passed to poolio pool, but args was not an array of strings.');
     }
+
+    if(opts.execArgs && !Array.isArray(opts.execArgs)){
+        throw new Error('"execArgs" option passed to poolio pool, but execArgs was not an array of strings.');
+    }
+
+    Object.keys(opts).forEach(key => {
+        this[key] = opts[key];
+    });
 
     if (this.filePath == null || this.size == null) {
         throw new Error('need to provide filePath value and size value for Poolio constructor');
@@ -57,8 +68,8 @@ function Pool(options) {
 
 Pool.prototype.addWorker = function () {
 
-    var n = cp.fork(path.resolve(this.filePath), [], {
-        execArgs: []
+    var n = cp.fork(path.resolve(this.filePath), this.args || [], {
+        execArgs: this.execArgs || []
     });
 
     this.all.push(n);
@@ -150,7 +161,7 @@ Pool.prototype.getCurrentSize = function () {
 
 function handleCallback(data) {
 
-    console.log('data in handleCallback:',data);
+    console.log('data in handleCallback:', data);
 
     var workId = data.workId;
 
