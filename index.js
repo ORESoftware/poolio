@@ -25,8 +25,8 @@ function Pool(options) {
     this.msgQueue = [];
     this.resolutions = {};
     this.removeNext = false;
-    this.workerIdCounter = -1;
-    this.jobIdCounter = -1;
+    this.workerIdCounter = 0;
+    this.jobIdCounter = 0;
     this.okToDelegate = false;
     this.filePath = null;
     this.size = null;
@@ -44,11 +44,11 @@ function Pool(options) {
         __pool_id: '@poolio_pool_' + id++
     });
 
-    if(opts.args && !Array.isArray(opts.args)){
+    if (opts.args && !Array.isArray(opts.args)) {
         throw new Error('"args" option passed to poolio pool, but args was not an array of strings.');
     }
 
-    if(opts.execArgs && !Array.isArray(opts.execArgs)){
+    if (opts.execArgs && !Array.isArray(opts.execArgs)) {
         throw new Error('"execArgs" option passed to poolio pool, but execArgs was not an array of strings.');
     }
 
@@ -168,8 +168,6 @@ Pool.prototype.getCurrentSize = function () {
 
 function handleCallback(data) {
 
-    console.log('data in handleCallback:', data);
-
     var workId = data.workId;
 
     var cbOrPromise = this.resolutions[workId];
@@ -255,7 +253,8 @@ Pool.prototype.any = function (msg, cb) {
             var n = this.available.shift();
             n.send({
                 msg: msg,
-                workId: workId
+                __workId: workId,
+                __poolioWorkerId: n.workerId
             });
         }
         else {
