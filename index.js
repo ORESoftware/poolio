@@ -25,10 +25,13 @@ function Pool(options) {
     this.msgQueue = [];
     this.resolutions = {};
     this.removeNext = false;
-    this.counter = 0;
+    this.workerIdCounter = -1;
+    this.jobIdCounter = -1;
     this.okToDelegate = false;
     this.filePath = null;
     this.size = null;
+    this.execArgs = null;
+    this.args = null;
 
     this.ee = new EE();
 
@@ -72,7 +75,11 @@ Pool.prototype.addWorker = function () {
         execArgs: this.execArgs || []
     });
 
+    n.workerId = this.workerIdCounter++;
+
     this.all.push(n);
+
+    this.emit('worker-created');
 
     n.on('message', data => {
         debug('message from worker: ' + data);
@@ -82,7 +89,7 @@ Pool.prototype.addWorker = function () {
                 handleCallback.bind(this)(data);
                 break;
             case 'return/to/pool':
-                delegateCP.bind(this)(n);
+                delegateWorker.bind(this)(n);
                 break;
             //case 'done/return/to/pool':
             //    delegateCP.bind(this)(n);
@@ -91,7 +98,7 @@ Pool.prototype.addWorker = function () {
             case 'error':
                 console.error(data);
                 handleCallback.bind(this)(data);
-                delegateCP.bind(this)(n);
+                delegateWorker.bind(this)(n);
                 break;
             case 'fatal':
                 console.error(data);
@@ -202,7 +209,7 @@ function handleCallback(data) {
 }
 
 
-function delegateCP(n) {
+function delegateWorker(n) {
 
     if (this.kill) {
         //cp.send('SIGTERM');
@@ -219,7 +226,9 @@ function delegateCP(n) {
     }
 
     if (this.msgQueue.length > 0) {
-        n.send(this.msgQueue.shift());
+        var msg = this.msgQueue.shift();
+        msg.__poolioWorkerId = n.workerId;
+        n.send(msg);
     }
     else {
         debug('worker is available and is back in the pool');
@@ -239,7 +248,7 @@ Pool.prototype.any = function (msg, cb) {
 
     debug('current available pool size for pool_id ' + this.pool_id + ' is: ' + this.available.length);
 
-    var workId = this.counter++;
+    var workId = this.jobIdCounter++;
 
     setImmediate(() => {
         if (this.available.length > 0) {

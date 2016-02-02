@@ -24,7 +24,7 @@ function Pool(options) {
     this.msgQueue = [];
     this.resolutions = [];
 
-    this.counter = 0;
+    this.jobIdCounter = 0;
 
     var opts = _.defaults(options, {
         size: 1,
@@ -138,7 +138,7 @@ Pool.prototype.any = function (msg, cb) {
 
     debug('current available pool size for pool_id ' + this.pool_id + ' is: ' + this.available.length);
 
-    var workId = this.counter++;
+    var workId = this.jobIdCounter++;
 
     if (typeof cb === 'function') {
         this.resolutions.push({
