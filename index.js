@@ -253,7 +253,7 @@ Pool.prototype.any = function (msg, cb) {
             var n = this.available.shift();
             n.send({
                 msg: msg,
-                __workId: workId,
+                workId: workId,
                 __poolioWorkerId: n.workerId
             });
         }
