@@ -79,7 +79,7 @@ Pool.prototype.addWorker = function () {
 
     this.all.push(n);
 
-    this.emit('worker-created');
+    this.ee.emit('worker-created');
 
     n.on('message', data => {
         debug('message from worker: ' + data);
