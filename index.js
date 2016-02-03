@@ -7,13 +7,13 @@
 //TODO: https://youtrack.jetbrains.com/issue/WEB-1919
 //TODO: after spawning cps, how do we know if they are ready to receive messages and do work?
 
-var cp = require('child_process');
-var _ = require('underscore');
-var path = require('path');
-var debug = require('debug')('poolio');
-var EE = require('events');
+const cp = require('child_process');
+const _ = require('underscore');
+const path = require('path');
+const debug = require('debug')('poolio');
+const EE = require('events');
 
-var acceptableConstructorOptions = ['execArgs', 'args', 'size', 'filePath'];
+const acceptableConstructorOptions = ['execArgs', 'args', 'size', 'filePath'];
 
 var id = 0;
 
@@ -66,6 +66,23 @@ function Pool(options) {
 
     this.okToDelegate = true;
 
+}
+
+
+Pool.prototype.on = function () {
+    return this.ee.on.apply(this, arguments);
+}
+
+Pool.prototype.once = function () {
+    return this.ee.once.apply(this, arguments);
+}
+
+Pool.prototype.removeAllListeners = function () {
+    return this.ee.removeAllListeners.apply(this, arguments);
+}
+
+Pool.prototype.removeListener = function () {
+    return this.ee.removeListener.apply(this, arguments);
 }
 
 
