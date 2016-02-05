@@ -12,12 +12,15 @@ var _ = require('underscore');
 var path = require('path');
 var debug = require('debug')('poolio');
 var EE = require('events');
+var util = require('util');
 
 var acceptableConstructorOptions = ['execArgs', 'args', 'size', 'filePath'];
 
 var id = 0;
 
 function Pool(options) {
+
+    EE.call(this);
 
     this.kill = false;
     this.all = [];
@@ -68,6 +71,8 @@ function Pool(options) {
 
 }
 
+util.inherits(Pool,EE);
+
 
 Pool.prototype.addWorker = function () {
 
@@ -75,11 +80,19 @@ Pool.prototype.addWorker = function () {
         execArgs: this.execArgs || []
     });
 
+    n.on('error', (err) => {
+        this.emit('worker-error', err);
+    });
+
+    n.once('exit', () => {
+        this.emit('worker-exited');
+    });
+
     n.workerId = this.workerIdCounter++;
 
     this.all.push(n);
 
-    this.ee.emit('worker-created');
+    this.emit('worker-created');
 
     n.on('message', data => {
         debug('message from worker: ' + data);
@@ -172,8 +185,6 @@ function handleCallback(data) {
 
     var cbOrPromise = this.resolutions[workId];
 
-    debug('cbOrPromise: ' + cbOrPromise);
-
     delete this.resolutions[workId];
 
     if (cbOrPromise) {
@@ -210,7 +221,6 @@ function handleCallback(data) {
 function delegateWorker(n) {
 
     if (this.kill) {
-        //cp.send('SIGTERM');
         n.kill();
         return;
     }
@@ -291,15 +301,9 @@ Pool.prototype.killAll = function () {
     this.kill = true;
     this.available.forEach(n => {
         n.kill();
-        n.once('exit', () => {
-            this.ee.emit('killed');
-        });
-        n.once('error', (err) => {
-            this.ee.emit('error', err);
-        });
     });
 
-    return this.ee;
+    return this;
 };
 
 
@@ -312,17 +316,13 @@ Pool.prototype.killAllImmediate = function () {
         n.kill();
         n.once('exit', () => {
             killed++;
-            this.ee.emit('killed');
             if (killed >= length) {
-                this.ee.emit('all-killed');
+                this.emit('all-killed');
             }
-        });
-        n.once('error', (err) => {
-            this.ee.emit('error', err);
         });
     });
 
-    return this.ee;
+    return this;
 };
 
 
