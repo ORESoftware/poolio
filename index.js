@@ -10,7 +10,7 @@
 const cp = require('child_process');
 const _ = require('underscore');
 const path = require('path');
-const debug = require('debug')('poolio');
+const debug = require('debug')('poolio:core');
 const EE = require('events');
 
 const acceptableConstructorOptions = ['execArgs', 'args', 'size', 'filePath'];
@@ -45,11 +45,11 @@ function Pool(options) {
     });
 
     if (opts.args && !Array.isArray(opts.args)) {
-        throw new Error('"args" option passed to poolio pool, but args was not an array of strings.');
+        throw new Error('"args" option passed to poolio pool, but args was not an array.');
     }
 
     if (opts.execArgs && !Array.isArray(opts.execArgs)) {
-        throw new Error('"execArgs" option passed to poolio pool, but execArgs was not an array of strings.');
+        throw new Error('"execArgs" option passed to poolio pool, but execArgs was not an array.');
     }
 
     Object.keys(opts).forEach(key => {
@@ -100,7 +100,6 @@ Pool.prototype.addWorker = function () {
 
     n.on('message', data => {
         debug('message from worker: ' + data);
-        var workId = data.workId;
         switch (data.msg) {
             case 'done':
                 handleCallback.bind(this)(data);
@@ -108,17 +107,19 @@ Pool.prototype.addWorker = function () {
             case 'return/to/pool':
                 delegateWorker.bind(this)(n);
                 break;
-            //case 'done/return/to/pool':
-            //    delegateCP.bind(this)(n);
-            //    handleCallback.bind(this)(workId, data);
-            //    break;
+            case 'done/return/to/pool':
+                delegateWorker.bind(this)(n);
+                handleCallback.bind(this)( data);
+                break;
             case 'error':
                 console.error(data);
+                this.ee.emit('error',data);
                 handleCallback.bind(this)(data);
                 delegateWorker.bind(this)(n);
                 break;
             case 'fatal':
                 console.error(data);
+                this.ee.emit('error',data);
                 handleCallback.bind(this)(data);
                 removeSpecificWorker.bind(this)(n);
                 this.addWorker();
