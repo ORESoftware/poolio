@@ -7,13 +7,17 @@
 //TODO: https://youtrack.jetbrains.com/issue/WEB-1919
 //TODO: after spawning cps, how do we know if they are ready to receive messages and do work?
 
-var cp = require('child_process');
-var _ = require('underscore');
-var path = require('path');
-var debug = require('debug')('poolio');
-var EE = require('events');
-var util = require('util');
 
+///////////////////////////////////////////////////
+
+const cp = require('child_process');
+const _ = require('underscore');
+const path = require('path');
+const debug = require('debug')('poolio');
+const EE = require('events');
+const util = require('util');
+
+/////////////////////////////////////////////////////
 
 const acceptableConstructorOptions = ['execArgs', 'args', 'size', 'filePath'];
 
@@ -37,7 +41,6 @@ function Pool(options) {
     this.execArgs = null;
     this.args = null;
 
-    this.ee = new EE();
 
     if (typeof options !== 'object') {
         throw new Error('Options object should be defined for your poolio pool, even if it is an empty object, it is needed');
@@ -72,7 +75,7 @@ function Pool(options) {
 
 }
 
-util.inherits(Pool,EE);
+util.inherits(Pool, EE);
 
 
 Pool.prototype.addWorker = function () {
@@ -106,17 +109,17 @@ Pool.prototype.addWorker = function () {
                 break;
             case 'done/return/to/pool':
                 delegateWorker.bind(this)(n);
-                handleCallback.bind(this)( data);
+                handleCallback.bind(this)(data);
                 break;
             case 'error':
                 console.error(data);
-                this.ee.emit('error',data);
+                this.emit('error', data);
                 handleCallback.bind(this)(data);
                 delegateWorker.bind(this)(n);
                 break;
             case 'fatal':
                 console.error(data);
-                this.ee.emit('error',data);
+                this.emit('error', data);
                 handleCallback.bind(this)(data);
                 removeSpecificWorker.bind(this)(n);
                 this.addWorker();
@@ -272,7 +275,7 @@ Pool.prototype.any = function (msg, cb) {
         else {
 
             if (this.all.length < 1) {
-                console.log('warning: Poolio pool has been reduced to size of 0 workers, you will have to add a worker to process new and/or existing messages.');
+                console.log('warning: your Poolio pool has been reduced to size of 0 workers, you will have to add a worker to process new and/or existing messages.');
             }
 
             this.msgQueue.push({
