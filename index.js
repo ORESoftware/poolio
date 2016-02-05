@@ -108,8 +108,8 @@ Pool.prototype.addWorker = function () {
                 delegateWorker.bind(this)(n);
                 break;
             case 'done/return/to/pool':
+                handleCallback.bind(this)(data);  //probably want to handle callback first
                 delegateWorker.bind(this)(n);
-                handleCallback.bind(this)(data);
                 break;
             case 'error':
                 console.error(data);
