@@ -1,6 +1,6 @@
 {
   "name": "poolio",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -16,5 +16,8 @@
     "lodash": "^4.0.1",
     "path": "^0.12.7",
     "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "suman": "^0.9.7"
   }
 }
