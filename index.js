@@ -318,13 +318,13 @@ Pool.prototype.killAllImmediate = function () {
     var length = this.all.length;
     var killed = 0;
     this.all.forEach(n => {
-        n.kill();
         n.once('exit', () => {
             killed++;
             if (killed >= length) {
                 this.emit('all-killed');
             }
         });
+        n.kill();
     });
 
     return this;
