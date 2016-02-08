@@ -89,7 +89,7 @@ Pool.prototype.addWorker = function () {
     });
 
     n.once('exit', () => {
-        this.emit('worker-exited');
+        this.emit('worker-exited', n);
     });
 
     n.workerId = this.workerIdCounter++;
@@ -301,6 +301,15 @@ Pool.prototype.any = function (msg, cb) {
 };
 
 
+Pool.prototype.destroy = function () {
+
+    // killall and remove all listeners
+
+
+    return this;
+};
+
+
 Pool.prototype.killAll = function () {
 
     this.kill = true;
@@ -321,7 +330,7 @@ Pool.prototype.killAllImmediate = function () {
         n.once('exit', () => {
             killed++;
             if (killed >= length) {
-                this.emit('all-killed');
+                this.emit('all-killed', this);
             }
         });
         n.kill();
