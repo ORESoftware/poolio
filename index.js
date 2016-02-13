@@ -8,7 +8,13 @@
 //TODO: after spawning cps, how do we know if they are ready to receive messages and do work?
 
 
-///////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
+
+const isDebug = process.execArgv.indexOf('--debug') > 0 ? true : false;
+
+console.log('isDebug:',isDebug);
+
+/////////////////////////////////////////////////////////////////////////
 
 const cp = require('child_process');
 const _ = require('underscore');
@@ -16,10 +22,11 @@ const path = require('path');
 const debug = require('debug')('poolio');
 const EE = require('events');
 const util = require('util');
+const fs = require('fs');
 
 /////////////////////////////////////////////////////
 
-const acceptableConstructorOptions = ['execArgs', 'args', 'size', 'filePath'];
+const acceptableConstructorOptions = ['execArgv', 'args', 'size', 'filePath'];
 
 var id = 0;
 
@@ -38,7 +45,7 @@ function Pool(options) {
     this.okToDelegate = false;
     this.filePath = null;
     this.size = null;
-    this.execArgs = null;
+    this.execArgv = null;
     this.args = null;
 
 
@@ -55,9 +62,11 @@ function Pool(options) {
         throw new Error('"args" option passed to poolio pool, but args was not an array.');
     }
 
-    if (opts.execArgs && !Array.isArray(opts.execArgs)) {
-        throw new Error('"execArgs" option passed to poolio pool, but execArgs was not an array.');
+    if (opts.execArgv && !Array.isArray(opts.execArgv)) {
+        throw new Error('"execArgv" option passed to poolio pool, but execArgv was not an array.');
     }
+
+    this.execArgv = this.execArgv || [];
 
     Object.keys(opts).forEach(key => {
         this[key] = opts[key];
@@ -65,6 +74,12 @@ function Pool(options) {
 
     if (this.filePath == null || this.size == null) {
         throw new Error('need to provide filePath value and size value for Poolio constructor');
+    }
+
+    if (!path.isAbsolute(this.filePath)) {
+        var root = findRoot(process.cwd());
+        var str = String(this.filePath);
+        this.filePath = path.resolve(root + '/' + str);
     }
 
     for (var i = 0; i < this.size; i++) {
@@ -80,9 +95,19 @@ util.inherits(Pool, EE);
 
 Pool.prototype.addWorker = function () {
 
-    var n = cp.fork(path.resolve(this.filePath), this.args || [], {
-        execArgs: this.execArgs || []
+    var id = this.workerIdCounter++;
+
+    var execArgv = JSON.parse(JSON.stringify(this.execArgv));
+
+    if(isDebug){
+        execArgv.push('--debug=' + (53034 + id)); //http://stackoverflow.com/questions/16840623/how-to-debug-node-js-child-forked-process
+    }
+
+    var n = cp.fork(this.filePath, this.args || [], {
+        execArgv: execArgv
     });
+
+    n.workerId = id;
 
     n.on('error', (err) => {
         this.emit('worker-error', err);
@@ -92,7 +117,6 @@ Pool.prototype.addWorker = function () {
         this.emit('worker-exited', n);
     });
 
-    n.workerId = this.workerIdCounter++;
 
     this.all.push(n);
 
@@ -339,5 +363,24 @@ Pool.prototype.killAllImmediate = function () {
     return this;
 };
 
+
+function findRoot(pth) {
+
+    var possiblePkgDotJSONPath = path.resolve(path.normalize(String(pth) + '/package.json'));
+
+    try {
+        fs.statSync(possiblePkgDotJSONPath).isFile();
+        return pth;
+    }
+    catch (err) {
+        var subPath = path.resolve(path.normalize(String(pth) + '/../'));
+        if (subPath === pth) {
+            return null;
+        }
+        else {
+            return findRoot(subPath);
+        }
+    }
+}
 
 module.exports = Pool;

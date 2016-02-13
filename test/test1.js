@@ -11,6 +11,8 @@ var pool = new Pool({
     filePath: path.resolve('./sample-file1.js')
 });
 
+console.log(pool.filePath);
+
 
 //pool.any('run', function (err, result) {
 //    if (err) {
