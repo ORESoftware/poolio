@@ -28,7 +28,7 @@ const fs = require('fs');
 
 const acceptableConstructorOptions = ['execArgv', 'args', 'size', 'filePath'];
 
-var id = 0;
+var id = 1; //avoid falsy 0 values
 
 function Pool(options) {
 
@@ -40,8 +40,8 @@ function Pool(options) {
     this.msgQueue = [];
     this.resolutions = {};
     this.removeNext = false;
-    this.workerIdCounter = 0;
-    this.jobIdCounter = 0;
+    this.workerIdCounter = 1;
+    this.jobIdCounter = 1;
     this.okToDelegate = false;
     this.filePath = null;
     this.size = null;
@@ -82,6 +82,10 @@ function Pool(options) {
         this.filePath = path.resolve(root + '/' + str);
     }
 
+    this.on('error',function(err){
+        console.error(err);
+    });
+
     for (var i = 0; i < this.size; i++) {
         this.addWorker();
     }
@@ -99,11 +103,12 @@ Pool.prototype.addWorker = function () {
 
     var execArgv = JSON.parse(JSON.stringify(this.execArgv));
 
-    if(isDebug){
-        execArgv.push('--debug=' + (53034 + id)); //http://stackoverflow.com/questions/16840623/how-to-debug-node-js-child-forked-process
-    }
+    //if(isDebug){
+    //    execArgv.push('--debug=' + (53034 + id)); //http://stackoverflow.com/questions/16840623/how-to-debug-node-js-child-forked-process
+    //}
 
     var n = cp.fork(this.filePath, this.args || [], {
+        detached:true,
         execArgv: execArgv
     });
 
@@ -124,6 +129,9 @@ Pool.prototype.addWorker = function () {
 
     n.on('message', data => {
         debug('message from worker: ' + data);
+        if(!data.workId){
+            console.error('Message sent from worker with no workId => ','\n',JSON.stringify(data));
+        }
         switch (data.msg) {
             case 'done':
                 handleCallback.bind(this)(data);
@@ -137,13 +145,13 @@ Pool.prototype.addWorker = function () {
                 break;
             case 'error':
                 console.error(data);
-                this.emit('error', data);
+                this.emit('error', data);  // TODO: handle this error event
                 handleCallback.bind(this)(data);
                 delegateWorker.bind(this)(n);
                 break;
             case 'fatal':
                 console.error(data);
-                this.emit('error', data);
+                this.emit('error', data); // TODO: handle this error event
                 handleCallback.bind(this)(data);
                 removeSpecificWorker.bind(this)(n);
                 this.addWorker();
@@ -213,6 +221,8 @@ function handleCallback(data) {
     var workId = data.workId;
 
     var cbOrPromise = this.resolutions[workId];
+
+    console.log('workId:',workId);
 
     delete this.resolutions[workId];
 
