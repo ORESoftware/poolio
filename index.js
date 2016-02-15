@@ -10,7 +10,7 @@
 
 /////////////////////////////////////////////////////////////////////////
 
-const isDebug = process.execArgv.indexOf('--debug') > 0 ? true : false;
+const isDebug = process.execArgv.indexOf('--debug') > 0;
 
 console.log('isDebug:',isDebug);
 

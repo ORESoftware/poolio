@@ -4,12 +4,14 @@
 
 var path = require('path');
 
-const suman = require('C:\\Users\\denman\\WebstormProjects\\suman');
+//const suman = require('C:\\Users\\denman\\WebstormProjects\\suman');
+const suman = require('/Users/amills001c/WebstormProjects/ORESoftware/suman');
 const Test = suman.init(module, 'suman.conf.js');
-var Pool = require('../index');
+
 
 Test.describe('@TestsPoolio', function () {
 
+    var Pool = require('../index');
 
     var pool = new Pool({
         pool_id: '***',
