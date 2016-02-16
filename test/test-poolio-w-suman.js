@@ -4,7 +4,8 @@
 
 
 
-const suman = require('C:\\Users\\denman\\WebstormProjects\\suman');
+//const suman = require('C:\\Users\\denman\\WebstormProjects\\suman');
+const suman = require('/Users/amills001c/WebstormProjects/ORESoftware/suman');
 const Test = suman.init(module, 'suman.conf.js');
 
 
@@ -22,7 +23,7 @@ Test.describe('@TestsPoolio', function () {
     });
 
 
-    this.describe({parallel: false}, function () {
+    this.describe({parallel: true}, function () {
 
         this.it('test worker1', {parallel: false}, function (t) {
             return pool.any('run').then(function (msg) {
@@ -31,7 +32,7 @@ Test.describe('@TestsPoolio', function () {
         });
 
 
-        this.it('test worker1 non-timeout 1', {parallel: false}, function (t) {
+        this.it('test worker1 non-timeout 1', {parallel: true}, function (t) {
 
             setTimeout(function () {
                 throw new Error('Timed out');
@@ -46,7 +47,7 @@ Test.describe('@TestsPoolio', function () {
         });
 
 
-        this.it('test worker1 expect-timeout', {parallel: false}, function (t, done) {
+        this.it('test worker1 expect-timeout', {parallel: true}, function (t, done) {
 
             setTimeout(function () {
                 done();
@@ -63,7 +64,7 @@ Test.describe('@TestsPoolio', function () {
         });
 
 
-        this.it('test worker1 no-timeout 2', {parallel: false}, function (t) {
+        this.it('test worker1 no-timeout 2', {parallel: true}, function (t) {
 
             setTimeout(function () {
                 throw new Error('Timed out');

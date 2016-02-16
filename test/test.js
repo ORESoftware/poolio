@@ -51,7 +51,7 @@ Test.describe('@TestsPoolio', function () {
     });
 
 
-    this.it('a', function (done) {
+    this.it('a', function (t, done) {
 
         var called = false;
 

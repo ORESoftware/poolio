@@ -2,6 +2,10 @@
  * Created by denman on 1/25/2016.
  */
 
+
+
+
+
 var path = require('path');
 var Pool = require('../index');
 
@@ -54,8 +58,8 @@ Promise.all([
     pool.any('run'),
     pool.any('run'),
     pool.any('run')
-]).then(function(results){
-    console.log('rolo:\n',results);
+]).then(function (results) {
+    console.log('rolo:\n', results);
 
     pool.removeWorker();
     pool.removeWorker();
@@ -67,11 +71,11 @@ Promise.all([
     pool.addWorker();
 
 
-    pool.any('run').then(function(results){
-        console.log('cholo1:\n',results);
+    pool.any('run').then(function (results) {
+        console.log('cholo1:\n', results);
     });
-    pool.any('run').then(function(results){
-        console.log('cholo2:\n',results);
+    pool.any('run').then(function (results) {
+        console.log('cholo2:\n', results);
     });
 
     console.log(pool.getCurrentSize());
@@ -92,11 +96,11 @@ Promise.all([
     pool.removeWorker();
     pool.removeWorker();
 
-    pool.any('run').then(function(results){
-        console.log('cholo555:\n',results);
+    pool.any('run').then(function (results) {
+        console.log('cholo555:\n', results);
     });
 
-    setTimeout(function(){
+    setTimeout(function () {
         console.log('now replenishing');
         pool.addWorker();
         pool.addWorker();
@@ -116,13 +120,12 @@ Promise.all([
 
         console.log(pool.getCurrentSize());
 
-    },3000);
+    }, 3000);
 
 
-    pool.any('run').then(function(results){
-        console.log('cholo666:\n',results);
+    pool.any('run').then(function (results) {
+        console.log('cholo666:\n', results);
     });
-
 
 
 });
