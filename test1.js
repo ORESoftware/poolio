@@ -7,12 +7,12 @@
 
 
 var path = require('path');
-var Pool = require('../index');
+var Pool = require('./index');
 
 var pool = new Pool({
     pool_id: '***',
     size: 2,
-    filePath: path.resolve(__dirname + '/test-workers/sample-file1.js')
+    filePath: path.resolve(__dirname + '/test/test-workers/sample-file1.js')
 });
 
 console.log(pool.filePath);

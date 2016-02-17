@@ -23,33 +23,35 @@ Test.describe('@TestsPoolio', function () {
     });
 
 
-    this.describe({parallel: true}, function () {
+    this.describe({parallel: false}, function () {
 
-        this.it('test worker1', {parallel: false}, function (t) {
+        this.it('test worker1', function (t) {
             return pool.any('run').then(function (msg) {
                 assert.equal(path.basename(msg, '.js'), 'worker1', t.desc + ' ---> failed');
             });
         });
 
 
-        this.it('test worker1 non-timeout 1', {parallel: true}, function (t) {
+        this.it('test worker1 non-timeout 1', {timeout: 10000}, function (t) {
 
-            setTimeout(function () {
+            var to = setTimeout(function () {
                 throw new Error('Timed out');
-            }, 5500);
+            }, 9000);
 
             return Promise.all([
                 pool.any('run'),
                 pool.any('run'),
                 pool.any('run')
-            ]);
+            ]).then(function(){
+                clearTimeout(to);
+            });
 
         });
 
 
-        this.it('test worker1 expect-timeout', {parallel: true}, function (t, done) {
+        this.it('test worker1 expect-timeout', {timeout: 3000}, function (t, done) {
 
-            setTimeout(function () {
+            var to = setTimeout(function () {
                 done();
             }, 2000);
 
@@ -58,17 +60,17 @@ Test.describe('@TestsPoolio', function () {
                 pool.any('run'),
                 pool.any('run')
             ]).then(function () {
+                clearTimeout(to);
                 done(new Error('Should have timed out, but didnt.'));
             });
-
         });
 
 
-        this.it('test worker1 no-timeout 2', {parallel: true}, function (t) {
+        this.it('test worker1 no-timeout 2', {timeout: 10000}, function (t) {
 
-            setTimeout(function () {
+          var to =  setTimeout(function () {
                 throw new Error('Timed out');
-            }, 6500);
+            }, 9000);
 
             return Promise.all([
                 pool.any('run'),
@@ -77,7 +79,9 @@ Test.describe('@TestsPoolio', function () {
                 pool.any('run'),
                 pool.any('run'),
                 pool.any('run')
-            ]);
+            ]).then(function(){
+                clearTimeout(to);
+            });
 
         });
 
