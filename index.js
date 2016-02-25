@@ -257,7 +257,12 @@ function handleCallback(data) {
 function delegateWorker(n) {
 
   if (this.kill) {
-    n.kill();
+    try{
+      n.kill();
+    }
+    catch(err){
+      console.error(err);
+    }
     return;
   }
 
