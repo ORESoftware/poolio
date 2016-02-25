@@ -10,7 +10,7 @@
 
 /////////////////////////////////////////////////////////////////////////
 
-const isDebug = process.execArgv.indexOf('--debug') > 0;
+const isDebug = process.execArgv.indexOf('debug') > 0;
 
 console.log('isDebug:', isDebug);
 
@@ -104,9 +104,9 @@ Pool.prototype.addWorker = function() {
 
   var execArgv = JSON.parse(JSON.stringify(this.execArgv));
 
-  //if(isDebug){
-  //    execArgv.push('--debug=' + (53034 + id)); //http://stackoverflow.com/questions/16840623/how-to-debug-node-js-child-forked-process
-  //}
+  if(isDebug){
+      execArgv.push('--debug=' + (53034 + id)); //http://stackoverflow.com/questions/16840623/how-to-debug-node-js-child-forked-process
+  }
 
   var n = cp.fork(this.filePath, this.args || [], {
     detached: true,
