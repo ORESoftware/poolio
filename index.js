@@ -16,7 +16,7 @@ console.log('isDebug:', isDebug);
 
 /////////////////////////////////////////////////////////////////////////
 
-const Promise = require('bluebird');
+//const Promise = require('bluebird');
 const cp = require('child_process');
 const _ = require('underscore');
 const path = require('path');
