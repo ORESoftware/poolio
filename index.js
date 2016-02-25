@@ -322,7 +322,7 @@ Pool.prototype.any = function(msg, cb) {
   });
 
   if (typeof cb === 'function') {
-    if(process.domain) process.domain.bind(cb);
+    //if(process.domain) process.domain.bind(cb);
     this.resolutions[workId] = {
       cb: cb
     };
