@@ -15,3 +15,4 @@ suman.Runner({
     console.log('msg from suman runner', msg);
     process.exit(msg);
 });
+
