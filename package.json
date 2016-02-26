@@ -1,6 +1,6 @@
 {
   "name": "poolio",
-  "version": "0.1.8",
+  "version": "0.1.84",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,6 @@
   "license": "ISC",
   "dependencies": {
     "app-root-path": "^1.0.0",
-    "bluebird": "^3.3.1",
     "colors": "^1.1.2",
     "debug": "^2.2.0",
     "idempotent-json": "^0.9.2",

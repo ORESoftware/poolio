@@ -10,13 +10,13 @@
 
 /////////////////////////////////////////////////////////////////////////
 
-const isDebug = process.execArgv.indexOf('--debug') > 0;
+const isDebug = process.execArgv.indexOf('debug') > 0;
 
 console.log('isDebug:', isDebug);
 
 /////////////////////////////////////////////////////////////////////////
 
-const Promise = require('bluebird');
+//const Promise = require('bluebird');
 const cp = require('child_process');
 const _ = require('underscore');
 const path = require('path');
@@ -104,9 +104,9 @@ Pool.prototype.addWorker = function() {
 
   var execArgv = JSON.parse(JSON.stringify(this.execArgv));
 
-  //if(isDebug){
-  //    execArgv.push('--debug=' + (53034 + id)); //http://stackoverflow.com/questions/16840623/how-to-debug-node-js-child-forked-process
-  //}
+  if(isDebug){
+      execArgv.push('--debug=' + (53034 + id)); //http://stackoverflow.com/questions/16840623/how-to-debug-node-js-child-forked-process
+  }
 
   var n = cp.fork(this.filePath, this.args || [], {
     detached: true,
@@ -257,7 +257,12 @@ function handleCallback(data) {
 function delegateWorker(n) {
 
   if (this.kill) {
-    n.kill();
+    try{
+      n.kill();
+    }
+    catch(err){
+      console.error(err);
+    }
     return;
   }
 
@@ -317,7 +322,7 @@ Pool.prototype.any = function(msg, cb) {
   });
 
   if (typeof cb === 'function') {
-    if(process.domain) process.domain.bind(cb);
+    //if(process.domain) process.domain.bind(cb);
     this.resolutions[workId] = {
       cb: cb
     };
