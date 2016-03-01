@@ -319,16 +319,16 @@ Pool.prototype.any = function (msg, cb) {
         }
     });
 
-    const d = process.domain;
+    var d;
 
     if (typeof cb === 'function') {
-        if (d) d.bind(cb);
+        if (d = process.domain) d.bind(cb);
         this.resolutions[workId] = {
             cb: cb
         };
     } else {
         return new Promise((resolve, reject) => {
-            if (d) {
+            if (d = process.domain) {
                 d.bind(resolve);
                 d.bind(reject);
             }
