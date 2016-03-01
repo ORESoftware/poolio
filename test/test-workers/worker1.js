@@ -6,25 +6,36 @@
 
 process.on('message', function (data) {
 
+    const workId = data.workId;
+
     if (data.msg === 'run') {
         console.log(data.__poolioWorkerId);
-        run(data);
+        run();
+    }
+    else{
+        process.send({
+            msg: 'error',
+            error: new Error('No action listed').stack,
+            workId: workId,
+            result: module.filename
+        });
+    }
+
+    function run() {
+
+        console.log(module.filename + ' running ...');
+
+        setTimeout(function () {
+
+            process.send({
+                msg: 'done/return/to/pool',
+                workId: workId,
+                result: module.filename
+            });
+
+        }, 2000);
     }
 
 });
 
 
-function run(data) {
-
-    console.log(module.filename + ' running ...');
-
-    setTimeout(function () {
-
-        process.send({
-            msg: 'done/return/to/pool',
-            workId: data.workId,
-            result: module.filename
-        });
-
-    }, 2000);
-}

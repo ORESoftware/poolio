@@ -38,13 +38,13 @@ npm install -S poolio
 
         function rankPostsUsingWorkerProcess(postIds, cb){
         
-               pool.any({action: 'run', posts: postIds}).then(function resolved(posts) {
+            pool.any({action: 'run', posts: postIds}).then(function resolved(posts) {
                     cb(null, posts);
-                }, function rejected() {
+              }, function rejected() {
                     cb(null, []);              //pro-tip, use the rejected handler instead of the catch block, to prevent double-calling of callback
-                }).catch(function (err) {
+            }).catch(function (err) {
                     log.error(err);
-                });
+            });
          }
        
 
@@ -56,9 +56,7 @@ npm install -S poolio
 
 process.on('message', function (data) {   //use the closure, it is better that way
 
-    
     const workId = data.workId;
-    
     
     var result;
     
@@ -172,16 +170,16 @@ process.on('message', function (data) {   //use the closure, it is better that w
     }
     
     
-    Promise.all(actions).then(function(result){
+       Promise.all(actions).then(function(result){
        
-        process.send({
-           msg: 'done/return/to/pool',
-           result: result,
-           workId: workId
-           error: null
-        });
+           process.send({
+              msg: 'done/return/to/pool',
+              result: result,
+              workId: workId
+              error: null
+           });
     
-    });
+       });
     
     
     });

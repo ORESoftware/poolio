@@ -89,8 +89,8 @@ Test.describe('@TestsPoolio', function () {
         this.after(function (done) {
             console.log('listening for kill all msg.');
             pool.killAllImmediate().on('all-killed', function (msg) {
-                console.log('all killed');
                 pool.removeAllListeners();
+                console.log('all killed');
                 done();
             });
 
@@ -98,6 +98,19 @@ Test.describe('@TestsPoolio', function () {
                 console.log('worker-exited');
             });
         });
+
+        //this.after(function (done) {
+        //    console.log('listening for kill all msg.');
+        //    pool.killAllImmediate().on('all-killed', process.domain.bind(function (msg) {
+        //        console.log('all killed');
+        //        throw new Error('what');
+        //        done();
+        //    }));
+        //
+        //    pool.on('worker-exited', function () {
+        //        console.log('worker-exited');
+        //    });
+        //});
 
     });
 

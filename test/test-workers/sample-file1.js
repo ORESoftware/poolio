@@ -3,43 +3,45 @@
  */
 
 
-process.on('message', function (msg) {
+process.on('message', function (data) {
 
-    console.log(msg);
+    const workId = data.workId;
 
-    if (msg.msg === 'run') {
+    if (data.msg === 'run') {
         setImmediate(function(){
             process.send({
                 msg: 'return/to/pool',
-                workId: msg.workId
+                workId: workId
             });
         });
-        run(msg);
+        run(data);
     }
     else {
         console.log('unknown message!');
         process.send({
-            msg: 'done',
+            msg: 'error',
             error: 'unknown message',
             result: null,
-            workId: msg.workId
+            workId: workId
         });
     }
+
+    function run() {
+
+        console.log('working...');
+
+        setTimeout(function () {
+
+            process.send({
+                msg: 'done',
+                workId: workId,
+                result: 'chicken'
+            });
+
+        }, 300);
+
+    }
+
 });
 
 
-function run(msg) {
-
-    console.log('working...');
-
-    setTimeout(function () {
-
-        process.send({
-            msg: 'done',
-            workId: msg.workId,
-            result: 'chicken'
-        });
-
-    }, 300);
-
-}

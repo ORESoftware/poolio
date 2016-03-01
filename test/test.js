@@ -71,12 +71,13 @@ Test.describe('@TestsPoolio', function () {
         });
     });
 
+
     this.it('c', function (done) {
 
         setTimeout(function () {
             pool.any('run').then(function () {
                 done();
-            }).catch(function (err) {
+            }, function (err) {
                 done(err);
             });
         }, 1000);

@@ -4,61 +4,62 @@
 
 
 
-process.on('message', function (msg) {
+process.on('message', function (data) {
 
-    console.log(msg);
+    const workId = data.workId;
 
-    if (msg.msg === 'run') {
-        run(msg);
+    if (data.msg === 'run') {
+        run(data);
     }
-    else if (msg === 'big') {
-        DoBig(msg);
+    else if (data.msg === 'big') {
+        DoBig(data);
     }
-    else if (msg === 'SIGTERM') {
+    else if (data.msg === 'SIGTERM') {
         console.log('dead');
     }
     else {
         process.send({
-            msg: 'done/return/to/pool',
+            msg: 'error',
             error: 'unknown message',
             result: null,
-            workId: msg.workId
+            workId: workId
         });
+    }
+
+    function run() {
+
+        console.log('working (run)...');
+
+        setTimeout(function () {
+
+            process.send({
+                msg: 'error',
+                error: 'beetles',
+                result: null,
+                workId: workId
+            });
+
+        }, 100);
+
+    }
+
+
+    function DoBig() {
+
+        console.log('working (DoBig)...');
+
+        setTimeout(function () {
+
+            process.send({
+                msg: 'done/return/to/pool',
+                error: null,
+                result: 'parties',
+                workId: workId
+            });
+
+        }, 100);
+
     }
 });
 
 
-function run(msg) {
-
-    console.log('working...');
-
-    setTimeout(function () {
-
-        process.send({
-            msg: 'error',
-            error: 'beetles',
-            result: null,
-            workId: msg.workId
-        });
-
-    }, 100);
-
-}
-
-
-function DoBig(msg) {
-
-    console.log('working...');
-
-    setTimeout(function () {
-
-        process.send({
-            msg: 'done/return/to/pool',
-            error: null,
-            result: 'parties',
-            workId: msg.workId
-        });
-
-    }, 100);
-
-}

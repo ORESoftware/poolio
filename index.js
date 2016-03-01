@@ -6,11 +6,12 @@
 //TODO: https://devnet.jetbrains.com/message/5507221
 //TODO: https://youtrack.jetbrains.com/issue/WEB-1919
 //TODO: replace underscore with lodash?
+//TODO: https://github.com/npm/nopt
 
 /////////////////////////////////////////////////////////////////////////
 
 const isDebug = process.execArgv.indexOf('debug') > 0;
-if(isDebug) console.log('Poolio isDebug flag set to:', isDebug);
+if (isDebug) console.log('Poolio isDebug flag set to:', isDebug);
 
 /////////////////////////////////////////////////////////////////////////
 
@@ -56,7 +57,7 @@ function Pool(options) {
         __pool_id: '@poolio_pool_' + id++
     });
 
-    if(opts.size < 1){
+    if (opts.size < 1) {
         throw new Error('Poolio pool size must an integer greater than 0.')
     }
 
