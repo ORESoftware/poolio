@@ -113,16 +113,11 @@ process.on('message', function (data) {   //use the closure, it is better that w
         });
 
 
-        function rankPostsUsingWorkerProcess(postIds, cb){
+        function doHeavyDataIntensiveAsyncWork(data){
         
-               pool.any({action: 'run', posts: postIds}).then(function resolved(posts) {
-                    cb(null, posts);
-                }, function rejected() {
-                    cb(null, []);              //pro-tip, use the rejected handler instead of the catch block, to prevent double-calling of callback
-                }).catch(function (err) {
-                    log.error(err);
-                });
-         }
+           return pool.any({action: 'all', data: data}); // return the promise
+             
+        }
        
 
 ```
@@ -131,7 +126,7 @@ process.on('message', function (data) {   //use the closure, it is better that w
 
 // in a child process - advanced example
 
-
+const _ = require('lodash');
 const domain = require('domain');
 
 
@@ -172,7 +167,7 @@ process.on('message', function (data) {   //use the closure, it is better that w
            actions.push(baz);
            break;
          default:
-           throw new Error('No case matched');
+           throw new Error('No case matched'); //will be caught by domain.on('error')
     
     }
     
