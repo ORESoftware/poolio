@@ -4,8 +4,8 @@
 
 var path = require('path');
 
-//const suman = require('C:\\Users\\denman\\WebstormProjects\\suman');
-const suman = require('/Users/amills001c/WebstormProjects/ORESoftware/suman');
+const suman = require('C:\\Users\\denman\\WebstormProjects\\suman');
+//const suman = require('/Users/amills001c/WebstormProjects/ORESoftware/suman');
 const Test = suman.init(module, 'suman.conf.js');
 
 
@@ -13,7 +13,7 @@ Test.describe('@TestsPoolio', function () {
 
     var Pool = require('../index');
 
-    var pool = new Pool({
+    var pool0 = new Pool({
         pool_id: '***',
         size: 1,
         filePath: path.resolve(__dirname + '/test-workers/sample-file.js')
@@ -25,13 +25,13 @@ Test.describe('@TestsPoolio', function () {
         filePath: path.resolve(__dirname + '/test-workers/sample-file.js')
     });
 
-    var pool_1 = new Pool({
+    var pool2 = new Pool({
         pool_id: '###',
         size: 4,
         filePath: path.resolve(__dirname + '/test-workers/sample-file.js')
     });
 
-    var pool_2 = new Pool({
+    var pool3 = new Pool({
         size: 1,
         filePath: path.resolve(__dirname + '/test-workers/sample-file.js')
     });
@@ -40,8 +40,8 @@ Test.describe('@TestsPoolio', function () {
     this.it('tests poolio', t => {
 
         return Promise.all([
-            pool_1.any('dog'),
-            pool_2.any('big')
+            pool2.any('dog'),
+            pool3.any('big')
         ]).then(function (values) {
             console.log('values:', values);
         }).catch(function (err) {
@@ -62,11 +62,11 @@ Test.describe('@TestsPoolio', function () {
             }
         }
 
-        pool.any('run', function (err) {
+        pool0.any('run', function (err) {
             call(err);
         });
 
-        pool.any('big', function (err) {
+        pool1.any('big', function (err) {
             call(err);
         });
     });
@@ -75,7 +75,7 @@ Test.describe('@TestsPoolio', function () {
     this.it('c', function (done) {
 
         setTimeout(function () {
-            pool.any('run').then(function () {
+            pool0.any('run').then(function () {
                 done();
             }, function (err) {
                 done(err);

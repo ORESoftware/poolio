@@ -4,8 +4,8 @@
 
 
 
-//const suman = require('C:\\Users\\denman\\WebstormProjects\\suman');
-const suman = require('/Users/amills001c/WebstormProjects/ORESoftware/suman');
+const suman = require('C:\\Users\\denman\\WebstormProjects\\suman');
+//const suman = require('/Users/amills001c/WebstormProjects/ORESoftware/suman');
 const Test = suman.init(module, 'suman.conf.js');
 
 
