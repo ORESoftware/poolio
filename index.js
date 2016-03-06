@@ -22,6 +22,7 @@ const debug = require('debug')('poolio');
 const EE = require('events');
 const util = require('util');
 const fs = require('fs');
+const residence = require('residence');
 
 /////////////////////////////////////////////////////
 
@@ -80,7 +81,7 @@ function Pool(options) {
     }
 
     if (!path.isAbsolute(this.filePath)) {
-        const root = findRoot(process.cwd());
+        const root = residence.findProjectRoot(process.cwd());
         const str = String(this.filePath);
         this.filePath = path.resolve(root + '/' + str);
     }
@@ -380,22 +381,5 @@ Pool.prototype.killAllImmediate = function () {
     return this;
 };
 
-
-function findRoot(pth) {
-
-    const possiblePkgDotJSONPath = path.resolve(path.normalize(String(pth) + '/package.json'));
-
-    try {
-        fs.statSync(possiblePkgDotJSONPath).isFile();
-        return pth;
-    } catch (err) {
-        const subPath = path.resolve(path.normalize(String(pth) + '/../'));
-        if (subPath === pth) {
-            return null;
-        } else {
-            return findRoot(subPath);
-        }
-    }
-}
 
 module.exports = Pool;
