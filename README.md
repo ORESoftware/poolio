@@ -1,13 +1,27 @@
 # poolio
 
-much like https://github.com/thisandagain/fork-pool
+< br >
+< br >
+
+<a href="https://nodei.co/npm/poolio/"><img src="https://nodei.co/npm/poolio.png?downloads=true&downloadRank=true&stars=true"></a>
+
+<br>
+<br>
+
+This module behaves much like these two pre-existing modules:
+
+core: https://nodejs.org/api/cluster.html#cluster_cluster_setupmaster_settings
+userland: https://github.com/thisandagain/fork-pool
+
 except simpler implementation and clearer documentation
 this lib utilizes a child_process pool, using child_process.fork() like so: 
 
 
 ```javascript
+
 const cp = require('child_process');
 const n = cp.fork('your_file.js');
+
 ```
 
 as per:
@@ -15,42 +29,38 @@ as per:
 https://nodejs.org/api/child_process.html
 
 
-
-### Installation
+## Installation
 
 ```bash
 npm install -S poolio
 ```
 
-#### Basic Use
+## Basic Use
 
 ```js
 
-     // in the parent process, we require the module and initialize a pool
+// in the parent process, we require the module and initialize a pool
 
-        const Pool = require('poolio');
+const Pool = require('poolio');
 
-        const pool = new Pool({
-            filePath: 'child.js',    //path is relative to root of your project
-            size: 3
-        });
+const pool = new Pool({
+    filePath: 'child.js',    //path is relative to root of your project
+    size: 3
+});
 
 
-        function rankPostsUsingWorkerProcess(postIds, cb){
-        
-            pool.any({action: 'run', posts: postIds}).then(function resolved(posts) {
-                    cb(null, posts);
-              }, function rejected() {
-                    cb(null, []);              //pro-tip, use the rejected handler instead of the catch block, to prevent double-calling of callback
-            }).catch(function (err) {
-                    log.error(err);
-            });
-         }
+function rankPostsUsingWorkerProcess(postIds, cb){
+
+    pool.any({action: 'run', posts: postIds}).then(function resolved(posts) {
+        cb(null, posts);
+    }, function rejected() {
+        cb(null, []);              //pro-tip, use the rejected handler instead of the catch block, to prevent double-calling of callback
+    }).catch(function (err) {
+        log.error(err);
+    });
+    
+}
        
-
-```
-
-```javascript
 
 // in a child process - simple example
 
@@ -97,30 +107,24 @@ process.on('message', function (data) {   //use the closure, it is better that w
 
 ```
 
-### Advanced use
+## Advanced use
 
 ```js
 
-     // in the parent process, we require the module and initialize a pool
+// in the parent process, we require the module and initialize a pool
 
-        const Pool = require('poolio');
+const Pool = require('poolio');
 
-        const pool = new Pool({
-            filePath: 'child.js',    //path is relative to root of your project
-            size: 5
-        });
+const pool = new Pool({
+    filePath: 'child.js',    //path is relative to root of your project
+    size: 5
+});
 
 
-        function doHeavyDataIntensiveAsyncWork(data){
-        
-           return pool.any({action: 'all', data: data}); // return the promise
-             
-        }
+function doHeavyDataIntensiveAsyncWork(data){
+    return pool.any({action: 'all', data: data}); // return the promise
+}
        
-
-```
-
-```javascript
 
 // in a child process - advanced example
 

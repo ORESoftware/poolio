@@ -9,6 +9,8 @@
 //TODO: https://github.com/npm/nopt
 //TODO: add logger argument, or pipe stdout somewhere
 
+
+
 /////////////////////////////////////////////////////////////////////////
 
 const isDebug = process.execArgv.indexOf('debug') > 0;
