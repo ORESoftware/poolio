@@ -1,7 +1,7 @@
 # poolio
 
-< br >
-< br >
+<br>
+<br>
 
 <a href="https://nodei.co/npm/poolio/"><img src="https://nodei.co/npm/poolio.png?downloads=true&downloadRank=true&stars=true"></a>
 
@@ -10,17 +10,17 @@
 
 This module behaves much like these two pre-existing modules:
 
-core: https://nodejs.org/api/cluster.html#cluster_cluster_setupmaster_settings
-userland: https://github.com/thisandagain/fork-pool
+* core: https://nodejs.org/api/cluster.html#cluster_cluster_setupmaster_settings
+* userland: https://github.com/thisandagain/fork-pool
 
-except simpler implementation and clearer documentation
+This module strives for simpler implementation; like the above,
 this lib utilizes a child_process pool, using child_process.fork() like so: 
 
 
 ```javascript
 
 const cp = require('child_process');
-const n = cp.fork('your_file.js');
+const n = cp.fork('your-file.js');
 
 ```
 
