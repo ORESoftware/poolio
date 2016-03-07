@@ -2,14 +2,13 @@
  * Created by amills001c on 10/12/15.
  */
 
-var path = require('path');
 
-const suman = require('C:\\Users\\denman\\WebstormProjects\\suman');
-//const suman = require('/Users/amills001c/WebstormProjects/ORESoftware/suman');
+//const suman = require('C:\\Users\\denman\\WebstormProjects\\suman');
+const suman = require('/Users/amills001c/WebstormProjects/ORESoftware/suman');
 const Test = suman.init(module, 'suman.conf.js');
 
 
-Test.describe('@TestsPoolio', function () {
+Test.describe('@TestsPoolio', function (suite, path) {
 
     var Pool = require('../index');
 
@@ -20,7 +19,7 @@ Test.describe('@TestsPoolio', function () {
     });
 
     var pool1 = new Pool({
-        pool_id: '***',
+        pool_id: '**',
         size: 3,
         filePath: path.resolve(__dirname + '/test-workers/sample-file.js')
     });

@@ -4,18 +4,14 @@
 
 
 
-const suman = require('C:\\Users\\denman\\WebstormProjects\\suman');
-//const suman = require('/Users/amills001c/WebstormProjects/ORESoftware/suman');
+//const suman = require('C:\\Users\\denman\\WebstormProjects\\suman');
+const suman = require('/Users/amills001c/WebstormProjects/ORESoftware/suman');
 const Test = suman.init(module, 'suman.conf.js');
 
 
-Test.describe('@TestsPoolio', function () {
+Test.describe('@TestsPoolio', function (assert, path) {
 
-
-    const assert = require('assert');
-    const path = require('path');
     const Pool = require('../index');
-
 
     var pool = new Pool({
         size: 3,

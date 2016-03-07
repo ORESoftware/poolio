@@ -7,6 +7,7 @@
 //TODO: https://youtrack.jetbrains.com/issue/WEB-1919
 //TODO: replace underscore with lodash?
 //TODO: https://github.com/npm/nopt
+//TODO: add logger argument, or pipe stdout somewhere
 
 /////////////////////////////////////////////////////////////////////////
 
@@ -28,7 +29,7 @@ const residence = require('residence');
 
 const acceptableConstructorOptions = ['execArgv', 'args', 'size', 'filePath'];
 
-var id = 1; //avoid falsy 0 values, start with 1
+var id = 1; //avoid falsy 0 values, just start with 1
 
 function Pool(options) {
 
