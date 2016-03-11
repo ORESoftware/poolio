@@ -3,12 +3,13 @@
  */
 
 
+//TODO: move to lodash from underscore
 //TODO: https://devnet.jetbrains.com/message/5507221
 //TODO: https://youtrack.jetbrains.com/issue/WEB-1919
 //TODO: replace underscore with lodash?
 //TODO: https://github.com/npm/nopt
 //TODO: add logger argument, or pipe stdout somewhere
-
+//TODO: => remove bind calls, and just pass 'this' around
 
 
 /////////////////////////////////////////////////////////////////////////
