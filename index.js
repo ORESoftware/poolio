@@ -9,7 +9,6 @@
 //TODO: replace underscore with lodash?
 //TODO: https://github.com/npm/nopt
 //TODO: add logger argument, or pipe stdout somewhere
-//TODO: => remove bind calls, and just pass 'this' around
 
 
 /////////////////////////////////////////////////////////////////////////
@@ -142,26 +141,26 @@ Pool.prototype.addWorker = function () {
         }
         switch (data.msg) {
             case 'done':
-                handleCallback.bind(this)(data);
+                handleCallback(this, data);
                 break;
             case 'return/to/pool':
-                delegateWorker.bind(this)(n);
+                delegateWorker(this, n);
                 break;
             case 'done/return/to/pool':
-                handleCallback.bind(this)(data); //probably want to handle callback first
-                delegateWorker.bind(this)(n);
+                handleCallback(this, data); //probably want to handle callback first
+                delegateWorker(this, n);
                 break;
             case 'error':
                 console.error(data);
                 this.emit('error', data); // TODO: handle this error event
-                handleCallback.bind(this)(data);
-                delegateWorker.bind(this)(n);
+                handleCallback(this, data);
+                delegateWorker(this, n);
                 break;
             case 'fatal':
                 console.error(data);
                 this.emit('error', data); // TODO: handle this error event
-                handleCallback.bind(this)(data);
-                removeSpecificWorker.bind(this)(n);
+                handleCallback(this, data);
+                removeSpecificWorker(this, n);
                 this.addWorker();
                 break;
             default:
@@ -184,14 +183,14 @@ Pool.prototype.addWorker = function () {
 };
 
 
-function removeSpecificWorker(n) {
+function removeSpecificWorker(pool, n) {
 
     if (n) {
         n.tempId = 'gonna-die';
-        this.available = _.without(this.available, _.findWhere(this.available, {
+        pool.available = _.without(pool.available, _.findWhere(pool.available, {
             tempId: 'gonna-die'
         }));
-        this.all = _.without(this.all, _.findWhere(this.all, {
+        pool.all = _.without(pool.all, _.findWhere(pool.all, {
             tempId: 'gonna-die'
         }));
         n.kill();
@@ -226,12 +225,12 @@ Pool.prototype.getCurrentSize = function () {
 };
 
 
-function handleCallback(data) {
+function handleCallback(pool, data) {
 
     const workId = data.workId;
-    const cbOrPromise = this.resolutions[workId];
+    const cbOrPromise = pool.resolutions[workId];
 
-    delete this.resolutions[workId];
+    delete pool.resolutions[workId];
 
     if (cbOrPromise) {
         if (data.error) {
@@ -258,9 +257,9 @@ function handleCallback(data) {
 }
 
 
-function delegateWorker(n) {
+function delegateWorker(pool, n) {
 
-    if (this.kill) {
+    if (pool.kill) {
         try {
             n.kill();
         }
@@ -270,24 +269,24 @@ function delegateWorker(n) {
         return;
     }
 
-    if (this.removeNext) {
-        this.removeNext = false;
+    if (pool.removeNext) {
+        pool.removeNext = false;
         n.tempId = 'gonna-die';
-        this.all = _.without(this.all, _.findWhere(this.all, {
+        pool.all = _.without(pool.all, _.findWhere(pool.all, {
             tempId: 'gonna-die'
         }));
         n.kill();
         return; //don't push cp back on available queue
     }
 
-    if (this.msgQueue.length > 0) {
-        const msg = this.msgQueue.shift();
+    if (pool.msgQueue.length > 0) {
+        const msg = pool.msgQueue.shift();
         msg.__poolioWorkerId = n.workerId;
         n.send(msg);
     } else {
         debug('worker is available and is back in the pool');
-        this.available.push(n);
-        debug('pool size for pool ' + this.pool_id + ' is: ' + this.available.length);
+        pool.available.push(n);
+        debug('pool size for pool ' + pool.pool_id + ' is: ' + pool.available.length);
     }
 }
 
