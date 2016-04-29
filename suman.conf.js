@@ -44,12 +44,23 @@ module.exports = Object.freeze({
         'tap': 'suman/reporters/tap'
     },
 
-    servers: {                           // list of servers to output test result data to, with the os.hostname() as the key
 
+    servers: {
         '*default': {
             host: '127.0.0.1',
             port: 6969,
-            outputDir: path.resolve(process.env[(process.platform === 'win32' ? 'USERPROFILE' : 'HOME')] + '/suman_results')
+        },
+        'denman-lenovo': {
+            host: '127.0.0.1', //10.172.47.79
+            port: 6969,
+        },
+        'CACSVML-13295.local': {
+            host: '127.0.0.1', //10.172.47.79
+            port: 6969,
+        },
+        'jarvissc': {
+            host: '69.252.255.134',
+            port: 6969,
         }
     }
 

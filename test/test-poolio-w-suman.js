@@ -2,17 +2,15 @@
  * Created by denman on 2/4/2016.
  */
 
-
-
 const suman = require('C:\\Users\\denman\\WebstormProjects\\suman-private');
 //const suman = require('/Users/amills001c/WebstormProjects/ORESoftware/suman');
-const Test = suman.init(module, 'suman.conf.js');
+
+const Test = suman.init(module, {});
 
 
 Test.describe('@TestsPoolio', function (assert, path) {
 
     const Pool = require('../index');
-
 
     var pool = new Pool({
         size: 3,
@@ -39,7 +37,7 @@ Test.describe('@TestsPoolio', function (assert, path) {
                 pool.any('run'),
                 pool.any('run'),
                 pool.any('run')
-            ]).then(function(){
+            ]).then(function () {
                 clearTimeout(to);
             });
 
@@ -65,7 +63,7 @@ Test.describe('@TestsPoolio', function (assert, path) {
 
         this.it('test worker1 no-timeout 2', {timeout: 10000}, function (t) {
 
-          var to =  setTimeout(function () {
+            var to = setTimeout(function () {
                 throw new Error('Timed out');
             }, 9000);
 
@@ -76,7 +74,7 @@ Test.describe('@TestsPoolio', function (assert, path) {
                 pool.any('run'),
                 pool.any('run'),
                 pool.any('run')
-            ]).then(function(){
+            ]).then(function () {
                 clearTimeout(to);
             });
 

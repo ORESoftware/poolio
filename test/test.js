@@ -8,7 +8,8 @@ const suman = require('C:\\Users\\denman\\WebstormProjects\\suman-private');
 const Test = suman.init(module, {});
 
 
-Test.describe('@TestsPoolio', function (path) {
+Test.describe('@TestsPoolio', function (suite, path) {
+
 
     var Pool = require('../index');
 
@@ -19,7 +20,7 @@ Test.describe('@TestsPoolio', function (path) {
     });
 
     var pool1 = new Pool({
-        pool_id: '***',
+        pool_id: '**',
         size: 3,
         filePath: path.resolve(__dirname + '/test-workers/sample-file.js')
     });
