@@ -18,6 +18,6 @@
     "underscore": "^1.8.3"
   },
   "devDependencies": {
-    "suman": "^1.1.3"
+    "suman": "^1.1.37"
   }
 }

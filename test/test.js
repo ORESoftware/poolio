@@ -2,14 +2,13 @@
  * Created by amills001c on 10/12/15.
  */
 
-var path = require('path');
 
-const suman = require('C:\\Users\\denman\\WebstormProjects\\suman');
+const suman = require('C:\\Users\\denman\\WebstormProjects\\suman-private');
 //const suman = require('/Users/amills001c/WebstormProjects/ORESoftware/suman');
-const Test = suman.init(module, 'suman.conf.js');
+const Test = suman.init(module, {});
 
 
-Test.describe('@TestsPoolio', function () {
+Test.describe('@TestsPoolio', function (path) {
 
     var Pool = require('../index');
 
