@@ -4,15 +4,16 @@
 
 const suman = require('C:\\Users\\denman\\WebstormProjects\\suman-private');
 //const suman = require('/Users/amills001c/WebstormProjects/ORESoftware/suman');
-
 const Test = suman.init(module, {});
+
+
+console.log('cwd:',process.cwd());
 
 
 Test.describe('@TestsPoolio', function (assert, path) {
 
     const Pool = require('../index');
-
-    var pool = new Pool({
+    const pool = new Pool({
         size: 3,
         filePath: path.resolve(__dirname + '/test-workers/worker1')
     });
@@ -82,32 +83,20 @@ Test.describe('@TestsPoolio', function (assert, path) {
 
 
         this.after(function (done) {
-            console.log('listening for kill all msg.');
+
+            pool.on('worker-exited', function () {
+                console.log('worker-exited');
+            });
+
             pool.killAllImmediate().on('all-killed', function (msg) {
                 pool.removeAllListeners();
                 console.log('all killed');
                 done();
             });
 
-            pool.on('worker-exited', function () {
-                console.log('worker-exited');
-            });
+
         });
 
-        //this.after(function (done) {
-        //    console.log('listening for kill all msg.');
-        //    pool.killAllImmediate().on('all-killed', process.domain.bind(function (msg) {
-        //        console.log('all killed');
-        //        throw new Error('what');
-        //        done();
-        //    }));
-        //
-        //    pool.on('worker-exited', function () {
-        //        console.log('worker-exited');
-        //    });
-        //});
-
     });
-
 
 });

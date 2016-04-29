@@ -27,7 +27,10 @@ const residence = require('residence');
 
 /////////////////////////////////////////////////////
 
+const root = residence.findProjectRoot(process.cwd());
 const acceptableConstructorOptions = ['execArgv', 'args', 'size', 'filePath'];
+
+console.log('roooot:',root);
 
 var id = 1; //avoid falsy 0 values, just start with 1
 
@@ -82,7 +85,6 @@ function Pool(options) {
     }
 
     if (!path.isAbsolute(this.filePath)) {
-        const root = residence.findProjectRoot(process.cwd());
         const str = String(this.filePath);
         this.filePath = path.resolve(root + '/' + str);
     }

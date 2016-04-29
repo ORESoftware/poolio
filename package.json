@@ -17,6 +17,7 @@
     "underscore": "^1.8.3"
   },
   "devDependencies": {
+    "async": "^2.0.0-rc.3",
     "suman": "^1.1.37"
   }
 }

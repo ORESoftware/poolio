@@ -8,30 +8,30 @@ const suman = require('C:\\Users\\denman\\WebstormProjects\\suman-private');
 const Test = suman.init(module, {});
 
 
-Test.describe('@TestsPoolio', function (suite, path) {
+Test.describe('@TestsPoolio', function (suite, path, async, assert) {
 
 
-    var Pool = require('../index');
+    const Pool = require('../index');
 
-    var pool0 = new Pool({
+    const pool0 = new Pool({
         pool_id: '***',
         size: 1,
         filePath: path.resolve(__dirname + '/test-workers/sample-file.js')
     });
 
-    var pool1 = new Pool({
+    const pool1 = new Pool({
         pool_id: '**',
         size: 3,
         filePath: path.resolve(__dirname + '/test-workers/sample-file.js')
     });
 
-    var pool2 = new Pool({
+    const pool2 = new Pool({
         pool_id: '###',
         size: 4,
         filePath: path.resolve(__dirname + '/test-workers/sample-file.js')
     });
 
-    var pool3 = new Pool({
+    const pool3 = new Pool({
         size: 1,
         filePath: path.resolve(__dirname + '/test-workers/sample-file.js')
     });
@@ -43,9 +43,9 @@ Test.describe('@TestsPoolio', function (suite, path) {
             pool2.any('dog'),
             pool3.any('big')
         ]).then(function (values) {
-            console.log('values:', values);
+
         }).catch(function (err) {
-            console.log('err:', err);
+            console.log('expected err:', err);
         });
 
     });
@@ -78,9 +78,32 @@ Test.describe('@TestsPoolio', function (suite, path) {
             pool0.any('run').then(function () {
                 done();
             }, function (err) {
-                done(err);
+                assert(err);
+                done();
             });
         }, 1000);
+
+    });
+
+
+    this.after(function (done) {
+
+        async.each([pool0, pool1, pool2, pool3], function (p, cb) {
+
+            p.on('worker-exited', function () {
+                console.log('worker-exited');
+            });
+
+            p.killAllImmediate().once('all-killed', function (msg) {
+                p.removeAllListeners();
+                console.log('all killed');
+                cb();
+            });
+
+            p.once('error', cb);
+
+        }, done);
+
 
     });
 
