@@ -3,12 +3,12 @@
  */
 
 
-const suman = require('C:\\Users\\denman\\WebstormProjects\\suman-private');
-//const suman = require('/Users/amills001c/WebstormProjects/ORESoftware/suman');
+// const suman = require('C:\\Users\\denman\\WebstormProjects\\suman-private');
+const suman = require('/Users/Olegzandr/WebstormProjects/suman');
 const Test = suman.init(module, {});
 
 
-Test.describe('@TestsPoolio', function (suite, path, async, assert) {
+Test.describe('@TestsPoolio', {}, function (suite, path, async, assert) {
 
 
     const Pool = require('../index');

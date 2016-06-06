@@ -1,3 +1,4 @@
+
 //******************************************************************************************************************
 // this is for dependency injection, y'all
 // the purpose is to inject dependencies / values that are acquired *asynchronously*
@@ -13,9 +14,35 @@ module.exports = () => {  //load async deps for any of your suman tests
 
     return {
 
-        async: function () {
-            return require('async');
+        //the following are examples
+        
+        'request': function () {
+            return require('request');  //this is not very useful, but below we can see useful asynchronous loading of deps
+        },
+
+        'socketClient': function (cb) {
+
+            const client = require('socket.io-client')('http://localhost:3000');
+            client.on('connect', cb);
+            client.on('error', cb);
+
+        },
+
+        'dbQueryAllUsers': (cb) => {
+
+            var db = require('./db/postgres');
+
+            db.sync().then(function () {
+                return db.users.find();
+            }).then(function (users) {
+                cb(null, users);          //send 'users' as a value to any test that wants the value
+            }).catch(function (err) {
+                cb(err);
+            });
+
         }
+
+
     }
 
 

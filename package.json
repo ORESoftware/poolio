@@ -18,6 +18,6 @@
   },
   "devDependencies": {
     "async": "^2.0.0-rc.3",
-    "suman": "^1.1.37"
+    "suman": "^1.1.38"
   }
 }

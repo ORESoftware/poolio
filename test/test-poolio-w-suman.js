@@ -2,12 +2,12 @@
  * Created by denman on 2/4/2016.
  */
 
-const suman = require('C:\\Users\\denman\\WebstormProjects\\suman-private');
-//const suman = require('/Users/amills001c/WebstormProjects/ORESoftware/suman');
+// const suman = require('C:\\Users\\denman\\WebstormProjects\\suman-private');
+const suman = require('/Users/Olegzandr/WebstormProjects/suman');
 const Test = suman.init(module, {});
 
 
-console.log('cwd:',process.cwd());
+console.log('cwd:', process.cwd());
 
 
 Test.describe('@TestsPoolio', function (assert, path) {
@@ -28,7 +28,7 @@ Test.describe('@TestsPoolio', function (assert, path) {
         });
 
 
-        this.it('test worker1 non-timeout 1', {timeout: 10000}, function (t) {
+        this.it('test worker1 non-timeout 1', {timeout: 10000}, t => {
 
             var to = setTimeout(function () {
                 throw new Error('Timed out');
@@ -45,10 +45,10 @@ Test.describe('@TestsPoolio', function (assert, path) {
         });
 
 
-        this.it('test worker1 expect-timeout', {timeout: 3000}, function (t, done) {
+        this.it.cb('test worker1 expect-timeout', {timeout: 3000}, t => {
 
             var to = setTimeout(function () {
-                done();
+                t.done();
             }, 2000);
 
             Promise.all([
@@ -57,12 +57,12 @@ Test.describe('@TestsPoolio', function (assert, path) {
                 pool.any('run')
             ]).then(function () {
                 clearTimeout(to);
-                done(new Error('Should have timed out, but didnt.'));
+                t.done(new Error('Should have timed out, but didnt.'));
             });
         });
 
 
-        this.it('test worker1 no-timeout 2', {timeout: 10000}, function (t) {
+        this.it('test worker1 no-timeout 2', {timeout: 10000}, t => {
 
             var to = setTimeout(function () {
                 throw new Error('Timed out');
@@ -82,7 +82,7 @@ Test.describe('@TestsPoolio', function (assert, path) {
         });
 
 
-        this.after(function (done) {
+        this.after.cb(t => {
 
             pool.on('worker-exited', function () {
                 console.log('worker-exited');
@@ -91,7 +91,7 @@ Test.describe('@TestsPoolio', function (assert, path) {
             pool.killAllImmediate().on('all-killed', function (msg) {
                 pool.removeAllListeners();
                 console.log('all killed');
-                done();
+                t.done();
             });
 
 
