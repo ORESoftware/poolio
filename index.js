@@ -134,7 +134,7 @@ function Pool(options) {
     }
 
     this.on('error', function (err) {
-        console.error(' => Poolio: unexpected internal error => ', err.stack);
+        console.error(' => Poolio: unexpected internal error => ', (err.stack || err));
     });
 
     for (var i = 0; i < this.size; i++) {

@@ -3,8 +3,7 @@
  */
 
 
-// const suman = require('C:\\Users\\denman\\WebstormProjects\\suman-private');
-const suman = require('/Users/Olegzandr/WebstormProjects/suman');
+const suman = require('suman');
 const Test = suman.init(module, {});
 
 
@@ -45,20 +44,20 @@ Test.describe('@TestsPoolio', {}, function (suite, path, async, assert) {
         ]).then(function (values) {
 
         }).catch(function (err) {
-            console.log('expected err:', err);
+            console.log('Poolio expected err:', err);
         });
 
     });
 
 
-    this.it('a', function (t, done) {
+    this.it('a', t => {
 
         var called = false;
 
         function call(err) {
             if (!called) {
                 called = true;
-                done(err);
+                t.done(err);
             }
         }
 
@@ -72,21 +71,19 @@ Test.describe('@TestsPoolio', {}, function (suite, path, async, assert) {
     });
 
 
-    this.it('c', function (done) {
+    this.it('c', t => {
 
         setTimeout(function () {
-            pool0.any('run').then(function () {
-                done();
-            }, function (err) {
+            pool0.any('run').then(t.fail, function (err) {
                 assert(err);
-                done();
+                t.done();
             });
         }, 1000);
 
     });
 
 
-    this.after(function (done) {
+    this.after(t => {
 
         async.each([pool0, pool1, pool2, pool3], function (p, cb) {
 
@@ -102,7 +99,7 @@ Test.describe('@TestsPoolio', {}, function (suite, path, async, assert) {
 
             p.once('error', cb);
 
-        }, done);
+        }, t.done);
 
 
     });

@@ -1,4 +1,3 @@
-
 //******************************************************************************************************************
 // this is for dependency injection, y'all
 // the purpose is to inject dependencies / values that are acquired *asynchronously*
@@ -15,7 +14,11 @@ module.exports = () => {  //load async deps for any of your suman tests
     return {
 
         //the following are examples
-        
+
+        'async': function () {
+            return require('async');
+        },
+
         'request': function () {
             return require('request');  //this is not very useful, but below we can see useful asynchronous loading of deps
         },
