@@ -6,103 +6,98 @@
 const suman = require('suman');
 const Test = suman.init(module, {});
 
+Test.describe('@TestsPoolio', {parallel: true}, function (suite, path, async, assert) {
 
-Test.describe('@TestsPoolio', {}, function (suite, path, async, assert) {
+	const Pool = require('../index');
 
+	const pool0 = new Pool({
+		pool_id: '***',
+		size: 1,
+		filePath: path.resolve(__dirname + '/test-workers/sample-file.js')
+	});
 
-    const Pool = require('../index');
+	const pool1 = new Pool({
+		pool_id: '**',
+		size: 3,
+		filePath: path.resolve(__dirname + '/test-workers/sample-file.js')
+	});
 
-    const pool0 = new Pool({
-        pool_id: '***',
-        size: 1,
-        filePath: path.resolve(__dirname + '/test-workers/sample-file.js')
-    });
+	const pool2 = new Pool({
+		pool_id: '###',
+		size: 4,
+		filePath: path.resolve(__dirname + '/test-workers/sample-file.js')
+	});
 
-    const pool1 = new Pool({
-        pool_id: '**',
-        size: 3,
-        filePath: path.resolve(__dirname + '/test-workers/sample-file.js')
-    });
+	const pool3 = new Pool({
+		size: 1,
+		filePath: path.resolve(__dirname + '/test-workers/sample-file.js')
+	});
 
-    const pool2 = new Pool({
-        pool_id: '###',
-        size: 4,
-        filePath: path.resolve(__dirname + '/test-workers/sample-file.js')
-    });
+	this.it('tests poolio', t => {
 
-    const pool3 = new Pool({
-        size: 1,
-        filePath: path.resolve(__dirname + '/test-workers/sample-file.js')
-    });
+		return Promise.all([
+			pool2.any('dog'),
+			pool3.any('big')
+		]).then(function (values) {
 
+		}).catch(function (err) {
+			console.log('Poolio expected err:', err);
+		});
 
-    this.it('tests poolio', t => {
+	});
 
-        return Promise.all([
-            pool2.any('dog'),
-            pool3.any('big')
-        ]).then(function (values) {
+	this.it.cb('a', t => {
 
-        }).catch(function (err) {
-            console.log('Poolio expected err:', err);
-        });
+		var called = false;
 
-    });
+		function call(err) {
+			if (!called) {
+				called = true;
+				t.pass();
+			}
+		}
 
+		pool0.any('run', function (err) {
+			assert(err);
+			call(err);
+		});
 
-    this.it('a', t => {
+		pool1.any('big', function (err) {
+			assert(!err);
+			call(err);
+		});
+	});
 
-        var called = false;
+	this.it.cb('c', t => {
 
-        function call(err) {
-            if (!called) {
-                called = true;
-                t.done(err);
-            }
-        }
+		setTimeout(function () {
+			pool0.any('run').then(t.fail, function (err) {
+				assert(err);
+				t.done();
+			});
+		}, 1000);
 
-        pool0.any('run', function (err) {
-            call(err);
-        });
+	});
 
-        pool1.any('big', function (err) {
-            call(err);
-        });
-    });
+	this.after.cb(t => {
 
+		async.each([pool0, pool1, pool2, pool3], function (p, cb) {
 
-    this.it('c', t => {
+			p.on('worker-exited', function () {
+				console.log('worker-exited');
+			});
 
-        setTimeout(function () {
-            pool0.any('run').then(t.fail, function (err) {
-                assert(err);
-                t.done();
-            });
-        }, 1000);
+			p.killAllImmediate().once('all-killed', function (msg) {
+				p.removeAllListeners();
+				console.log('all workers killed for pool with id=', p.__poolId);
+				cb();
+			});
 
-    });
+			p.once('error', cb);
 
+		}, t.done);
 
-    this.after(t => {
-
-        async.each([pool0, pool1, pool2, pool3], function (p, cb) {
-
-            p.on('worker-exited', function () {
-                console.log('worker-exited');
-            });
-
-            p.killAllImmediate().once('all-killed', function (msg) {
-                p.removeAllListeners();
-                console.log('all killed');
-                cb();
-            });
-
-            p.once('error', cb);
-
-        }, t.done);
-
-
-    });
+	});
 
 });
 

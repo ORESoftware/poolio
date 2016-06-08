@@ -1,98 +1,85 @@
-
-
 const suman = require('suman');
 const Test = suman.init(module, {});
 
+Test.describe('@TestsPoolio', {}, function (assert, path, async) {
 
-Test.describe('@TestsPoolio', function (assert, path) {
+	const Pool = require('../index');
 
-    const Pool = require('../index');
+	const pool = new Pool({
+		size: 3,
+		filePath: path.resolve(__dirname + '/test-workers/worker1')
+	});
 
-    const pool = new Pool({
-        size: 3,
-        filePath: path.resolve(__dirname + '/test-workers/worker1')
-    });
+	const pool1 = new Pool({
+		size: 9,
+		filePath: path.resolve(__dirname + '/test-workers/worker1')
+	});
 
-    const pool1 = new Pool({
-        size: 3,
-        filePath: path.resolve(__dirname + '/test-workers/worker1')
-    });
+	this.describe('actual do the tests', {parallel: false}, function () {
 
-    this.describe('actual do the tests', {parallel: true}, function () {
+		this.it('test worker1', function (t) {
+			return pool.any('run').then(function (msg) {
+				assert.equal(path.basename(msg, '.js'), 'worker1', t.desc + ' ---> failed');
+			});
+		});
 
-        this.it('test worker1', function (t) {
-            return pool.any('run').then(function (msg) {
-                assert.equal(path.basename(msg, '.js'), 'worker1', t.desc + ' ---> failed');
-            });
-        });
+		this.it('test worker1 non-timeout 1', {timeout: 5000}, t => {
 
+			return Promise.all([
+				pool.any('run'),
+				pool.any('run'),
+				pool.any('run')
+			]);
 
-        this.it('test worker1 non-timeout 1', {timeout: 10000}, t => {
+		});
 
-            var to = setTimeout(function () {
-                throw new Error('Timed out');
-            }, 9000);
+		this.it.cb('test worker1 expect-timeout', {timeout: 3000}, t => {
 
-            return Promise.all([
-                pool.any('run'),
-                pool.any('run'),
-                pool.any('run')
-            ]).then(function () {
-                clearTimeout(to);
-            });
+			const to = setTimeout(t.done, 2000);
 
-        });
+			Promise.all([
+				pool1.any('run'),
+				pool1.any('run'),
+				pool1.any('run')
+			]).then(function () {
+				clearTimeout(to);
+				t.done(new Error('Should have timed out, but didnt.'));
+			});
+		});
 
+		this.it('test worker1 no-timeout 2', {timeout: 2300}, t => {
 
-        this.it.cb('test worker1 expect-timeout', {timeout: 3000}, t => {
+			console.log('current size pool1:', pool1.getCurrentSize());
 
-            var to = setTimeout(t.done, 2000);
+			return Promise.all([
+				pool1.any('run'),
+				pool1.any('run'),
+				pool1.any('run'),
+				pool1.any('run'),
+				pool1.any('run'),
+				pool1.any('run')
+			]);
 
-            Promise.all([
-                pool1.any('run'),
-                pool1.any('run'),
-                pool1.any('run')
-            ]).then(function () {
-                clearTimeout(to);
-                t.done(new Error('Should have timed out, but didnt.'));
-            });
-        });
+		});
 
+		this.after.cb(t => {
 
-        this.it('test worker1 no-timeout 2', {timeout: 10000}, t => {
+			async.each([pool, pool1], function (p, cb) {
 
-            var to = setTimeout(function () {
-                throw new Error('Timed out');
-            }, 9000);
+				p.on('worker-exited', function () {
+					console.log('worker-exited');
+				});
 
-            return Promise.all([
-                pool1.any('run'),
-                pool1.any('run'),
-                pool1.any('run'),
-                pool1.any('run'),
-                pool1.any('run'),
-                pool1.any('run')
-            ]).then(function () {
-                clearTimeout(to);
-            });
+				p.killAllImmediate().on('all-killed', function (msg) {
+					p.removeAllListeners();
+					console.log('all killed');
+					cb();
+				});
 
-        });
+			}, t.done);
 
+		});
 
-        this.after.cb(t => {
-
-            pool.on('worker-exited', function () {
-                console.log('worker-exited');
-            });
-
-            pool.killAllImmediate().on('all-killed', function (msg) {
-                pool.removeAllListeners();
-                console.log('all killed');
-                t.done();
-            });
-
-        });
-
-    });
+	});
 
 });
