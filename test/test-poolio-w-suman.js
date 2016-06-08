@@ -1,12 +1,11 @@
-
-
 const suman = require('suman');
 const Test = suman.init(module, {});
 
+Test.describe('@TestsPoolio', {}, function (assert, path, async) {
 
-Test.describe('@TestsPoolio', {}, function (assert, path) {
 
     const Pool = require('../index');
+
 
     const pool = new Pool({
         size: 3,
@@ -14,11 +13,11 @@ Test.describe('@TestsPoolio', {}, function (assert, path) {
     });
 
     const pool1 = new Pool({
-        size: 3,
+        size: 9,
         filePath: path.resolve(__dirname + '/test-workers/worker1')
     });
 
-    this.describe('actual do the tests', {parallel: true}, function () {
+    this.describe('actual do the tests', {parallel: false}, function () {
 
         this.it('test worker1', function (t) {
             return pool.any('run').then(function (msg) {
@@ -26,27 +25,19 @@ Test.describe('@TestsPoolio', {}, function (assert, path) {
             });
         });
 
-
-        this.it('test worker1 non-timeout 1', {timeout: 10000}, t => {
-
-            var to = setTimeout(function () {
-                throw new Error('Timed out');
-            }, 9000);
+        this.it('test worker1 non-timeout 1', {timeout: 5000}, t => {
 
             return Promise.all([
                 pool.any('run'),
                 pool.any('run'),
                 pool.any('run')
-            ]).then(function () {
-                clearTimeout(to);
-            });
+            ]);
 
         });
 
-
         this.it.cb('test worker1 expect-timeout', {timeout: 3000}, t => {
 
-            var to = setTimeout(t.done, 2000);
+            const to = setTimeout(t.done, 2000);
 
             Promise.all([
                 pool1.any('run'),
@@ -58,12 +49,9 @@ Test.describe('@TestsPoolio', {}, function (assert, path) {
             });
         });
 
+        this.it('test worker1 no-timeout 2', {timeout: 2300}, t => {
 
-        this.it('test worker1 no-timeout 2', {timeout: 10000}, t => {
-
-            var to = setTimeout(function () {
-                throw new Error('Timed out');
-            }, 9000);
+            console.log('current size pool1:', pool1.getCurrentSize());
 
             return Promise.all([
                 pool1.any('run'),
@@ -72,26 +60,28 @@ Test.describe('@TestsPoolio', {}, function (assert, path) {
                 pool1.any('run'),
                 pool1.any('run'),
                 pool1.any('run')
-            ]).then(function () {
-                clearTimeout(to);
-            });
+            ]);
 
         });
-
 
         this.after.cb(t => {
 
-            pool.on('worker-exited', function () {
-                console.log('worker-exited');
-            });
+            async.each([pool, pool1], function (p, cb) {
 
-            pool.killAllImmediate().on('all-killed', function (msg) {
-                pool.removeAllListeners();
-                console.log('all killed');
-                t.done();
-            });
+                p.on('worker-exited', function () {
+                    console.log('worker-exited');
+                });
+
+                p.killAllImmediate().on('all-killed', function (msg) {
+                    p.removeAllListeners();
+                    console.log('all killed');
+                    cb();
+                });
+
+            }, t.done);
 
         });
+
 
     });
 
