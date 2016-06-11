@@ -16,7 +16,8 @@ module.exports = Object.freeze({
     cmdOpts: {
         //these can be set by the command line
     },
-    
+
+    testDir: 'test',
     runnerLock: true,
     transpile: false,                    //default, can be overridden with command line
     timeoutToSearchForAvailServer: 2000,
