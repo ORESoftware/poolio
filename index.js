@@ -97,8 +97,8 @@ function Pool(options) {
 	this.okToDelegate = false;
 	this.__poolId = '@poolio_pool_' + id++;
 
-	if (typeof options !== 'object') {
-		throw new Error('Options object should be defined for your poolio pool, even if it is an empty object, it is needed');
+	if (typeof options !== 'object' || Array.isArray(options)) {
+		throw new Error('Options object should be defined for your poolio pool, as "filePath" option property is required.');
 	}
 
 	Object.keys(options).forEach(function (key) {
@@ -110,26 +110,37 @@ function Pool(options) {
 	const opts = _.defaults(_.pick(options, acceptableConstructorOptions), defaultOpts);
 
 	assert(typeof opts.size === 'number' && opts.size > 0, 'Poolio pool size must an integer greater than 0.');
+	assert(opts.args && !Array.isArray(opts.args),
+		'"args" option passed to poolio pool, but args was not an array.');
+	assert(opts.execArgv && !Array.isArray(opts.execArgv),
+		'"execArgv" option passed to poolio pool, but execArgv was not an array.');
 
-	if (opts.args && !Array.isArray(opts.args)) {
-		throw new Error('"args" option passed to poolio pool, but args was not an array.');
+	//do this explicitly instead of using loop, for syntax highlighting
+	this.execArgv = opts.execArgv;
+	this.args = opts.args;
+
+	assert(opts.filePath, ' => Poolio: user error => you need to provide "filePath" option for Poolio constructor');
+
+	this.filePath = path.isAbsolute(opts.filePath) ? opts.filePath :
+		path.resolve(root + '/' + this.filePath);
+
+	if('size' in opts){
+		assert(typeof opts.size === 'number',
+			'Poolio init error => "size" property of options should be an integer.');
 	}
 
-	if (opts.execArgv && !Array.isArray(opts.execArgv)) {
-		throw new Error('"execArgv" option passed to poolio pool, but execArgv was not an array.');
+	this.size = opts.size;
+	if('addWorkerOnExit' in opts){
+		assert(typeof opts.addWorkerOnExit === 'boolean',
+			'Poolio init error => "addWorkerOnExit" property of options should be a boolean value.');
 	}
+	this.addWorkerOnExit = opts.addWorkerOnExit;
 
-	Object.keys(opts).forEach(key => {
-		this[key] = opts[key];
-	});
 
-	if (this.filePath == null) {
-		throw new Error(' => Poolio: user error => you need to provide "filePath" option for Poolio constructor');
-	}
-
-	if (!path.isAbsolute(this.filePath)) {
-		this.filePath = path.resolve(root + '/' + this.filePath);
-	}
+	this.silent = opts.silent;
+	this.stdin = opts.stdin;
+	this.stdout = opts.stdout;
+	this.stderr = opts.stderr;
 
 	this.on('error', function (err) {
 		console.error(' => Poolio: pool error => ', (err.stack || err));
@@ -185,7 +196,6 @@ Pool.prototype.addWorker = function () {
 	});
 
 	this.all.push(n);
-
 	this.emit('worker-created');
 
 	n.on('message', data => {
@@ -234,38 +244,38 @@ Pool.prototype.addWorker = function () {
 	} else {
 		this.available.push(n);
 	}
+
+	return this;
 };
 
 function removeSpecificWorker(pool, n) {
 
 	if (n) {
 		n.tempId = 'gonna-die';
-		pool.available = _.without(pool.available, _.findWhere(pool.available, {
-			tempId: 'gonna-die'
-		}));
-		pool.all = _.without(pool.all, _.findWhere(pool.all, {
-			tempId: 'gonna-die'
-		}));
+		markAsDead(pool);
 		n.kill();
 	} else {
 		console.error('no worker passed to removeWorker function.');
 	}
 }
 
+function markAsDead(pool) {
+	pool.all = pool.all.filter(n => n.tempId !== 'gonna-die');
+	pool.available = pool.available.filter(n => n.tempId !== 'gonna-die');
+}
+
 Pool.prototype.removeWorker = function () {
 
 	const n = this.available.pop();
-
 	if (n) {
 		n.tempId = 'gonna-die';
-		this.all = _.without(this.all, _.findWhere(this.all, {
-			tempId: 'gonna-die'
-		}));
+		markAsDead(this);
 		n.kill();
 	} else {
 		this.removeNext = true;
 	}
 
+	return this;
 };
 
 Pool.prototype.getCurrentSize = function () {
@@ -306,28 +316,19 @@ function handleCallback(pool, data) {
 	}
 }
 
-function killWorker(n) {
-	try {
-		n.kill();
-	}
-	catch (err) {
-		console.error(err);
-	}
-}
-
 function delegateWorker(pool, n) {
 
 	if (pool.kill) {
-		killWorker(n);
+		n.tempId = 'gonna-die';
+		removeSpecificWorker(pool, n);
+		n.kill();
 		return;
 	}
 
 	if (pool.removeNext) {
 		pool.removeNext = false;
 		n.tempId = 'gonna-die';
-		pool.all = _.without(pool.all, _.findWhere(pool.all, {
-			tempId: 'gonna-die'
-		}));
+		markAsDead(pool);
 		n.kill();
 		return; //don't push cp back on available queue
 	}
@@ -346,11 +347,11 @@ function delegateWorker(pool, n) {
 Pool.prototype.any = function (msg, cb) {
 
 	if (this.kill) {
-		console.log('warning: pool.any called on pool of dead/dying workers');
+		console.log('Poolio usage warning: pool.any() called on pool of dead/dying workers => ', '\n', 'use pool.addWorker() to replenish the pool.');
 		return;
 	}
 
-	debug('current available pool size for pool_id ' + this.pool_id + ' is: ' + this.available.length);
+	debug('current available pool size for pool_id ' + this.__poolId + ' is: ' + this.available.length);
 
 	const workId = this.jobIdCounter++;
 
@@ -375,16 +376,16 @@ Pool.prototype.any = function (msg, cb) {
 		}
 	});
 
-	var d;
+	const d = process.domain;
 
 	if (typeof cb === 'function') {
-		if (d = process.domain) d.bind(cb);
+		if (d) d.bind(cb);
 		this.resolutions[workId] = {
 			cb: cb
 		};
 	} else {
 		return new Promise((resolve, reject) => {
-			if (d = process.domain) {
+			if (d) {
 				d.bind(resolve);
 				d.bind(reject);
 			}
@@ -403,17 +404,17 @@ Pool.prototype.destroy = function () {
 	return this;
 };
 
-Pool.prototype.killAllOnlyWorking = function () {
+Pool.prototype.killAllActiveWorkers = function () {
 
 	this.all.forEach(n => {
-		const every = this.available.every(ntemp => {
-              return ntemp.workerId !== n.workerId;
-		});
-		if(every){  // if child process is not in the available list, we should kill it
+		// if child process is not in the available list, we should kill it
+		if (this.available.every(ntemp => ntemp.workerId !== n.workerId)) {
+			n.tempId = 'gonna-die';
 			n.kill();
 		}
 	});
 
+	markAsDead(this);
 	return this;
 };
 
@@ -421,13 +422,14 @@ Pool.prototype.killAll = function () {
 
 	this.kill = true;
 	this.available.forEach(n => {
+		n.tempId = 'gonna-die';
 		n.kill();
 	});
-
+	markAsDead(this);
 	return this;
 };
 
-Pool.prototype.killAllImmediate = function () {
+Pool.prototype.killAllImmediately = function () {
 
 	this.kill = true;
 	const length = this.all.length;
