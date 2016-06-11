@@ -403,6 +403,20 @@ Pool.prototype.destroy = function () {
 	return this;
 };
 
+Pool.prototype.killAllOnlyWorking = function () {
+
+	this.all.forEach(n => {
+		const every = this.available.every(ntemp => {
+              return ntemp.workerId !== n.workerId;
+		});
+		if(every){  // if child process is not in the available list, we should kill it
+			n.kill();
+		}
+	});
+
+	return this;
+};
+
 Pool.prototype.killAll = function () {
 
 	this.kill = true;
