@@ -1,6 +1,3 @@
-/**
- * Created by denman on 1/25/2016.
- */
 
 
 process.on('message', function (data) {

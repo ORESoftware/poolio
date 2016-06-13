@@ -1,9 +1,6 @@
-/**
- * Created by amills001c on 10/12/15.
- */
 
 
-
+//////
 process.on('message', function (data) {
 
     const workId = data.workId;
@@ -20,7 +17,7 @@ process.on('message', function (data) {
     else {
         process.send({
             msg: 'error',
-            error: 'unknown message',
+            error: '[some user error]',
             result: null,
             workId: workId
         });

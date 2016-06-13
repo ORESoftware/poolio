@@ -1,35 +1,37 @@
+
+
 const suman = require('suman');
 const Test = suman.init(module, {});
 
+//////////////
 Test.describe('@TestsPoolio', {parallel: true}, function (suite, path, async, assert) {
 
 	const Pool = require('..');
 
 	const data = [
 		{
-			pool_id: '***',
 			size: 1,
-			filePath: path.resolve(__dirname + '/test-workers/sample-file.js')
+			filePath: path.resolve(__dirname + '/fixtures/sample-file.js')
 		},
 		{
-			pool_id: '**',
 			size: 3,
-			filePath: path.resolve(__dirname + '/test-workers/sample-file.js')
+			filePath: path.resolve(__dirname + '/fixtures/sample-file.js')
 		},
 		{
-			pool_id: '###',
 			size: 4,
-			filePath: path.resolve(__dirname + '/test-workers/sample-file.js')
+			filePath: path.resolve(__dirname + '/fixtures/sample-file.js')
 		},
 		{
 			size: 1,
-			filePath: path.resolve(__dirname + '/test-workers/sample-file.js')
+			filePath: path.resolve(__dirname + '/fixtures/sample-file.js')
 		}
 	];
 
 	data.forEach(p => {
 
 		const pool = new Pool(p);
+
+		pool.on('error',function noop(){});
 
 		this.describe('test unique pool', function () {
 
@@ -85,13 +87,12 @@ Test.describe('@TestsPoolio', {parallel: true}, function (suite, path, async, as
 
 				// t.plan(1);
 
-				pool.on('worker-exited', function () {
-					console.log('worker-exited');
+				pool.on('worker-exited', function (code, signal, workerId) {
+					console.log('worker exited with code/signal:',code, signal, workerId);
 				});
 
-				pool.killAllImmediate().once('all-killed', function (msg) {
+				pool.killAllImmediately().once('all-killed', function (msg) {
 					// t.confirm();
-					pool.removeAllListeners();
 					console.log('all workers killed for pool with id=', pool.__poolId);
 					t.ctn();
 				});

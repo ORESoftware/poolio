@@ -23,8 +23,6 @@ process.on('message', function (data) {
 
     function run() {
 
-        console.log(module.filename + ' running ...');
-
         setTimeout(function () {
 
             process.send({

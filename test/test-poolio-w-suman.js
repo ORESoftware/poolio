@@ -10,19 +10,19 @@ Test.describe('@TestsPoolio', {}, function (assert, path, async) {
 
     const pool = new Pool({
         size: 3,
-        filePath: path.resolve(__dirname + '/test-workers/worker1')
+        filePath: path.resolve(__dirname + '/fixtures/worker1')
     });
 
     const pool1 = new Pool({
         size: 9,
-        filePath: path.resolve(__dirname + '/test-workers/worker1')
+        filePath: path.resolve(__dirname + '/fixtures/worker1')
     });
 
-    this.describe('actual do the tests', {parallel: false}, function () {
+    this.describe('actual do the tests', {parallel: true}, function () {
 
         this.it('test worker1', function (t) {
             return pool.any('run').then(function (msg) {
-                assert.equal(path.basename(msg, '.js'), 'worker1', t.desc + ' ---> failed');
+                assert.equal(path.basename(msg, '.js'), 'worker1', t.desc + ' => failed');
             });
         });
 
@@ -39,6 +39,8 @@ Test.describe('@TestsPoolio', {}, function (assert, path, async) {
         ////
         this.it.cb('test worker1 expect-timeout', {timeout: 3000}, t => {
 
+            console.log('current stats pool1:', pool1.getCurrentSize());
+
             const to = setTimeout(t.done, 2000);
 
             Promise.all([
@@ -47,13 +49,13 @@ Test.describe('@TestsPoolio', {}, function (assert, path, async) {
                 pool1.any('run')
             ]).then(function () {
                 clearTimeout(to);
-                t.done(new Error('Should have timed out, but didnt.'));
+                t.fail(new Error('Should have timed out, but didnt.'));
             });
         });
 
         this.it('test worker1 no-timeout 2', {timeout: 2300}, t => {
 
-            console.log('current size pool1:', pool1.getCurrentSize());
+            console.log('current stats pool1:', pool1.getCurrentSize());
 
             return Promise.all([
                 pool1.any('run'),
@@ -71,19 +73,20 @@ Test.describe('@TestsPoolio', {}, function (assert, path, async) {
             async.each([pool, pool1], function (p, cb) {
 
                 p.on('worker-exited', function () {
-                    console.log('worker-exited');
+                    console.log('worker exited with code/signal/workerId:',
+                        Array.prototype.slice.apply(arguments));
                 });
 
-                p.killAllImmediate().on('all-killed', function (msg) {
+                p.killAllImmediately().on('all-killed', function (msg) {
                     p.removeAllListeners();
-                    console.log('all killed');
+                    console.log('all workers killed for pool with id=', pool.__poolId);
                     cb();
                 });
 
             }, t.done);
 
         });
-        
+
     });
 
 });
