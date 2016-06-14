@@ -12,7 +12,7 @@ module.exports = Object.freeze({
     match: [],                          //recommended =>  match: ['.test.js'],
     notMatch: ['fixture'],
     testDir: 'test',
-    sumanHelpersDir: 'suman',
+    sumanHelpersDir: 'test/_suman',
     defaultTestDir: 'test-target/src',
     testSrcDirectory: 'test/src',
     testDestDirectory: 'test/target',

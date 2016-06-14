@@ -52,15 +52,15 @@ const root = residence.findProjectRoot(process.cwd());
 ////////////////////////////////////////////////////
 
 const acceptableConstructorOptions = [
-	'execArgv',
-	'args',
-	'size',
-	'filePath',
-	'addWorkerOnExit',
-	'silent',
-	'stdin',
-	'stdout',
-	'stderr'
+    'execArgv',
+    'args',
+    'size',
+    'filePath',
+    'addWorkerOnExit',
+    'silent',
+    'stdin',
+    'stdout',
+    'stderr'
 ];
 
 ////////////////////////////////////////////////////////
@@ -69,13 +69,13 @@ var id = 1; //avoid falsy 0 values, just start with 1
 
 //opts
 const defaultOpts = {
-	filePath: null,
-	addWorkerOnExit: false,
-	size: 1,
-	silent: false,
-	env: process.env,
-	execArgv: [],
-	args: []
+    filePath: null,
+    addWorkerOnExit: false,
+    size: 1,
+    silent: false,
+    env: process.env,
+    execArgv: [],
+    args: []
 };
 
 ///////////////////////////////////////////////////////
@@ -83,97 +83,97 @@ const defaultOpts = {
 //constructor
 function Pool(options) {
 
-	EE.call(this);
+    EE.call(this);
 
-	//internal
-	this.kill = false;
-	this.all = [];
-	this.available = [];
-	this.msgQueue = [];
-	this.resolutions = {};
-	this.removeNextAvailableWorker = false;
-	this.workerIdCounter = 1; //avoid falsy 0 values, start with 1
-	this.jobIdCounter = 1; //avoid falsy 0 values, start with 1
-	this.okToDelegate = false;
-	this.__poolId = '@poolio_pool_' + id++;
+    //internal
+    this.kill = false;
+    this.all = [];
+    this.available = [];
+    this.msgQueue = [];
+    this.resolutions = {};
+    this.removeNextAvailableWorker = false;
+    this.workerIdCounter = 1; //avoid falsy 0 values, start with 1
+    this.jobIdCounter = 1; //avoid falsy 0 values, start with 1
+    this.okToDelegate = false;
+    this.__poolId = '@poolio_pool_' + id++;
 
-	if (typeof options !== 'object' || Array.isArray(options)) {
-		throw new Error('Options object should be defined for your poolio pool, as "filePath" option property is required.');
-	}
+    if (typeof options !== 'object' || Array.isArray(options)) {
+        throw new Error('Options object should be defined for your poolio pool, as "filePath" option property is required.');
+    }
 
-	Object.keys(options).forEach(function (key) {
-		if (acceptableConstructorOptions.indexOf(key) < 0) {
-			console.log(' => Poolio message => the following option property is not a valid Poolio constructor option:', key);
-		}
-	});
+    Object.keys(options).forEach(function (key) {
+        if (acceptableConstructorOptions.indexOf(key) < 0) {
+            console.log(' => Poolio message => the following option property is not a valid Poolio constructor option:', key);
+        }
+    });
 
-	const opts = _.defaults(_.pick(options, acceptableConstructorOptions), defaultOpts);
+    const opts = _.defaults(_.pick(options, acceptableConstructorOptions), defaultOpts);
 
-	assert(typeof opts.size === 'number' && opts.size > 0, 'Poolio pool size must an integer greater than 0.');
-	// assert(opts.args && !Array.isArray(opts.args),
-	// 	'"args" option passed to poolio pool, but args was not an array => ' + JSON.stringify(opts));
-	// assert(opts.execArgv && !Array.isArray(opts.execArgv),
-	// 	'"execArgv" option passed to poolio pool, but execArgv was not an array.');
+    assert(typeof opts.size === 'number' && opts.size > 0, 'Poolio pool size must an integer greater than 0.');
+    // assert(opts.args && !Array.isArray(opts.args),
+    // 	'"args" option passed to poolio pool, but args was not an array => ' + JSON.stringify(opts));
+    // assert(opts.execArgv && !Array.isArray(opts.execArgv),
+    // 	'"execArgv" option passed to poolio pool, but execArgv was not an array.');
 
-	//do this explicitly instead of using loop, for syntax highlighting
-	this.execArgv = opts.execArgv;
-	this.args = opts.args;
+    //do this explicitly instead of using loop, for syntax highlighting
+    this.execArgv = opts.execArgv;
+    this.args = opts.args;
 
-	assert(opts.filePath, ' => Poolio: user error => you need to provide "filePath" option for Poolio constructor');
+    assert(opts.filePath, ' => Poolio: user error => you need to provide "filePath" option for Poolio constructor');
 
-	this.filePath = path.isAbsolute(opts.filePath) ? opts.filePath :
-		path.resolve(root + '/' + this.filePath);
+    this.filePath = path.isAbsolute(opts.filePath) ? opts.filePath :
+        path.resolve(root + '/' + this.filePath);
 
-	if(path.extname(this.filePath) === '') {
-		this.filePath = this.filePath.concat('.js');
-	}
+    if (path.extname(this.filePath) === '') {
+        this.filePath = this.filePath.concat('.js');
+    }
 
-	var isFile = false;
-	try{
-		isFile = fs.statSync(this.filePath).isFile()
-	}
-	catch(e){
+    var isFile = false;
+    try {
+        isFile = fs.statSync(this.filePath).isFile()
+    }
+    catch (e) {
         throw new Error('=> Poolio worker pool constructor error: "filePath" property passed is not a file => ' + this.filePath + '\n' + e.stack);
-	}
+    }
 
-	assert(isFile,' => Poolio constructor error: filePath is not a file => ' + this.filePath);
+    assert(isFile, ' => Poolio constructor error: filePath is not a file => ' + this.filePath);
 
-	if ('size' in opts) {
-		assert(typeof opts.size === 'number',
-			'Poolio init error => "size" property of options should be an integer.');
-	}
+    if ('size' in opts) {
+        assert(typeof opts.size === 'number',
+            'Poolio init error => "size" property of options should be an integer.');
+    }
 
-	this.size = opts.size;
+    this.size = opts.size;
 
-	if ('addWorkerOnExit' in opts) {
-		assert(typeof opts.addWorkerOnExit === 'boolean',
-			'Poolio init error => "addWorkerOnExit" property of options should be a boolean value.');
-	}
-	this.addWorkerOnExit = opts.addWorkerOnExit;
+    if ('addWorkerOnExit' in opts) {
+        assert(typeof opts.addWorkerOnExit === 'boolean',
+            'Poolio init error => "addWorkerOnExit" property of options should be a boolean value.');
+    }
+    this.addWorkerOnExit = opts.addWorkerOnExit;
 
-	if ('silent' in opts) {
-		assert(typeof opts.silent === 'boolean',
-			'Poolio init error => "silent" property of options should be a boolean value.');
-	}
+    if ('silent' in opts) {
+        assert(typeof opts.silent === 'boolean',
+            'Poolio init error => "silent" property of options should be a boolean value.');
+    }
 
-	this.silent = opts.silent;
-	this.stdin = opts.stdin;
-	this.stdout = opts.stdout;
-	this.stderr = opts.stderr;
+    this.silent = opts.silent;
+    this.stdin = opts.stdin;
+    this.stdout = opts.stdout;
+    this.stderr = opts.stderr;
 
-	this.on('error', err => {
-		if (this.listenerCount('error') === 1) {
-			console.error(' => Poolio: your worker pool experienced an error => ', (err.stack || err));
-			console.error(' => Poolio => please add your own "error" event listener using pool.on("error", fn) ' +
-				'to prevent these error messages from being logged.');
-		}
-	});
+    this.on('error', err => {
+        if (this.listenerCount('error') === 1) {
+            console.error(' => Poolio: your worker pool experienced an error => ', (err.stack || err));
+            console.error(' => Poolio => please add your own "error" event listener using pool.on("error", fn) ' +
+                'to prevent these error messages from being logged.');
+        }
+    });
 
-	for (var i = 0; i < this.size; i++) {
-		this.addWorker();
-	}
+    for (var i = 0; i < this.size; i++) {
+        this.addWorker();
+    }
 
-	this.okToDelegate = true;
+    this.okToDelegate = true;
 
 }
 
@@ -181,287 +181,301 @@ util.inherits(Pool, EE);
 
 Pool.prototype.addWorker = function () {
 
-	const id = this.workerIdCounter++;
-	const execArgv = JSON.parse(JSON.stringify(this.execArgv)); //copy execArgv
+    const execArgv = JSON.parse(JSON.stringify(this.execArgv)); //copy execArgv
 
-	if (isDebug) {
-		execArgv.push('--debug=' + (53034 + id)); //http://stackoverflow.com/questions/16840623/how-to-debug-node-js-child-forked-process
-	}
+    if (isDebug) {
+        execArgv.push('--debug=' + (53034 + id)); //http://stackoverflow.com/questions/16840623/how-to-debug-node-js-child-forked-process
+    }
 
-	const n = cp.fork(this.filePath, this.args, {
-		detached: false,
-		execArgv: execArgv,
-		silent: this.silent,
-		env: this.env
-	});
+    const n = cp.fork(this.filePath, this.args, {
+        detached: false,
+        execArgv: execArgv,
+        silent: this.silent,
+        env: this.env
+    });
 
-	if (this.silent) {
-		if (this.stdout) {
-			n.stdio[1].pipe(typeof this.stdout === 'function' ? this.stdout() : this.stdout); // fs.createWriteStream(p1)
-		}
-		if (this.stderr) {
-			n.stdio[2].pipe(typeof this.stderr === 'function' ? this.stderr() : this.stderr);
-		}
-	}
+    if (this.silent) {
+        if (this.stdout) {
+            n.stdio[1].pipe(typeof this.stdout === 'function' ? this.stdout() : this.stdout); // fs.createWriteStream(p1)
+        }
+        if (this.stderr) {
+            n.stdio[2].pipe(typeof this.stderr === 'function' ? this.stderr() : this.stderr);
+        }
+    }
 
-	n.workerId = id;
+    n.workerId = this.workerIdCounter++;
 
-	n.on('error', err => {
-		this.emit('worker-error', err);
-	});
+    n.on('error', err => {
+        this.emit('worker-error', err, n.workerId);
+    });
 
-	n.once('exit', (code, signal) => {
+    n.once('exit', (code, signal) => {
 
-		this.emit('worker-exited', code, signal, n.workerId);
+        n.removeAllListeners();
+        this.emit('worker-exited', code, signal, n.workerId);
+        removeSpecificWorker(this, n, true);
 
-		//TODO: worker is already dead, obviously, but we will remove the worker forcibly
-		removeSpecificWorker(this, n);
-		if (this.addWorkerOnExit) {
-			this.addWorker();
-		}
-		else {
-			if (this.all.length < 1) {
-				this.kill = false;
-				this.emit('all-killed', null);
-			}
-		}
-	});
+        if (this.addWorkerOnExit) {
+            this.addWorker();
+        }
+        else {
+            if (this.all.length < 1) {
+                this.kill = false;
+                this.emit('all-killed', null);
+            }
+        }
+    });
 
-	n.on('message', data => {
-		debug('message from worker: ' + data);
-		if (!data.workId) {
-			console.error(' => Poolio warning => message sent from worker with' +
-				' no workId => ', '\n', JSON.stringify(data));
-		}
-		switch (data.msg) {
-			case 'done':
-				handleCallback(this, data);
-				break;
-			case 'return/to/pool':
-				delegateWorker(this, n);
-				break;
-			case 'done/return/to/pool':
-				handleCallback(this, data); //probably want to handle callback first
-				delegateWorker(this, n);
-				break;
-			case 'error':
-				this.emit('error', data); // TODO: handle this error event
-				handleCallback(this, data);
-				delegateWorker(this, n);
-				break;
-			case 'fatal':
-				this.emit('error', data); // TODO: handle this error event
-				handleCallback(this, data);
-				removeSpecificWorker(this, n);
-				break;
-			default:
-				this.emit('error', new Error('Poolio warning: your Poolio worker sent a' +
-					' message that was not recognized by the Poolio library.'))
-		}
-	});
+    n.on('message', data => {
+        debug('message from worker: ' + data);
+        if (!data.workId) {
+            console.error(' => Poolio warning => message sent from worker with no workId => ', '\n', JSON.stringify(data));
+        }
+        switch (data.msg) {
+            case 'done':
+                handleCallback(this, data);
+                break;
+            case 'return/to/pool':
+                delegateWorker(this, n);
+                break;
+            case 'done/return/to/pool':
+                handleCallback(this, data); //probably want to handle callback first
+                delegateWorker(this, n);
+                break;
+            case 'error':
+                this.emit('error', data); // TODO: handle this error event
+                handleCallback(this, data);
+                delegateWorker(this, n);
+                break;
+            case 'fatal':
+                this.emit('error', data); // TODO: handle this error event
+                handleCallback(this, data);
+                removeSpecificWorker(this, n);
+                break;
+            default:
+                this.emit('error', new Error('Poolio warning: your Poolio worker sent a message that ' +
+                    'was not recognized by the Poolio library.'))
+        }
+    });
 
-	this.all.push(n);
-	this.emit('worker-created');
+    this.all.push(n);
+    this.emit('worker-created', n.workerId);
+    this.emit('worker-added', n.workerId);
 
-	if (this.okToDelegate) {
-		//TODO: bug - we should be able to just call delegateCP from here, but there is some problem with that
-		if (this.msgQueue.length > 0) {
-			n.send(this.msgQueue.shift());
-		} else {
-			this.available.push(n);
-		}
-	} else {
-		this.available.push(n);
-	}
+    if (this.okToDelegate) {
+        //TODO: bug - we should be able to just call delegateCP from here, but there is some problem with that
+        if (this.msgQueue.length > 0) {
+            n.send(this.msgQueue.shift());
+        } else {
+            this.available.push(n);
+        }
+    } else {
+        this.available.push(n);
+    }
 
-	return this;
+    return this;
+
 };
 
-function removeSpecificWorker(pool, n) {
+function removeSpecificWorker(pool, n, doNotCallKill) {
 
-	if (n) {
-		n.tempId = 'gonna-die';
-		resetDueToDeadWorkers(pool);
-		n.kill();
-	} else {
-		console.error(' => Poolio internal error: no worker passed to internal removeSpecificWorker() function.');
-	}
+    if (n) {
+        n.tempId = 'gonna-die';
+        resetDueToDeadWorkers(pool);
+        if (!doNotCallKill) {
+            n.kill();
+        }
+
+    } else {
+        console.error(' => Poolio internal error: no worker passed to internal ' +
+            'removeSpecificWorker() function.');
+    }
 }
 
 function resetDueToDeadWorkers(pool) {
-	pool.all = pool.all.filter(n => n.tempId !== 'gonna-die');
-	pool.available = pool.available.filter(n => n.tempId !== 'gonna-die');
+    pool.all = pool.all.filter(n => n.tempId !== 'gonna-die');
+    pool.available = pool.available.filter(n => n.tempId !== 'gonna-die');
 }
 
 Pool.prototype.removeWorker = function () {
 
-	const n = this.available.pop();
-	if (n) {
-		removeSpecificWorker(this, n);
-	} else {
-		this.removeNextAvailableWorker = true;
-	}
+    if (this.all.length < 1) {
+        console.error(' => Poolio warning => Cannot remove worker from pool of 0 workers.');
+    }
+    else if (this.all.length === 1 && this.removeNextAvailableWorker) {
+        console.error(' => Poolio warning => Already removed last worker, there will soon' +
+            ' be 0 workers in the pool.');
+    }
+    else {
+        const n = this.available.pop();
+        if (n) {
+            removeSpecificWorker(this, n);
+            this.emit('worker-removed', n.workerId);
+        } else {
+            this.removeNextAvailableWorker = true;
+        }
+    }
 
-	return this;
+    return this;
 };
 
 Pool.prototype.getCurrentSize = Pool.prototype.getCurrentStats = function () {
-	return {
-		available: this.available.length,
-		all: this.all.length
-	}
+    return {
+        available: this.available.length,
+        all: this.all.length
+    }
 };
 
 function handleCallback(pool, data) {
 
-	const workId = data.workId;
-	const cbOrPromise = pool.resolutions[workId];
+    const workId = data.workId;
+    const cbOrPromise = pool.resolutions[workId];
 
-	delete pool.resolutions[workId];
+    delete pool.resolutions[workId];
 
-	if (cbOrPromise) {
-		if (data.error) {
-			const err = new Error(data.error);
-			if (cbOrPromise.cb) {
-				cbOrPromise.cb(err);
-			} else if (cbOrPromise.reject) {
-				cbOrPromise.reject(err)
-			} else {
-				console.error('Internal Poolio error => no resolution callback fn available [a].')
-			}
-		} else {
-			if (cbOrPromise.cb) {
-				cbOrPromise.cb(null, data.result);
-			} else if (cbOrPromise.resolve) {
-				cbOrPromise.resolve(data.result);
-			} else {
-				console.error('Internal Poolio error => no resolution callback fn available [b].')
-			}
-		}
-	} else {
-		console.error('Internal Poolio error => this should not happen - but might if a callback is attempted to be called more than once.')
-	}
+    if (cbOrPromise) {
+        if (data.error) {
+            const err = new Error(data.error);
+            if (cbOrPromise.cb) {
+                cbOrPromise.cb(err);
+            } else if (cbOrPromise.reject) {
+                cbOrPromise.reject(err)
+            } else {
+                console.error('Internal Poolio error => no resolution callback fn available [a].')
+            }
+        } else {
+            if (cbOrPromise.cb) {
+                cbOrPromise.cb(null, data.result);
+            } else if (cbOrPromise.resolve) {
+                cbOrPromise.resolve(data.result);
+            } else {
+                console.error('Internal Poolio error => no resolution callback fn available [b].')
+            }
+        }
+    } else {
+        console.error('Internal Poolio error => this should not happen - but might if' +
+            ' a callback is attempted to be called more than once.')
+    }
 }
 
 function delegateWorker(pool, n) {
 
-	if (pool.kill) {
-		removeSpecificWorker(pool, n);
-		return;
-	}
+    if (pool.kill) {
+        removeSpecificWorker(pool, n);
+        return;
+    }
 
-	if (pool.removeNextAvailableWorker) {
-		pool.removeNextAvailableWorker = false;
-		removeSpecificWorker(pool, n);
-		return; //note: don't push cp back on available queue
-	}
+    if (pool.removeNextAvailableWorker) {
+        pool.removeNextAvailableWorker = false;
+        removeSpecificWorker(pool, n);
+        this.emit('worker-removed', n.workerId);
+        return; //note: don't push cp back on available queue
+    }
 
-	if (pool.msgQueue.length > 0) {
-		const msg = pool.msgQueue.shift();
-		msg.__poolioWorkerId = n.workerId;
-		n.send(msg);
-	} else {
-		debug('worker is available and is back in the pool');
-		pool.available.push(n);
-		debug('pool size for pool ' + pool.pool_id + ' is: ' + pool.available.length);
-	}
+    if (pool.msgQueue.length > 0) {
+        const msg = pool.msgQueue.shift();
+        msg.__poolioWorkerId = n.workerId;
+        n.send(msg);
+    } else {
+        pool.available.push(n);
+    }
 }
 
 Pool.prototype.any = function (msg, cb) {
 
-	if (this.kill) {
-		console.error('\n',' => Poolio usage warning: pool.any() called on pool of dead/dying workers => ', '\n', 'use pool.addWorker() to replenish the pool.');
-		return;
-	}
+    if (this.kill) {
+        console.error('\n', ' => Poolio usage warning: pool.any() called on pool of dead/dying workers => ', '\n', 'use pool.addWorker() to replenish the pool.');
+        return;
+    }
 
-	if (this.all.length < 1) {
-		console.error('\n',' => Poolio usage warning: you called pool.any() but your worker pool has 0 workers most likely because all have exited => ' +
-			'you need to call pool.addWorker() to replenish the pool, or use the {addWorkerOnExit:true} option.');
-		return;
-	}
+    if (this.all.length < 1) {
+        console.error('\n', ' => Poolio usage warning: you called pool.any() but your worker pool has 0 workers most likely because all have exited => ' +
+            'you need to call pool.addWorker() to replenish the pool, or use the {addWorkerOnExit:true} option.');
+        return;
+    }
 
-	debug('current available pool size for pool_id ' + this.__poolId + ' is: ' + this.available.length);
+    debug('current available pool size for pool_id ' + this.__poolId + ' is: ' + this.available.length);
 
-	const workId = this.jobIdCounter++;
+    const workId = this.jobIdCounter++;
 
-	setImmediate(() => {
-		if (this.available.length > 0) {
-			const n = this.available.shift();
-			n.send({
-				msg: msg,
-				workId: workId,
-				__poolioWorkerId: n.workerId
-			});
-		} else {
+    setImmediate(() => {
+        if (this.available.length > 0) {
+            const n = this.available.shift();
+            n.send({
+                msg: msg,
+                workId: workId,
+                __poolioWorkerId: n.workerId
+            });
+        } else {
 
-			if (this.all.length < 1) {
-				console.log('Poolio warning: your Poolio pool has been reduced to size of 0 workers, you will have to add a worker to process new and/or existing messages.');
-			}
+            if (this.all.length < 1) {
+                console.log('Poolio warning: your Poolio pool has been reduced to size of 0 workers, you will have to add a worker to process new and/or existing messages.');
+            }
 
-			this.msgQueue.push({
-				workId: workId,
-				msg: msg
-			});
-		}
-	});
+            this.msgQueue.push({
+                workId: workId,
+                msg: msg
+            });
+        }
+    });
 
-	const d = process.domain;
+    const d = process.domain;
 
-	if (typeof cb === 'function') {
-		if (d) d.bind(cb);
-		this.resolutions[workId] = {
-			cb: cb
-		};
-	} else {
-		return new Promise((resolve, reject) => {
-			if (d) {
-				d.bind(resolve);
-				d.bind(reject);
-			}
-			this.resolutions[workId] = {
-				resolve: resolve,
-				reject: reject
-			};
-		});
-	}
+    if (typeof cb === 'function') {
+        if (d) d.bind(cb);
+        this.resolutions[workId] = {
+            cb: cb
+        };
+    } else {
+        return new Promise((resolve, reject) => {
+            if (d) {
+                d.bind(resolve);
+                d.bind(reject);
+            }
+            this.resolutions[workId] = {
+                resolve: resolve,
+                reject: reject
+            };
+        });
+    }
 };
 
 Pool.prototype.destroy = function () {
 
-	// killall and remove all listeners
+    // killall and remove all listeners
 
-	return this;
+    return this;
 };
 
 Pool.prototype.killAllActiveWorkers = function () {
 
-	this.all.forEach(n => {
-		// if child process is not in the available list, we should kill it
-		if (this.available.every(ntemp => ntemp.workerId !== n.workerId)) {
-			removeSpecificWorker(this, n);
-		}
-	});
-	
-	return this;
+    this.all.forEach(n => {
+        // if child process is not in the available list, we should kill it
+        if (this.available.every(ntemp => ntemp.workerId !== n.workerId)) {
+            removeSpecificWorker(this, n);
+        }
+    });
+
+    return this;
 };
 
 Pool.prototype.killAll = function () {
 
-	this.kill = true;
-	this.available.forEach(n => {
-		removeSpecificWorker(this, n);
-	});
-	return this;
+    this.kill = true;
+    this.available.forEach(n => {
+        removeSpecificWorker(this, n);
+    });
+    return this;
 };
 
 Pool.prototype.killAllImmediately = function () {
 
-	this.kill = true;
-	this.all.forEach(n => {
-		removeSpecificWorker(this, n);
-	});
+    this.kill = true;
+    this.all.forEach(n => {
+        removeSpecificWorker(this, n);
+    });
 
-	return this;
+    return this;
 
 };
 

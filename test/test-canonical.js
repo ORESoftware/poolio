@@ -3,7 +3,8 @@
 const suman = require('suman');
 const Test = suman.init(module, {});
 
-//////////////
+/////////
+
 Test.describe('@TestsPoolio', {parallel: true}, function (suite, path, async, assert) {
 
 	const Pool = require('..');
@@ -37,13 +38,15 @@ Test.describe('@TestsPoolio', {parallel: true}, function (suite, path, async, as
 
 			this.it('tests poolio', t => {
 
+                t.plan(1);
+
 				return Promise.all([
 					pool.any('dog'),
 					pool.any('big')
 				]).then(function (values) {
 
-				}).catch(function (err) {
-					console.log('Poolio expected err:', err);
+				}).catch(function (e) {
+					t.confirm(); ////
 				});
 
 			});
