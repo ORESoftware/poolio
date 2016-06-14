@@ -1,7 +1,7 @@
 
 
  => Suman watcher => file changed:
-/Users/amills/WebstormProjects/oresoftware/poolio/test/test-hook-params.js
+/Users/amills/WebstormProjects/oresoftware/poolio/test/test-canonical.js
 
  => file will first be transpiled/copied.
  => file transpiled successfully.
@@ -13,7 +13,7 @@
 
  [44m[37m[1m Suman will attempt to execute test files with/within the following paths: [22m[39m[49m 
 
- 	 1 => [34m"/Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-hook-params.js"[39m
+ 	 1 => [34m"/Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-canonical.js"[39m
 
 [90m[3m
 
@@ -22,74 +22,90 @@
 
 [23m[39m
 
-workId: 2 workerId: 2
+workId: 1 workerId: 1
+	 ✔  'tests poolio' (76ms)
+workId: 2 workerId: 1
 working (DoBig)...
 workId: 1 workerId: 1
-working (DoBig)...
-workId: 4 workerId: 4
-working (DoBig)...
-workId: 5 workerId: 5
-working (DoBig)...
-workId: 3 workerId: 3
-working (DoBig)...
-workId: 1 workerId: 1
+	 ✔  'tests poolio' (88ms)
+workId: 4 workerId: 1
 working (DoBig)...
 workId: 2 workerId: 2
 working (DoBig)...
 workId: 3 workerId: 3
-working (DoBig)...
-workId: 4 workerId: 4
-working (DoBig)...
-workId: 5 workerId: 5
-working (DoBig)...
-workId: 6 workerId: 2
-working (DoBig)...
-workId: 7 workerId: 1
-working (DoBig)...
-workId: 4 workerId: 4
+working (run)...
+workId: 1 workerId: 1
+workId: 1 workerId: 1
 workId: 2 workerId: 2
+	 ✔  'tests poolio' (119ms)
 working (DoBig)...
+	 ✔  'tests poolio' (120ms)
+workId: 2 workerId: 1
 working (DoBig)...
 workId: 3 workerId: 3
-working (DoBig)...
-workId: 1 workerId: 1
-working (DoBig)...
-workId: 3 workerId: 3
-working (DoBig)...
-workId: 5 workerId: 5
-workId: 2 workerId: 2
-working (DoBig)...
-working (DoBig)...
 workId: 4 workerId: 4
+working (run)...
 working (DoBig)...
-workId: 1 workerId: 1
-workId: 5 workerId: 5
+workId: 3 workerId: 1
+working (run)...
+	 ✔  'a' (107ms)
+workId: 3 workerId: 1
+working (run)...
+	 ✔  'a' (112ms)
+	 ✔  'a' (212ms)
+workId: 4 workerId: 1
 working (DoBig)...
+	 ✔  'a' (208ms)
+workId: 4 workerId: 1
 working (DoBig)...
-workId: 6 workerId: 1
-working (DoBig)...
-workId: 7 workerId: 2
-working (DoBig)...
-	 ✔  '(no description)' (< 1ms)
-workId: 6 workerId: 2
-working (DoBig)...
-workId: 7 workerId: 4
-working (DoBig)...
-workId: 6 workerId: 1
-working (DoBig)...
-workId: 7 workerId: 3
-working (DoBig)...
-	 ✔  '(no description)' (1ms)
-	 ✔  '(no description)' (< 1ms)
-	 ✔  '(no description)' (< 1ms)
+workId: 5 workerId: 1
+working (run)...
+workId: 5 workerId: 1
+working (run)...
+	 ✔  'c' (1105ms)
+workId: 5 workerId: 1
+working (run)...
+worker exited with code/signal: null SIGTERM 1
+all workers killed for pool with id= @poolio_pool_2
+worker exited with code/signal: null SIGTERM 2
+worker exited with code/signal: null SIGTERM 3
+workId: 5 workerId: 1
+working (run)...
+	 ✔  'c' (1104ms)
+worker exited with code/signal: null SIGTERM 1
+all workers killed for pool with id= @poolio_pool_3
+worker exited with code/signal: null SIGTERM 2
+worker exited with code/signal: null SIGTERM 3
+worker exited with code/signal: null SIGTERM 4
+	 ✔  'c' (1106ms)
+worker exited with code/signal: null SIGTERM 1
+all workers killed for pool with id= @poolio_pool_1
+	 ✔  'c' (1108ms)
+worker exited with code/signal: null SIGTERM 1
+all workers killed for pool with id= @poolio_pool_4
 
 
- [31m => Suman fatal error => Suite timed out after 15000 seconds.[39m
-[33m
- => Suman test process experienced a fatal error during the run, most likely the majority of tests, if not all tests, were not run.[39m
-[33m
- => You have some additional errors/warnings - check the test debug log (logs/test-debug.log) for more information.[39m
+
+	.----------------------------------------------------------.
+	|                    Suman Test Results                    |
+	|----------------------------------------------------------|
+	|           Metric           |     Value    |     Notes    |
+	|----------------------------|--------------|--------------|
+	| Root Suite Title           | @TestsPoolio |              |
+	| Total Num. of Suites       |            5 |              |
+	| Suites skipped             |            0 |              |
+	| Tests skipped              |            0 |              |
+	| Tests stubbed              |            0 |              |
+	| Tests passed               |           12 |              |
+	| Tests failed               |            0 |              |
+	| Tests total                |           12 |              |
+	| Passing rate               |      100.00% |              |
+	| Total time millis (delta)  |         1557 |              |
+	| Total time minutes (delta) |       0.0260 |              |
+	'----------------------------------------------------------'
 
 
- => Suman is exiting with code 62   > see http://oresoftware.github.io/suman/exit-codes 
+
+
+ => Suman is exiting with code 0   
 

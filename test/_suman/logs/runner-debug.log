@@ -1,0 +1,105 @@
+
+
+### Suman runner start ###
+
+Beginning of run at 1465934727808 = [Tue Jun 14 2016 13:05:27 GMT-0700 (PDT)]
+Command issued from the following directory "/Users/amills/WebstormProjects/oresoftware/poolio"
+Command = ["/Users/amills/.nvm/versions/node/v4.4.5/bin/node","/Users/amills/.nvm/versions/node/v4.4.5/bin/suman"]
+
+
+[test.js]  => Poolio: your worker pool experienced an error =>  { msg: 'error', error: 'beetles', result: null, workId: 1 }
+[test.js] 
+
+[test.js]  => Poolio => please add your own "error" event listener using pool.on("error", fn) to prevent these error messages from being logged.
+[test.js] 
+
+[test-repeated-inits.js] 
+[test-repeated-inits.js] 
+[test-repeated-inits.js]  ### Suman end run ### 
+[test-repeated-inits.js] 
+[test-repeated-inits.js] 
+[test-repeated-inits.js] 
+[test-repeated-inits.js] 
+
+[test.js]  => Poolio: your worker pool experienced an error =>  { msg: 'error',
+[test.js]   error: '[some user error]',
+[test.js]   result: null,
+[test.js]   workId: 1 }
+[test.js]  => Poolio => please add your own "error" event listener using pool.on("error", fn) to prevent these error messages from being logged.
+[test.js] 
+
+[test-hook-params.js] TypeError: Converting circular structure to JSON
+[test-hook-params.js]     at Object.stringify (native)
+[test-hook-params.js]     at Suman.logData (/Users/amills/WebstormProjects/oresoftware/suman/lib/suman.js:492:29)
+[test-hook-params.js]     at /Users/amills/WebstormProjects/oresoftware/suman/lib/exec-suite.js:358:13
+[test-hook-params.js]     at allDone (/Users/amills/WebstormProjects/oresoftware/suman/lib/TestSuite.js:680:6)
+[test-hook-params.js]     at /Users/amills/WebstormProjects/oresoftware/suman/node_modules/async/lib/async.js:726:13
+[test-hook-params.js]     at /Users/amills/WebstormProjects/oresoftware/suman/node_modules/async/lib/async.js:52:16
+[test-hook-params.js]     at /Users/amills/WebstormProjects/oresoftware/suman/node_modules/async/lib/async.js:269:32
+[test-hook-params.js]     at /Users/amills/WebstormProjects/oresoftware/suman/node_modules/async/lib/async.js:44:16
+[test-hook-params.js]     at /Users/amills/WebstormProjects/oresoftware/suman/node_modules/async/lib/async.js:723:17
+[test-hook-params.js]     at /Users/amills/WebstormProjects/oresoftware/suman/node_modules/async/lib/async.js:167:37
+[test-hook-params.js] 
+
+[test-hook-params.js] 
+[test-hook-params.js] 
+[test-hook-params.js]  ### Suman end run ### 
+[test-hook-params.js] 
+[test-hook-params.js] 
+[test-hook-params.js] 
+[test-hook-params.js] 
+
+[test.js]  => Poolio: your worker pool experienced an error =>  { msg: 'error', error: 'beetles', result: null, workId: 2 }
+[test.js] 
+
+[test.js]  => Poolio => please add your own "error" event listener using pool.on("error", fn) to prevent these error messages from being logged.
+[test.js] 
+
+[test.js] 
+[test.js] 
+[test.js]  ### Suman end run ### 
+[test.js] 
+[test.js] 
+[test.js] 
+[test.js] 
+
+[test-canonical.js] 
+[test-canonical.js] 
+[test-canonical.js]  ### Suman end run ### 
+[test-canonical.js] 
+[test-canonical.js] 
+[test-canonical.js] 
+[test-canonical.js] 
+
+[test-poolio-w-suman.js] 
+[test-poolio-w-suman.js] 
+[test-poolio-w-suman.js] Test error: test worker1 expect-timeout
+[test-poolio-w-suman.js] 	stack: Error: t.fail() was called on test (note that null/undefined value was passed as first arg to the fail function.)
+[test-poolio-w-suman.js]     at fail [as _onTimeout] (/Users/amills/WebstormProjects/oresoftware/suman/lib/test-suite-helpers/handle-test.js:146:41)
+[test-poolio-w-suman.js]     at Timer.listOnTimeout (timers.js:92:15)
+[test-poolio-w-suman.js] 
+[test-poolio-w-suman.js] 
+
+[test-poolio-w-suman.js] Error: Should have timed out, but didnt.
+[test-poolio-w-suman.js]     at /Users/amills/WebstormProjects/oresoftware/poolio/test/test-poolio-w-suman.js:52:24
+
+[test-poolio-w-suman.js] Warning: the following test callback was invoked twice by your code for the following test/hook => test worker1 expect-timeout
+
+[test-poolio-w-suman.js] 
+[test-poolio-w-suman.js] 
+[test-poolio-w-suman.js]  ### Suman end run ### 
+[test-poolio-w-suman.js] 
+[test-poolio-w-suman.js] 
+[test-poolio-w-suman.js] 
+[test-poolio-w-suman.js] 
+
+
+### Suman runner end ###
+
+
+
+
+
+
+
+
