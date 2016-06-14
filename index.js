@@ -230,7 +230,8 @@ Pool.prototype.addWorker = function () {
 	n.on('message', data => {
 		debug('message from worker: ' + data);
 		if (!data.workId) {
-			console.error(' => Poolio warning => message sent from worker with no workId => ', '\n', JSON.stringify(data));
+			console.error(' => Poolio warning => message sent from worker with' +
+				' no workId => ', '\n', JSON.stringify(data));
 		}
 		switch (data.msg) {
 			case 'done':
@@ -252,11 +253,10 @@ Pool.prototype.addWorker = function () {
 				this.emit('error', data); // TODO: handle this error event
 				handleCallback(this, data);
 				removeSpecificWorker(this, n);
-				this.addWorker();
 				break;
 			default:
-				this.emit('error',
-					new Error('Poolio warning: your Poolio worker sent a message that was not recognized by the Poolio library.'))
+				this.emit('error', new Error('Poolio warning: your Poolio worker sent a' +
+					' message that was not recognized by the Poolio library.'))
 		}
 	});
 
@@ -268,9 +268,7 @@ Pool.prototype.addWorker = function () {
 		if (this.msgQueue.length > 0) {
 			n.send(this.msgQueue.shift());
 		} else {
-			debug('worker is available and is back in the pool');
 			this.available.push(n);
-			debug('pool size for pool ' + this.pool_id + ' is: ' + this.available.length);
 		}
 	} else {
 		this.available.push(n);
