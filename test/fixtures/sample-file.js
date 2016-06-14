@@ -1,9 +1,20 @@
 
 
-//////
+////
+process.on('uncaughtException', function (e) {
+    console.error('\n', ' => Poolio worker process uncaughtException:', e.stack || e, '\n');
+});
+
+
+process.on('error', function (e) {
+    console.error('\n', ' => Poolio worker process error event:', e.stack || e, '\n');
+});
+
 process.on('message', function (data) {
 
     const workId = data.workId;
+
+    console.log('workId:',workId,'workerId:',data.__poolioWorkerId);
 
     if (data.msg === 'run') {
         run(data);
@@ -15,11 +26,13 @@ process.on('message', function (data) {
         console.log('dead');
     }
     else {
-        process.send({
-            msg: 'error',
-            error: '[some user error]',
-            result: null,
-            workId: workId
+        process.nextTick(function(){
+            process.send({
+                msg: 'error',
+                error: '[some user error]',
+                result: null,
+                workId: workId
+            });
         });
     }
 

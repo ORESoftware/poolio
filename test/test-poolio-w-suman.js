@@ -3,6 +3,7 @@
 const suman = require('suman');
 const Test = suman.init(module, {});
 
+////////////////
 
 Test.describe('@TestsPoolio', {}, function (assert, path, async) {
 
@@ -35,8 +36,7 @@ Test.describe('@TestsPoolio', {}, function (assert, path, async) {
             ]);
 
         });
-
-        ////
+        
         this.it.cb('test worker1 expect-timeout', {timeout: 3000}, t => {
 
             console.log('current stats pool1:', pool1.getCurrentSize());

@@ -1,0 +1,137 @@
+
+
+ Suman server started on Mon Jun 13 2016 15:09:20 GMT-0700 (PDT)[36m => Suman Server message => using config at path => /Users/amills/WebstormProjects/oresoftware/poolio/suman.conf.js[39m
+ => Suman config used:  /Users/amills/WebstormProjects/oresoftware/poolio/suman.conf.js
+[36m
+
+		      :::::::: :::    :::  :::   :::      :::    ::::    ::: 
+		    :+:    :+::+:    :+: :+:+: :+:+:   :+: :+:  :+:+:   :+:  
+		   +:+       +:+    +:++:+ +:+:+ +:+ +:+   +:+ :+:+:+  +:+   
+		  +#++:++#+++#+    +:++#+  +:+  +#++#++:++#++:+#+ +:+ +#+    
+		        +#++#+    +#++#+       +#++#+     +#++#+  +#+#+#     
+		#+#    #+##+#    #+##+#       #+##+#     #+##+#   #+#+#      
+		########  ######## ###       ######     ######    ####       
+
+[39m
+sumanMatches: []
+sumanNotMatches: [ /fixture/ ]
+	Server listening on port 6969 , CWD = /Users/amills/WebstormProjects/oresoftware/poolio
+
+
+
+ Client connected. 
+
+ => Suman server event => socketio watch event has been received by server:
+ { paths: [ '/Users/amills/WebstormProjects/oresoftware/poolio/test' ],
+  transpile: true }
+ => chokidar watcher initialized.
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465855759500'
+    at Error (native)
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465855759500'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m24.545 ms - 125[0m
+Initial scan complete. Ready for changes
+Watched paths: { '/Users/amills/WebstormProjects/oresoftware/poolio': [ 'test' ],
+  '/Users/amills/WebstormProjects/oresoftware/poolio/test': 
+   [ '_suman',
+     'fixtures',
+     'test-canonical.js',
+     'test-poolio-w-suman.js',
+     'test.js' ],
+  '/Users/amills/WebstormProjects/oresoftware/poolio/test/_suman': 
+   [ '.readme',
+     'examples',
+     'logs',
+     'suman.globals.js',
+     'suman.hooks.js',
+     'suman.ioc.js',
+     'suman.once.js',
+     'suman.order.js',
+     'suman.reporters.js' ],
+  '/Users/amills/WebstormProjects/oresoftware/poolio/test/fixtures': [ 'sample-file.js', 'sample-file1.js', 'worker1.js' ],
+  '/Users/amills/WebstormProjects/oresoftware/poolio/test/_suman/examples': [ 'one.js', 'three.js', 'two.js' ],
+  '/Users/amills/WebstormProjects/oresoftware/poolio/test/_suman/logs': [] }
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/poolio/test
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/poolio/test/_suman
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/poolio/test/fixtures
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/poolio/test/test-canonical.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/poolio/test/test-poolio-w-suman.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/poolio/test/_suman/.readme
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/poolio/test/_suman/examples
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/poolio/test/_suman/logs
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/poolio/test/_suman/suman.globals.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/poolio/test/_suman/suman.hooks.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/poolio/test/_suman/suman.ioc.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/poolio/test/_suman/suman.once.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/poolio/test/_suman/suman.order.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/poolio/test/_suman/suman.reporters.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/poolio/test/fixtures/sample-file.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/poolio/test/fixtures/sample-file1.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/poolio/test/fixtures/worker1.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/poolio/test/_suman/examples/one.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/poolio/test/_suman/examples/three.js
+ => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/poolio/test/_suman/examples/two.js
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test-repeated-inits.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test-repeated-inits.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test-repeated-inits.js { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test-repeated-inits.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 84224 } 
+
+
+
+
+Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/poolio/test/test-repeated-inits.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test-repeated-inits.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/amills/WebstormProjects/oresoftware/poolio/test/test-repeated-inits.js has been added
+
+
+ => Suman Server => Uncaught Exception => TypeError: Cannot read property 'transpile' of undefined
+    at /Users/amills/WebstormProjects/oresoftware/suman/server/bin/socket-server.js:79:21
+    at Array.filter (native)
+    at initiateTranspileAction (/Users/amills/WebstormProjects/oresoftware/suman/server/bin/socket-server.js:78:40)
+    at FSWatcher.watcher.on.p (/Users/amills/WebstormProjects/oresoftware/suman/server/bin/socket-server.js:264:6)
+    at emitOne (events.js:96:13)
+    at FSWatcher.emit (events.js:188:7)
+    at FSWatcher.<anonymous> (/Users/amills/WebstormProjects/oresoftware/suman/node_modules/chokidar/index.js:176:15)
+    at FSWatcher._emit (/Users/amills/WebstormProjects/oresoftware/suman/node_modules/chokidar/index.js:217:5)
+    at FSWatcher.<anonymous> (/Users/amills/WebstormProjects/oresoftware/suman/node_modules/chokidar/lib/fsevents-handler.js:204:14)
+    at addOrChange (/Users/amills/WebstormProjects/oresoftware/suman/node_modules/chokidar/lib/fsevents-handler.js:209:7) 
+
+
+
+ => Suman Server => Uncaught Exception => TypeError: Cannot read property 'transpile' of undefined
+    at /Users/amills/WebstormProjects/oresoftware/suman/server/bin/socket-server.js:79:21
+    at Array.filter (native)
+    at initiateTranspileAction (/Users/amills/WebstormProjects/oresoftware/suman/server/bin/socket-server.js:78:40)
+    at FSWatcher.watcher.on.p (/Users/amills/WebstormProjects/oresoftware/suman/server/bin/socket-server.js:264:6)
+    at emitOne (events.js:96:13)
+    at FSWatcher.emit (events.js:188:7)
+    at FSWatcher.<anonymous> (/Users/amills/WebstormProjects/oresoftware/suman/node_modules/chokidar/index.js:176:15)
+    at FSWatcher._emit (/Users/amills/WebstormProjects/oresoftware/suman/node_modules/chokidar/index.js:217:5)
+    at FSWatcher.<anonymous> (/Users/amills/WebstormProjects/oresoftware/suman/node_modules/chokidar/lib/fsevents-handler.js:204:14)
+    at addOrChange (/Users/amills/WebstormProjects/oresoftware/suman/node_modules/chokidar/lib/fsevents-handler.js:209:7)
+
+
+
+ => Suman server exiting with code =>  1 
+
