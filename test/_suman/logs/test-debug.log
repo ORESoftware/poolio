@@ -5,65 +5,11 @@
 
 
 
- ### Suman start run indiv. @Mon Jun 13 2016 20:16:40 GMT-0700 (PDT) ###
+ ### Suman start run indiv. @Mon Jun 13 2016 23:28:51 GMT-0700 (PDT) ###
 
- ### Filename: /Users/amills/WebstormProjects/oresoftware/poolio/test/test-poolio-w-suman.js
+ ### Filename: /Users/Olegzandr/WebstormProjects/poolio/test-target/test.js
 
- ### Command = ["/usr/local/Cellar/node/6.2.0/bin/node","/Users/amills/WebstormProjects/oresoftware/poolio/test/test-poolio-w-suman.js"]
-
-
-
-Test error: test worker1 no-timeout 2
-	stack: 	Error: *timed out* - did you forget to call t.done()/t.pass()/t.fail()?
-	    at TestSuiteBase.TestSuiteMaker.new.data.TestSuite.it (/Users/amills/WebstormProjects/oresoftware/suman/lib/TestSuite.js:257:18)
-	    at TestSuiteBase.<anonymous> (/Users/amills/WebstormProjects/oresoftware/poolio/test/test-poolio-w-suman.js:56:14)
-	    at Domain.<anonymous> (/Users/amills/WebstormProjects/oresoftware/suman/lib/TestSuite.js:328:11)
-	    at Domain.run (domain.js:221:14)
-	    at TestSuiteBase.run [as _run] (/Users/amills/WebstormProjects/oresoftware/suman/lib/TestSuite.js:320:8)
-	    at /Users/amills/WebstormProjects/oresoftware/suman/lib/TestSuite.js:508:11
-	    at /Users/amills/WebstormProjects/oresoftware/suman/node_modules/async/lib/async.js:181:20
-	    at iterate (/Users/amills/WebstormProjects/oresoftware/suman/node_modules/async/lib/async.js:262:13)
-	    at Object.async.forEachOfSeries.async.eachOfSeries (/Users/amills/WebstormProjects/oresoftware/suman/node_modules/async/lib/async.js:281:9)
-	    at Object.async.forEachSeries.async.eachSeries (/Users/amills/WebstormProjects/oresoftware/suman/node_modules/async/lib/async.js:214:22)
-
-
-
-
-
-Test error: test worker1 expect-timeout
-	stack: 	Error: *timed out* - did you forget to call t.done()/t.pass()/t.fail()?
-	    at TestSuiteBase.TestSuiteMaker.new.data.TestSuite.it (/Users/amills/WebstormProjects/oresoftware/suman/lib/TestSuite.js:257:18)
-	    at Function.TestSuiteMaker.new.TestSuite.__bindExtras.it.cb (/Users/amills/WebstormProjects/oresoftware/suman/lib/TestSuite.js:434:15)
-	    at TestSuiteBase.<anonymous> (/Users/amills/WebstormProjects/oresoftware/poolio/test/test-poolio-w-suman.js:40:17)
-	    at Domain.<anonymous> (/Users/amills/WebstormProjects/oresoftware/suman/lib/TestSuite.js:328:11)
-	    at Domain.run (domain.js:221:14)
-	    at TestSuiteBase.run [as _run] (/Users/amills/WebstormProjects/oresoftware/suman/lib/TestSuite.js:320:8)
-	    at /Users/amills/WebstormProjects/oresoftware/suman/lib/TestSuite.js:508:11
-	    at /Users/amills/WebstormProjects/oresoftware/suman/node_modules/async/lib/async.js:181:20
-	    at iterate (/Users/amills/WebstormProjects/oresoftware/suman/node_modules/async/lib/async.js:262:13)
-	    at Object.async.forEachOfSeries.async.eachOfSeries (/Users/amills/WebstormProjects/oresoftware/suman/node_modules/async/lib/async.js:281:9)
-
-
-
-Error: Should have timed out, but didnt.
-    at /Users/amills/WebstormProjects/oresoftware/poolio/test/test-poolio-w-suman.js:52:24
-
-
-
-Test error: test worker1 non-timeout 1
-	stack: 	Error: *timed out* - did you forget to call t.done()/t.pass()/t.fail()?
-	    at TestSuiteBase.TestSuiteMaker.new.data.TestSuite.it (/Users/amills/WebstormProjects/oresoftware/suman/lib/TestSuite.js:257:18)
-	    at TestSuiteBase.<anonymous> (/Users/amills/WebstormProjects/oresoftware/poolio/test/test-poolio-w-suman.js:30:14)
-	    at Domain.<anonymous> (/Users/amills/WebstormProjects/oresoftware/suman/lib/TestSuite.js:328:11)
-	    at Domain.run (domain.js:221:14)
-	    at TestSuiteBase.run [as _run] (/Users/amills/WebstormProjects/oresoftware/suman/lib/TestSuite.js:320:8)
-	    at /Users/amills/WebstormProjects/oresoftware/suman/lib/TestSuite.js:508:11
-	    at /Users/amills/WebstormProjects/oresoftware/suman/node_modules/async/lib/async.js:181:20
-	    at iterate (/Users/amills/WebstormProjects/oresoftware/suman/node_modules/async/lib/async.js:262:13)
-	    at Object.async.forEachOfSeries.async.eachOfSeries (/Users/amills/WebstormProjects/oresoftware/suman/node_modules/async/lib/async.js:281:9)
-	    at Object.async.forEachSeries.async.eachSeries (/Users/amills/WebstormProjects/oresoftware/suman/node_modules/async/lib/async.js:214:22)
-
-
+ ### Command = ["/Users/Olegzandr/.nvm/versions/node/v6.2.1/bin/node","/Users/Olegzandr/WebstormProjects/suman/lib/suman-watch-worker.js","/Users/Olegzandr/WebstormProjects/poolio/test-target/test.js"]
 
 
 
