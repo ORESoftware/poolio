@@ -6,8 +6,9 @@
 const suman = require('suman');
 const Test = suman.init(module, {});
 
-//////////////
+////////
 ///////
+
 Test.describe('@TestsPoolio', {parallel: true}, function (suite, path, async, assert) {
 
 	const Pool = require('..');
@@ -34,13 +35,16 @@ Test.describe('@TestsPoolio', {parallel: true}, function (suite, path, async, as
 
 	this.it('tests poolio', t => {
 
+		t.plan(1);
+
 		return Promise.all([
 			pool2.any('dog'),
 			pool3.any('big')
 		]).then(function (values) {
 
 		}).catch(function (err) {
-			console.log('Poolio expected err:', err);
+			t.confirm(); //
+			assert(err, 'err not defined in catch block');
 		});
 
 	});

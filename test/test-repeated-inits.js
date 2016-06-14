@@ -1,9 +1,9 @@
 const suman = require('suman');
 const Test = suman.init(module);
 
-
+////
 Test.describe('Test inits', {}, function (Pool, assert, path) {
-    
+
     const data = {
         size: 5,
         filePath: path.resolve(__dirname + '/fixtures/sample-file.js')

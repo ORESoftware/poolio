@@ -23,36 +23,36 @@
 
 current stats pool1: { available: 9, all: 9 }
 current stats pool1: { available: 9, all: 9 }
-workId: 2 workerId: 2
-2
+workId: 3 workerId: 3
+3
 workId: 1 workerId: 1
 workId: 3 workerId: 3
-workId: 1 workerId: 1
 1
 3
-1
-workId: 4 workerId: 4
-4
 workId: 7 workerId: 7
 7
-workId: 5 workerId: 5
 workId: 6 workerId: 6
-workId: 2 workerId: 2
-5
 6
-2
+workId: 9 workerId: 9
+9
+workId: 4 workerId: 4
+4
 workId: 8 workerId: 8
 8
-workId: 9 workerId: 9
-workId: 3 workerId: 3
-9
-3
-	 ✔  'test worker1 expect-timeout' (2036ms)
-workId: 4 workerId: 2
+workId: 5 workerId: 5
+5
+workId: 2 workerId: 2
 2
-	 ✔  'test worker1' (2126ms)
-	 ✔  'test worker1 no-timeout 2' (2102ms)
-	 ✔  'test worker1 non-timeout 1' (4112ms)
+workId: 2 workerId: 2
+2
+workId: 1 workerId: 1
+1
+	 ✔  'test worker1 expect-timeout' (2038ms)
+workId: 4 workerId: 3
+3
+	 ✔  'test worker1' (2102ms)
+	 ✔  'test worker1 no-timeout 2' (2112ms)
+	 ✔  'test worker1 non-timeout 1' (4100ms)
 worker exited with code/signal/workerId: [ null, 'SIGTERM', 1 ]
 all workers killed for pool with id= @poolio_pool_1
 worker exited with code/signal/workerId: [ null, 'SIGTERM', 1 ]
@@ -74,8 +74,8 @@ all workers killed for pool with id= @poolio_pool_1
 	| Tests failed               |            0 |              |
 	| Tests total                |            4 |              |
 	| Passing rate               |      100.00% |              |
-	| Total time millis (delta)  |         4293 |              |
-	| Total time minutes (delta) |       0.0716 |              |
+	| Total time millis (delta)  |         4248 |              |
+	| Total time minutes (delta) |       0.0708 |              |
 	'----------------------------------------------------------'
 
 
