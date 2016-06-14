@@ -1,0 +1,34 @@
+
+
+
+
+
+
+
+ ### Suman start run indiv. @Tue Jun 14 2016 11:25:50 GMT-0700 (PDT) ###
+
+ ### Filename: /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-hook-params.js
+
+ ### Command = ["/Users/amills/.nvm/versions/node/v6.2.1/bin/node","/Users/amills/WebstormProjects/oresoftware/suman/lib/suman-watch-worker.js","/Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-hook-params.js"]
+
+TypeError: Converting circular structure to JSON
+    at Object.stringify (native)
+    at Suman.logData (/Users/amills/WebstormProjects/oresoftware/suman/lib/suman.js:511:29)
+    at /Users/amills/WebstormProjects/oresoftware/suman/lib/exec-suite.js:358:13
+    at allDone (/Users/amills/WebstormProjects/oresoftware/suman/lib/TestSuite.js:680:6)
+    at /Users/amills/WebstormProjects/oresoftware/suman/node_modules/async/lib/async.js:726:13
+    at /Users/amills/WebstormProjects/oresoftware/suman/node_modules/async/lib/async.js:52:16
+    at /Users/amills/WebstormProjects/oresoftware/suman/node_modules/async/lib/async.js:269:32
+    at /Users/amills/WebstormProjects/oresoftware/suman/node_modules/async/lib/async.js:44:16
+    at /Users/amills/WebstormProjects/oresoftware/suman/node_modules/async/lib/async.js:723:17
+    at /Users/amills/WebstormProjects/oresoftware/suman/node_modules/async/lib/async.js:167:37
+
+Warning: the following test callback was invoked twice by your code for the following test/hook => (no description)
+
+
+
+ ### Suman end run ### 
+
+
+
+

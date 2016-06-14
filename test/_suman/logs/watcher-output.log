@@ -1,0 +1,95 @@
+
+
+ => Suman watcher => file changed:
+/Users/amills/WebstormProjects/oresoftware/poolio/test/test-hook-params.js
+
+ => file will first be transpiled/copied.
+ => file transpiled successfully.
+ => test will now execute.
+
+[33m[3m => Suman v1.1.39914 running...[23m[39m
+[36m => cwd: /Users/amills/WebstormProjects/oresoftware/poolio[39m
+ [33m=> Suman message => note that Suman is not installed locally, you may wish to run "$ suman --init"[39m
+
+ [44m[37m[1m Suman will attempt to execute test files with/within the following paths: [22m[39m[49m 
+
+ 	 1 => [34m"/Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-hook-params.js"[39m
+
+[90m[3m
+
+	  _   _ _  _  _   .. _/__   __/_
+	_\/_// / //_|/ / ..  / /_'_\ /  
+
+[23m[39m
+
+workId: 2 workerId: 2
+working (DoBig)...
+workId: 1 workerId: 1
+working (DoBig)...
+workId: 4 workerId: 4
+working (DoBig)...
+workId: 5 workerId: 5
+working (DoBig)...
+workId: 3 workerId: 3
+working (DoBig)...
+workId: 1 workerId: 1
+working (DoBig)...
+workId: 2 workerId: 2
+working (DoBig)...
+workId: 3 workerId: 3
+working (DoBig)...
+workId: 4 workerId: 4
+working (DoBig)...
+workId: 5 workerId: 5
+working (DoBig)...
+workId: 6 workerId: 2
+working (DoBig)...
+workId: 7 workerId: 1
+working (DoBig)...
+workId: 4 workerId: 4
+workId: 2 workerId: 2
+working (DoBig)...
+working (DoBig)...
+workId: 3 workerId: 3
+working (DoBig)...
+workId: 1 workerId: 1
+working (DoBig)...
+workId: 3 workerId: 3
+working (DoBig)...
+workId: 5 workerId: 5
+workId: 2 workerId: 2
+working (DoBig)...
+working (DoBig)...
+workId: 4 workerId: 4
+working (DoBig)...
+workId: 1 workerId: 1
+workId: 5 workerId: 5
+working (DoBig)...
+working (DoBig)...
+workId: 6 workerId: 1
+working (DoBig)...
+workId: 7 workerId: 2
+working (DoBig)...
+	 ✔  '(no description)' (< 1ms)
+workId: 6 workerId: 2
+working (DoBig)...
+workId: 7 workerId: 4
+working (DoBig)...
+workId: 6 workerId: 1
+working (DoBig)...
+workId: 7 workerId: 3
+working (DoBig)...
+	 ✔  '(no description)' (1ms)
+	 ✔  '(no description)' (< 1ms)
+	 ✔  '(no description)' (< 1ms)
+
+
+ [31m => Suman fatal error => Suite timed out after 15000 seconds.[39m
+[33m
+ => Suman test process experienced a fatal error during the run, most likely the majority of tests, if not all tests, were not run.[39m
+[33m
+ => You have some additional errors/warnings - check the test debug log (logs/test-debug.log) for more information.[39m
+
+
+ => Suman is exiting with code 62   > see http://oresoftware.github.io/suman/exit-codes 
+
