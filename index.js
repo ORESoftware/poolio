@@ -206,7 +206,7 @@ Pool.prototype.addWorker = function () {
     n.workerId = this.workerIdCounter++;
 
     n.on('error', err => {
-        this.emit('worker-error', err);
+        this.emit('worker-error', err, n.workerId);
     });
 
     n.once('exit', (code, signal) => {
@@ -251,11 +251,10 @@ Pool.prototype.addWorker = function () {
                 this.emit('error', data); // TODO: handle this error event
                 handleCallback(this, data);
                 removeSpecificWorker(this, n);
-                this.addWorker();
                 break;
             default:
-                this.emit('error',
-                    new Error('Poolio warning: your Poolio worker sent a message that was not recognized by the Poolio library.'))
+                this.emit('error', new Error('Poolio warning: your Poolio worker sent a message that ' +
+                    'was not recognized by the Poolio library.'))
         }
     });
 
@@ -268,15 +267,14 @@ Pool.prototype.addWorker = function () {
         if (this.msgQueue.length > 0) {
             n.send(this.msgQueue.shift());
         } else {
-            debug('worker is available and is back in the pool');
             this.available.push(n);
-            debug('pool size for pool ' + this.pool_id + ' is: ' + this.available.length);
         }
     } else {
         this.available.push(n);
     }
 
     return this;
+
 };
 
 function removeSpecificWorker(pool, n, doNotCallKill) {
@@ -289,7 +287,8 @@ function removeSpecificWorker(pool, n, doNotCallKill) {
         }
 
     } else {
-        console.error(' => Poolio internal error: no worker passed to internal removeSpecificWorker() function.');
+        console.error(' => Poolio internal error: no worker passed to internal ' +
+            'removeSpecificWorker() function.');
     }
 }
 
@@ -304,7 +303,8 @@ Pool.prototype.removeWorker = function () {
         console.error(' => Poolio warning => Cannot remove worker from pool of 0 workers.');
     }
     else if (this.all.length === 1 && this.removeNextAvailableWorker) {
-        console.error(' => Poolio warning => Already removed last worker, there will soon be 0 workers in the pool.');
+        console.error(' => Poolio warning => Already removed last worker, there will soon' +
+            ' be 0 workers in the pool.');
     }
     else {
         const n = this.available.pop();
@@ -353,7 +353,8 @@ function handleCallback(pool, data) {
             }
         }
     } else {
-        console.error('Internal Poolio error => this should not happen - but might if a callback is attempted to be called more than once.')
+        console.error('Internal Poolio error => this should not happen - but might if' +
+            ' a callback is attempted to be called more than once.')
     }
 }
 
@@ -376,9 +377,7 @@ function delegateWorker(pool, n) {
         msg.__poolioWorkerId = n.workerId;
         n.send(msg);
     } else {
-        debug('worker is available and is back in the pool');
         pool.available.push(n);
-        debug('pool size for pool ' + pool.pool_id + ' is: ' + pool.available.length);
     }
 }
 

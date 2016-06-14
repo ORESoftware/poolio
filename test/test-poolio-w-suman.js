@@ -53,7 +53,7 @@ Test.describe('@TestsPoolio', {}, function (assert, path, async) {
             });
         });
 
-        this.it('test worker1 no-timeout 2', {timeout: 2300}, t => {
+        this.it('test worker1 no-timeout 2', {timeout: 2600}, t => {
 
             console.log('current stats pool1:', pool1.getCurrentSize());
 
