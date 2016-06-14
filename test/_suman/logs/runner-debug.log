@@ -2,10 +2,31 @@
 
 ### Suman runner start ###
 
-Beginning of run at 1465872102921 = [Mon Jun 13 2016 19:41:42 GMT-0700 (PDT)]
+Beginning of run at 1465928252278 = [Tue Jun 14 2016 11:17:32 GMT-0700 (PDT)]
 Command issued from the following directory "/Users/amills/WebstormProjects/oresoftware/poolio"
-Command = ["/Users/amills/.nvm/versions/node/v6.2.1/bin/node","/usr/local/bin/suman","--runner","/Users/amills/WebstormProjects/oresoftware/poolio/test/test-hook-params.js"]
+Command = ["/Users/amills/.nvm/versions/node/v6.2.1/bin/node","/usr/local/bin/suman","-t"]
 
+
+[test-repeated-inits.js] 
+[test-repeated-inits.js] 
+[test-repeated-inits.js]  ### Suman end run ### 
+[test-repeated-inits.js] 
+[test-repeated-inits.js] 
+[test-repeated-inits.js] 
+[test-repeated-inits.js] 
+
+[test.js]  => Poolio: your worker pool experienced an error =>  { msg: 'error',
+[test.js]   error: '[some user error]',
+[test.js]   result: null,
+[test.js]   workId: 1 }
+[test.js] 
+
+[test.js]  => Poolio => please add your own "error" event listener using pool.on("error", fn) to prevent these error messages from being logged.
+[test.js] 
+
+[test.js]  => Poolio: your worker pool experienced an error =>  { msg: 'error', error: 'beetles', result: null, workId: 1 }
+[test.js]  => Poolio => please add your own "error" event listener using pool.on("error", fn) to prevent these error messages from being logged.
+[test.js] 
 
 [test-hook-params.js] TypeError: Converting circular structure to JSON
 [test-hook-params.js]     at Object.stringify (native)
@@ -27,6 +48,57 @@ Command = ["/Users/amills/.nvm/versions/node/v6.2.1/bin/node","/usr/local/bin/su
 [test-hook-params.js] 
 [test-hook-params.js] 
 [test-hook-params.js] 
+
+[test.js]  => Poolio: your worker pool experienced an error =>  { msg: 'error', error: 'beetles', result: null, workId: 2 }
+[test.js]  => Poolio => please add your own "error" event listener using pool.on("error", fn) to prevent these error messages from being logged.
+[test.js] 
+
+[test.js] 
+[test.js] 
+[test.js]  ### Suman end run ### 
+[test.js] 
+[test.js] 
+[test.js] 
+[test.js] 
+
+[test-canonical.js] 
+[test-canonical.js] 
+[test-canonical.js]  ### Suman end run ### 
+[test-canonical.js] 
+[test-canonical.js] 
+[test-canonical.js] 
+[test-canonical.js] 
+
+[test-poolio-w-suman.js] 
+[test-poolio-w-suman.js] 
+[test-poolio-w-suman.js] Test error: test worker1 no-timeout 2
+[test-poolio-w-suman.js] 	stack: 	Error: *timed out* - did you forget to call t.done()/t.pass()/t.fail()?
+[test-poolio-w-suman.js] 	    at TestSuiteBase.it (/Users/amills/WebstormProjects/oresoftware/suman/lib/TestSuite.js:257:18)
+[test-poolio-w-suman.js] 	    at TestSuiteBase.<anonymous> (/Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-poolio-w-suman.js:47:14)
+[test-poolio-w-suman.js] 	    at Domain.<anonymous> (/Users/amills/WebstormProjects/oresoftware/suman/lib/TestSuite.js:328:11)
+[test-poolio-w-suman.js] 	    at Domain.run (domain.js:221:14)
+[test-poolio-w-suman.js] 	    at TestSuiteBase.run [as _run] (/Users/amills/WebstormProjects/oresoftware/suman/lib/TestSuite.js:320:8)
+[test-poolio-w-suman.js] 	    at /Users/amills/WebstormProjects/oresoftware/suman/lib/TestSuite.js:508:11
+[test-poolio-w-suman.js] 	    at /Users/amills/WebstormProjects/oresoftware/suman/node_modules/async/lib/async.js:181:20
+[test-poolio-w-suman.js] 	    at iterate (/Users/amills/WebstormProjects/oresoftware/suman/node_modules/async/lib/async.js:262:13)
+[test-poolio-w-suman.js] 	    at Object.async.forEachOfSeries.async.eachOfSeries (/Users/amills/WebstormProjects/oresoftware/suman/node_modules/async/lib/async.js:281:9)
+[test-poolio-w-suman.js] 	    at Object.async.forEachSeries.async.eachSeries (/Users/amills/WebstormProjects/oresoftware/suman/node_modules/async/lib/async.js:214:22)
+[test-poolio-w-suman.js] 
+[test-poolio-w-suman.js] 
+
+[test-poolio-w-suman.js] Error: Should have timed out, but didnt.
+[test-poolio-w-suman.js]     at /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-poolio-w-suman.js:43:24
+[test-poolio-w-suman.js]     at process._tickDomainCallback (internal/process/next_tick.js:129:7)
+
+[test-poolio-w-suman.js] Warning: the following test callback was invoked twice by your code for the following test/hook => test worker1 expect-timeout
+
+[test-poolio-w-suman.js] 
+[test-poolio-w-suman.js] 
+[test-poolio-w-suman.js]  ### Suman end run ### 
+[test-poolio-w-suman.js] 
+[test-poolio-w-suman.js] 
+[test-poolio-w-suman.js] 
+[test-poolio-w-suman.js] 
 
 
 ### Suman runner end ###

@@ -6,8 +6,7 @@
 const suman = require('suman');
 const Test = suman.init(module, {});
 
-////////
-///////
+/////
 
 Test.describe('@TestsPoolio', {parallel: true}, function (suite, path, async, assert) {
 
@@ -32,6 +31,7 @@ Test.describe('@TestsPoolio', {parallel: true}, function (suite, path, async, as
 		size: 1,
 		filePath: path.resolve(__dirname + '/fixtures/sample-file.js')
 	});
+
 
 	this.it('tests poolio', t => {
 

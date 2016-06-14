@@ -1,7 +1,7 @@
 
 
  => Suman watcher => file changed:
-/Users/amills/WebstormProjects/oresoftware/poolio/test/test-poolio-w-suman.js
+/Users/amills/WebstormProjects/oresoftware/poolio/test/test.js
 
  => file will first be transpiled/copied.
  => file transpiled successfully.
@@ -9,10 +9,11 @@
 
 [33m[3m => Suman v1.1.39914 running...[23m[39m
 [36m => cwd: /Users/amills/WebstormProjects/oresoftware/poolio[39m
+ [33m=> Suman message => note that Suman is not installed locally, you may wish to run "$ suman --init"[39m
 
  [44m[37m[1m Suman will attempt to execute test files with/within the following paths: [22m[39m[49m 
 
- 	 1 => [34m"/Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-poolio-w-suman.js"[39m
+ 	 1 => [34m"/Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js"[39m
 
 [90m[3m
 
@@ -21,42 +22,44 @@
 
 [23m[39m
 
-current stats pool1: { available: 9, all: 9 }
-current stats pool1: { available: 9, all: 9 }
-workId: 3 workerId: 3
-3
 workId: 1 workerId: 1
-workId: 3 workerId: 3
-1
-3
-workId: 7 workerId: 7
-7
-workId: 6 workerId: 6
-6
-workId: 9 workerId: 9
-9
-workId: 4 workerId: 4
-4
-workId: 8 workerId: 8
-8
-workId: 5 workerId: 5
-5
-workId: 2 workerId: 2
-2
-workId: 2 workerId: 2
-2
 workId: 1 workerId: 1
-1
-	 ✔  'test worker1 expect-timeout' (2038ms)
-workId: 4 workerId: 3
-3
-	 ✔  'test worker1' (2102ms)
-	 ✔  'test worker1 no-timeout 2' (2112ms)
-	 ✔  'test worker1 non-timeout 1' (4100ms)
-worker exited with code/signal/workerId: [ null, 'SIGTERM', 1 ]
+working (DoBig)...
+working (run)...
+workId: 1 workerId: 1
+workId: 1 workerId: 1
+working (DoBig)...
+ => Poolio: your worker pool experienced an error =>  { msg: 'error',
+  error: '[some user error]',
+  result: null,
+  workId: 1 }
+ => Poolio => please add your own "error" event listener using pool.on("error", fn) to prevent these error messages from being logged.
+	 ✔  'tests poolio' (132ms)
+	 ✔  'a' (197ms)
+ => Poolio: your worker pool experienced an error =>  { msg: 'error', error: 'beetles', result: null, workId: 1 }
+ => Poolio => please add your own "error" event listener using pool.on("error", fn) to prevent these error messages from being logged.
+workId: 2 workerId: 1
+working (run)...
+ => Poolio: your worker pool experienced an error =>  { msg: 'error', error: 'beetles', result: null, workId: 2 }
+ => Poolio => please add your own "error" event listener using pool.on("error", fn) to prevent these error messages from being logged.
+	 ✔  'c' (1106ms)
+current stats for pool with id:@poolio_pool_1 => {"available":1,"all":1}
+current stats for pool with id:@poolio_pool_2 => {"available":3,"all":3}
+current stats for pool with id:@poolio_pool_3 => {"available":4,"all":4}
+current stats for pool with id:@poolio_pool_4 => {"available":1,"all":1}
+worker exited with code/signal/workerId: null SIGTERM 1
 all workers killed for pool with id= @poolio_pool_1
-worker exited with code/signal/workerId: [ null, 'SIGTERM', 1 ]
-all workers killed for pool with id= @poolio_pool_1
+worker exited with code/signal/workerId: null SIGTERM 1
+all workers killed for pool with id= @poolio_pool_2
+worker exited with code/signal/workerId: null SIGTERM 2
+worker exited with code/signal/workerId: null SIGTERM 3
+worker exited with code/signal/workerId: null SIGTERM 1
+all workers killed for pool with id= @poolio_pool_3
+worker exited with code/signal/workerId: null SIGTERM 2
+worker exited with code/signal/workerId: null SIGTERM 3
+worker exited with code/signal/workerId: null SIGTERM 4
+worker exited with code/signal/workerId: null SIGTERM 1
+all workers killed for pool with id= @poolio_pool_4
 
 
 
@@ -66,21 +69,19 @@ all workers killed for pool with id= @poolio_pool_1
 	|           Metric           |     Value    |     Notes    |
 	|----------------------------|--------------|--------------|
 	| Root Suite Title           | @TestsPoolio |              |
-	| Total Num. of Suites       |            2 |              |
+	| Total Num. of Suites       |            1 |              |
 	| Suites skipped             |            0 |              |
 	| Tests skipped              |            0 |              |
 	| Tests stubbed              |            0 |              |
-	| Tests passed               |            4 |              |
+	| Tests passed               |            3 |              |
 	| Tests failed               |            0 |              |
-	| Tests total                |            4 |              |
+	| Tests total                |            3 |              |
 	| Passing rate               |      100.00% |              |
-	| Total time millis (delta)  |         4248 |              |
-	| Total time minutes (delta) |       0.0708 |              |
+	| Total time millis (delta)  |         1228 |              |
+	| Total time minutes (delta) |       0.0205 |              |
 	'----------------------------------------------------------'
 
 
-[33m
- => You have some extraneous errors/warnings - check test error log (test-debug.log) for more information.[39m
 
 
  => Suman is exiting with code 0   

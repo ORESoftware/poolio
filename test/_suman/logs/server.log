@@ -1,6 +1,6 @@
 
 
- Suman server started on Mon Jun 13 2016 20:06:24 GMT-0700 (PDT)[36m => Suman Server message => using config at path => /Users/amills/WebstormProjects/oresoftware/poolio/suman.conf.js[39m
+ Suman server started on Tue Jun 14 2016 11:18:04 GMT-0700 (PDT)[36m => Suman Server message => using config at path => /Users/amills/WebstormProjects/oresoftware/poolio/suman.conf.js[39m
  => Suman config used:  /Users/amills/WebstormProjects/oresoftware/poolio/suman.conf.js
 [36m
 
@@ -28,14 +28,11 @@ sumanNotMatches: [ /fixture/ ]
 
  Client connected. 
 
-Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465873582733'
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465928283547'
     at Error (native)
-Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465873582733'
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465928283547'
     at Error (native)
-[0mPOST /results/make/new [31m500 [0m29.673 ms - 125[0m
-
-Client disconnected.
-
+[0mPOST /results/make/new [31m500 [0m39.589 ms - 125[0m
 Initial scan complete. Ready for changes
 Watched paths: { '/Users/amills/WebstormProjects/oresoftware/poolio': [ 'test' ],
   '/Users/amills/WebstormProjects/oresoftware/poolio/test': 
@@ -83,6 +80,9 @@ Watched paths: { '/Users/amills/WebstormProjects/oresoftware/poolio': [ 'test' ]
  => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/poolio/test/_suman/examples/three.js
  => The following file path is being saved as { transpile: true } => /Users/amills/WebstormProjects/oresoftware/poolio/test/_suman/examples/two.js
 
+Client disconnected.
+
+
 
 Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_tmp___',
   event: 'moved',
@@ -125,8 +125,70 @@ _doesNotMatch: true
 
  Client connected. 
 
-created dir at /Users/amills/suman/test_results/1465873619419
-[0mPOST /results/make/new [32m200 [0m2.875 ms - 83[0m
+created dir at /Users/amills/suman/test_results/1465928295697
+[0mPOST /results/make/new [32m200 [0m2.616 ms - 83[0m
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+File /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js has been added
+
+ [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js[22m[39m[49m
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_tmp___ has been removed
+File /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js has been changed
+{ transpile: true }
+transpiling!
+
+ [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js[22m[39m[49m
+
+Client disconnected.
+
+ => transpile results: [ '/Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js' ]
+ => transpile results: [ '/Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js' ]
+item: /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js
+_matchesInput: true
+_doesNotMatch: true
+
+
+ => Test will now be run with command:
+ node /Users/amills/WebstormProjects/oresoftware/suman/index.js /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js
+
+ Client connected. 
+
+created dir at /Users/amills/suman/test_results/1465928297432
+[0mPOST /results/make/new [32m200 [0m2.034 ms - 83[0m
 
 Client disconnected.
 
@@ -173,11 +235,209 @@ _doesNotMatch: true
 
  Client connected. 
 
-Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465873639651'
+created dir at /Users/amills/suman/test_results/1465928301569
+[0mPOST /results/make/new [32m200 [0m0.986 ms - 83[0m
+
+Client disconnected.
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js has been changed
+{ transpile: true }
+transpiling!
+
+ [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js[22m[39m[49m
+ => transpile results: [ '/Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js' ]
+item: /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js
+_matchesInput: true
+_doesNotMatch: true
+
+
+ => Test will now be run with command:
+ node /Users/amills/WebstormProjects/oresoftware/suman/index.js /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js
+
+ Client connected. 
+
+created dir at /Users/amills/suman/test_results/1465928305522
+[0mPOST /results/make/new [32m200 [0m3.245 ms - 83[0m
+
+Client disconnected.
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js has been changed
+{ transpile: true }
+transpiling!
+
+ [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js[22m[39m[49m
+ => transpile results: [ '/Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js' ]
+item: /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js
+_matchesInput: true
+_doesNotMatch: true
+
+
+ => Test will now be run with command:
+ node /Users/amills/WebstormProjects/oresoftware/suman/index.js /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js
+
+ Client connected. 
+
+created dir at /Users/amills/suman/test_results/1465928308621
+[0mPOST /results/make/new [32m200 [0m1.331 ms - 83[0m
+
+Client disconnected.
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js has been changed
+{ transpile: true }
+transpiling!
+
+ [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js[22m[39m[49m
+transpile error: { Error: Command failed: cd /Users/amills/WebstormProjects/oresoftware/poolio && babel /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js --out-file /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js
+SyntaxError: /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js: Unterminated regular expression (9:1)
+   7 | const Test = suman.init(module, {});
+   8 | 
+>  9 | /
+     |  ^
+  10 | 
+  11 | Test.describe('@TestsPoolio', {parallel: true}, function (suite, path, async, assert) {
+  12 | 
+
+    at ChildProcess.exithandler (child_process.js:207:12)
+    at emitTwo (events.js:106:13)
+    at ChildProcess.emit (events.js:191:7)
+    at maybeClose (internal/child_process.js:852:16)
+    at Socket.<anonymous> (internal/child_process.js:323:11)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at Pipe._handle.close [as _onclose] (net.js:492:12)
+  killed: false,
+  code: 1,
+  signal: null,
+  cmd: 'cd /Users/amills/WebstormProjects/oresoftware/poolio && babel /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js --out-file /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js' }
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_tmp___',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 71936 } 
+
+
+
+
+Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test.js',
+  event: 'moved',
+  type: 'file',
+  changes: { inode: false, finder: false, access: true, xattrs: false },
+  flags: 83968 } 
+
+
+
+
+Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_old___',
+  event: 'deleted',
+  type: 'file',
+  changes: { inode: false, finder: false, access: false, xattrs: false },
+  flags: 68096 } 
+
+
+File /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js has been changed
+{ transpile: true }
+transpiling!
+
+ [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js[22m[39m[49m
+ => transpile results: [ '/Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js' ]
+item: /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js
+_matchesInput: true
+_doesNotMatch: true
+
+
+ => Test will now be run with command:
+ node /Users/amills/WebstormProjects/oresoftware/suman/index.js /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465928317081'
     at Error (native)
-Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465873639651'
+Error: EEXIST: file already exists, mkdir '/Users/amills/suman/test_results/1465928317081'
     at Error (native)
-[0mPOST /results/make/new [31m500 [0m2.403 ms - 125[0m
+[0mPOST /results/make/new [31m500 [0m2.425 ms - 125[0m
 
 Client disconnected.
 
@@ -224,937 +484,8 @@ _doesNotMatch: true
 
  Client connected. 
 
-created dir at /Users/amills/suman/test_results/1465873643758
-[0mPOST /results/make/new [32m200 [0m0.961 ms - 83[0m
-
-Client disconnected.
-
-
-
-Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test-canonical.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test-canonical.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test-canonical.js { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test-canonical.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/poolio/test/test-canonical.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test-canonical.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
-
-
-File /Users/amills/WebstormProjects/oresoftware/poolio/test/test-canonical.js has been changed
-{ transpile: true }
-transpiling!
-
- [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-canonical.js[22m[39m[49m
- => transpile results: [ '/Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-canonical.js' ]
-item: /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-canonical.js
-_matchesInput: true
-_doesNotMatch: true
-
-
- => Test will now be run with command:
- node /Users/amills/WebstormProjects/oresoftware/suman/index.js /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-canonical.js
-
- Client connected. 
-
-created dir at /Users/amills/suman/test_results/1465873661332
-[0mPOST /results/make/new [32m200 [0m3.318 ms - 83[0m
-
-Client disconnected.
-
-
-
-Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test-canonical.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test-canonical.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-File /Users/amills/WebstormProjects/oresoftware/poolio/test/test-canonical.js has been added
-
- [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-canonical.js[22m[39m[49m
-
-
-Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test-canonical.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test-canonical.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test-canonical.js { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test-canonical.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/poolio/test/test-canonical.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test-canonical.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
-
-
-File /Users/amills/WebstormProjects/oresoftware/poolio/test/test-canonical.js___jb_tmp___ has been removed
-File /Users/amills/WebstormProjects/oresoftware/poolio/test/test-canonical.js has been changed
-{ transpile: true }
-transpiling!
-
- [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-canonical.js[22m[39m[49m
- => transpile results: [ '/Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-canonical.js' ]
- => transpile results: [ '/Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-canonical.js' ]
-item: /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-canonical.js
-_matchesInput: true
-_doesNotMatch: true
-
-
- => Test will now be run with command:
- node /Users/amills/WebstormProjects/oresoftware/suman/index.js /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-canonical.js
-
- Client connected. 
-
-created dir at /Users/amills/suman/test_results/1465873667957
-[0mPOST /results/make/new [32m200 [0m2.092 ms - 83[0m
-
-Client disconnected.
-
-
-Client disconnected.
-
-
-
-Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test-hook-params.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test-hook-params.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test-hook-params.js { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test-hook-params.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/poolio/test/test-hook-params.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test-hook-params.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
-
-
-File /Users/amills/WebstormProjects/oresoftware/poolio/test/test-hook-params.js has been changed
-{ transpile: true }
-transpiling!
-
- [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-hook-params.js[22m[39m[49m
- => transpile results: [ '/Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-hook-params.js' ]
-item: /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-hook-params.js
-_matchesInput: true
-_doesNotMatch: true
-
-
- => Test will now be run with command:
- node /Users/amills/WebstormProjects/oresoftware/suman/index.js /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-hook-params.js
-
- Client connected. 
-
-created dir at /Users/amills/suman/test_results/1465873682033
-[0mPOST /results/make/new [32m200 [0m1.853 ms - 83[0m
-
-Client disconnected.
-
-
-
-Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test-hook-params.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test-hook-params.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test-hook-params.js { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test-hook-params.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/poolio/test/test-hook-params.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test-hook-params.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
-
-
-File /Users/amills/WebstormProjects/oresoftware/poolio/test/test-hook-params.js has been changed
-{ transpile: true }
-transpiling!
-
- [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-hook-params.js[22m[39m[49m
- => transpile results: [ '/Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-hook-params.js' ]
-item: /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-hook-params.js
-_matchesInput: true
-_doesNotMatch: true
-
-
- => Test will now be run with command:
- node /Users/amills/WebstormProjects/oresoftware/suman/index.js /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-hook-params.js
-
- Client connected. 
-
-created dir at /Users/amills/suman/test_results/1465873709292
-[0mPOST /results/make/new [32m200 [0m1.388 ms - 83[0m
-
-Client disconnected.
-
-
-
-Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test-poolio-w-suman.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test-poolio-w-suman.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test-poolio-w-suman.js { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test-poolio-w-suman.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/poolio/test/test-poolio-w-suman.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test-poolio-w-suman.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
-
-
-File /Users/amills/WebstormProjects/oresoftware/poolio/test/test-poolio-w-suman.js has been changed
-{ transpile: true }
-transpiling!
-
- [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-poolio-w-suman.js[22m[39m[49m
- => transpile results: [ '/Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-poolio-w-suman.js' ]
-item: /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-poolio-w-suman.js
-_matchesInput: true
-_doesNotMatch: true
-
-
- => Test will now be run with command:
- node /Users/amills/WebstormProjects/oresoftware/suman/index.js /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-poolio-w-suman.js
-
- Client connected. 
-
-created dir at /Users/amills/suman/test_results/1465873789607
-[0mPOST /results/make/new [32m200 [0m1.402 ms - 83[0m
-
-Client disconnected.
-
-
-
-Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
-
-
-File /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js has been changed
-{ transpile: true }
-transpiling!
-
- [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js[22m[39m[49m
- => transpile results: [ '/Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js' ]
-item: /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js
-_matchesInput: true
-_doesNotMatch: true
-
-
- => Test will now be run with command:
- node /Users/amills/WebstormProjects/oresoftware/suman/index.js /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js
-
- Client connected. 
-
-created dir at /Users/amills/suman/test_results/1465873816274
-[0mPOST /results/make/new [32m200 [0m0.788 ms - 83[0m
-
-Client disconnected.
-
-
-
-Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
-
-
-File /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js has been changed
-{ transpile: true }
-transpiling!
-
- [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js[22m[39m[49m
- => transpile results: [ '/Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js' ]
-item: /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js
-_matchesInput: true
-_doesNotMatch: true
-
-
- => Test will now be run with command:
- node /Users/amills/WebstormProjects/oresoftware/suman/index.js /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js
-
- Client connected. 
-
-created dir at /Users/amills/suman/test_results/1465873821549
-[0mPOST /results/make/new [32m200 [0m1.387 ms - 83[0m
-
-Client disconnected.
-
-
-
-Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
-
-
-File /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js has been changed
-{ transpile: true }
-transpiling!
-
- [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js[22m[39m[49m
- => transpile results: [ '/Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js' ]
-item: /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js
-_matchesInput: true
-_doesNotMatch: true
-
-
- => Test will now be run with command:
- node /Users/amills/WebstormProjects/oresoftware/suman/index.js /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js
-
- Client connected. 
-
-created dir at /Users/amills/suman/test_results/1465873881134
-[0mPOST /results/make/new [32m200 [0m0.836 ms - 83[0m
-
-Client disconnected.
-
-
-
-Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test-repeated-inits.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test-repeated-inits.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test-repeated-inits.js { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test-repeated-inits.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/poolio/test/test-repeated-inits.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test-repeated-inits.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
-
-
-File /Users/amills/WebstormProjects/oresoftware/poolio/test/test-repeated-inits.js has been changed
-{ transpile: true }
-transpiling!
-
- [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-repeated-inits.js[22m[39m[49m
- => transpile results: [ '/Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-repeated-inits.js' ]
-item: /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-repeated-inits.js
-_matchesInput: true
-_doesNotMatch: true
-
-
- => Test will now be run with command:
- node /Users/amills/WebstormProjects/oresoftware/suman/index.js /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-repeated-inits.js
-
- Client connected. 
-
-created dir at /Users/amills/suman/test_results/1465873934965
-[0mPOST /results/make/new [32m200 [0m0.775 ms - 83[0m
-
-Client disconnected.
-
-
-
-Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test-repeated-inits.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test-repeated-inits.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test-repeated-inits.js { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test-repeated-inits.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/poolio/test/test-repeated-inits.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test-repeated-inits.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
-
-
-File /Users/amills/WebstormProjects/oresoftware/poolio/test/test-repeated-inits.js has been changed
-{ transpile: true }
-transpiling!
-
- [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-repeated-inits.js[22m[39m[49m
- => transpile results: [ '/Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-repeated-inits.js' ]
-item: /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-repeated-inits.js
-_matchesInput: true
-_doesNotMatch: true
-
-
- => Test will now be run with command:
- node /Users/amills/WebstormProjects/oresoftware/suman/index.js /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-repeated-inits.js
-
- Client connected. 
-
-created dir at /Users/amills/suman/test_results/1465873940547
-[0mPOST /results/make/new [32m200 [0m1.000 ms - 83[0m
-
-Client disconnected.
-
-
-
-Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test-canonical.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test-canonical.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test-canonical.js { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test-canonical.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/poolio/test/test-canonical.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test-canonical.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
-
-
-File /Users/amills/WebstormProjects/oresoftware/poolio/test/test-canonical.js has been changed
-{ transpile: true }
-transpiling!
-
- [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-canonical.js[22m[39m[49m
- => transpile results: [ '/Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-canonical.js' ]
-item: /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-canonical.js
-_matchesInput: true
-_doesNotMatch: true
-
-
- => Test will now be run with command:
- node /Users/amills/WebstormProjects/oresoftware/suman/index.js /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-canonical.js
-
- Client connected. 
-
-created dir at /Users/amills/suman/test_results/1465873978712
-[0mPOST /results/make/new [32m200 [0m0.775 ms - 83[0m
-
-Client disconnected.
-
-
-
-Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
-
-
-File /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js has been changed
-{ transpile: true }
-transpiling!
-
- [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js[22m[39m[49m
- => transpile results: [ '/Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js' ]
-item: /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js
-_matchesInput: true
-_doesNotMatch: true
-
-
- => Test will now be run with command:
- node /Users/amills/WebstormProjects/oresoftware/suman/index.js /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js
-
- Client connected. 
-
-created dir at /Users/amills/suman/test_results/1465873987548
-[0mPOST /results/make/new [32m200 [0m0.902 ms - 83[0m
-
-Client disconnected.
-
-
-
-Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
-
-
-File /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js has been changed
-{ transpile: true }
-transpiling!
-
- [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js[22m[39m[49m
- => transpile results: [ '/Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js' ]
-item: /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js
-_matchesInput: true
-_doesNotMatch: true
-
-
- => Test will now be run with command:
- node /Users/amills/WebstormProjects/oresoftware/suman/index.js /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js
-
- Client connected. 
-
-created dir at /Users/amills/suman/test_results/1465874009690
-[0mPOST /results/make/new [32m200 [0m0.791 ms - 83[0m
-
-Client disconnected.
-
-
-
-Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
-
-
-File /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js has been changed
-{ transpile: true }
-transpiling!
-
- [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js[22m[39m[49m
- => transpile results: [ '/Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js' ]
-item: /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js
-_matchesInput: true
-_doesNotMatch: true
-
-
- => Test will now be run with command:
- node /Users/amills/WebstormProjects/oresoftware/suman/index.js /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js
-
- Client connected. 
-
-created dir at /Users/amills/suman/test_results/1465874018227
-[0mPOST /results/make/new [32m200 [0m1.128 ms - 83[0m
-
-Client disconnected.
-
-
-
-Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
-
-
-File /Users/amills/WebstormProjects/oresoftware/poolio/test/test.js has been changed
-{ transpile: true }
-transpiling!
-
- [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js[22m[39m[49m
- => transpile results: [ '/Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js' ]
-item: /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js
-_matchesInput: true
-_doesNotMatch: true
-
-
- => Test will now be run with command:
- node /Users/amills/WebstormProjects/oresoftware/suman/index.js /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test.js
-
- Client connected. 
-
-created dir at /Users/amills/suman/test_results/1465874027364
-[0mPOST /results/make/new [32m200 [0m1.035 ms - 83[0m
-
-Client disconnected.
-
-
-
-Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test-canonical.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test-canonical.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test-canonical.js { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test-canonical.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/poolio/test/test-canonical.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test-canonical.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
-
-
-File /Users/amills/WebstormProjects/oresoftware/poolio/test/test-canonical.js has been changed
-{ transpile: true }
-transpiling!
-
- [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-canonical.js[22m[39m[49m
- => transpile results: [ '/Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-canonical.js' ]
-item: /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-canonical.js
-_matchesInput: true
-_doesNotMatch: true
-
-
- => Test will now be run with command:
- node /Users/amills/WebstormProjects/oresoftware/suman/index.js /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-canonical.js
-
- Client connected. 
-
-created dir at /Users/amills/suman/test_results/1465874040365
-[0mPOST /results/make/new [32m200 [0m0.798 ms - 83[0m
-
-
-Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test-canonical.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test-canonical.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test-canonical.js { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test-canonical.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/poolio/test/test-canonical.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test-canonical.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
-
-
-File /Users/amills/WebstormProjects/oresoftware/poolio/test/test-canonical.js has been changed
-{ transpile: true }
-transpiling!
-
- [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-canonical.js[22m[39m[49m
- => transpile results: [ '/Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-canonical.js' ]
-item: /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-canonical.js
-_matchesInput: true
-_doesNotMatch: true
-
-
- => Test will now be run with command:
- node /Users/amills/WebstormProjects/oresoftware/suman/index.js /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-canonical.js
-
-Client disconnected.
-
-
- Client connected. 
-
-created dir at /Users/amills/suman/test_results/1465874041339
-[0mPOST /results/make/new [32m200 [0m0.837 ms - 83[0m
-
-Client disconnected.
-
-
-
-Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test-hook-params.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test-hook-params.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test-hook-params.js { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test-hook-params.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/poolio/test/test-hook-params.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test-hook-params.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
-
-
-File /Users/amills/WebstormProjects/oresoftware/poolio/test/test-hook-params.js has been changed
-{ transpile: true }
-transpiling!
-
- [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-hook-params.js[22m[39m[49m
- => transpile results: [ '/Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-hook-params.js' ]
-item: /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-hook-params.js
-_matchesInput: true
-_doesNotMatch: true
-
-
- => Test will now be run with command:
- node /Users/amills/WebstormProjects/oresoftware/suman/index.js /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-hook-params.js
-
- Client connected. 
-
-created dir at /Users/amills/suman/test_results/1465874048936
-[0mPOST /results/make/new [32m200 [0m0.891 ms - 83[0m
-
-Client disconnected.
-
-
-
-Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test-poolio-w-suman.js___jb_tmp___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test-poolio-w-suman.js___jb_tmp___',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 71936 } 
-
-
-
-
-Raw event info: moved /Users/amills/WebstormProjects/oresoftware/poolio/test/test-poolio-w-suman.js { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test-poolio-w-suman.js',
-  event: 'moved',
-  type: 'file',
-  changes: { inode: false, finder: false, access: true, xattrs: false },
-  flags: 83968 } 
-
-
-
-
-Raw event info: deleted /Users/amills/WebstormProjects/oresoftware/poolio/test/test-poolio-w-suman.js___jb_old___ { path: '/Users/amills/WebstormProjects/oresoftware/poolio/test/test-poolio-w-suman.js___jb_old___',
-  event: 'deleted',
-  type: 'file',
-  changes: { inode: false, finder: false, access: false, xattrs: false },
-  flags: 68096 } 
-
-
-File /Users/amills/WebstormProjects/oresoftware/poolio/test/test-poolio-w-suman.js has been changed
-{ transpile: true }
-transpiling!
-
- [46m[35m[1m => Test file will be transpiled to => /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-poolio-w-suman.js[22m[39m[49m
- => transpile results: [ '/Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-poolio-w-suman.js' ]
-item: /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-poolio-w-suman.js
-_matchesInput: true
-_doesNotMatch: true
-
-
- => Test will now be run with command:
- node /Users/amills/WebstormProjects/oresoftware/suman/index.js /Users/amills/WebstormProjects/oresoftware/poolio/test-target/test-poolio-w-suman.js
-
- Client connected. 
-
-created dir at /Users/amills/suman/test_results/1465874079121
-[0mPOST /results/make/new [32m200 [0m0.728 ms - 83[0m
+created dir at /Users/amills/suman/test_results/1465928335872
+[0mPOST /results/make/new [32m200 [0m1.787 ms - 83[0m
 
 Client disconnected.
 
