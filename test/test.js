@@ -1,11 +1,6 @@
-/**
- * Created by amills001c on 10/12/15.
- */
-
 
 const suman = require('suman');
 const Test = suman.init(module, {});
-
 
 ////////
 

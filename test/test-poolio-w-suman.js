@@ -5,7 +5,7 @@ const Test = suman.init(module, {});
 
 ///////////////
 
-Test.describe('@TestsPoolio', {}, function (assert, path, async) {
+Test.describe('@TestsPoolio', {parallel:true}, function (assert, path, async) {
 
     const Pool = require('..');
 
