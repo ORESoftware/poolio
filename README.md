@@ -1,6 +1,12 @@
 # poolio
 
-##  => a versatile process worker pool for Node.js
+##  => a versatile process pool for Node.js
+
+* create a pool of N workers
+* define the start script for each worker in the pool
+* kill workers after each task and automatically generate a new worker on exit, or more likely, reuse the same
+workers for the lifecycle of the worker pool.
+* dynamically add or remove workers at will
 
 <br>
 <br>
