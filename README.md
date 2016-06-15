@@ -1,5 +1,7 @@
 # poolio
 
+##  => a versatile process worker pool for Node.js
+
 <br>
 <br>
 
@@ -13,7 +15,7 @@ This module behaves much like these two pre-existing modules:
 * core: https://nodejs.org/api/cluster.html#cluster_cluster_setupmaster_settings
 * userland: https://github.com/thisandagain/fork-pool
 
-This module strives for simpler implementation; like the above,
+This module strives for a better implementation and simpler API. Like the above,
 this lib utilizes a child_process pool, using child_process.fork() like so: 
 
 
@@ -44,17 +46,17 @@ npm install -S poolio
 const Pool = require('poolio');
 
 const pool = new Pool({
-    filePath: 'child.js',    //path is relative to root of your project
+    filePath: 'child.js',    //path is relative to root of your project, but it's best to pass in an absolute path
     size: 3
 });
 
 
-function rankPostsUsingWorkerProcess(postIds, cb){
+function rankPostsUsingWorkerPool(postIds, cb){
 
     pool.any({action: 'run', posts: postIds}).then(function resolved(posts) {
         cb(null, posts);
-    }, function rejected() {
-        cb(null, []);              //pro-tip, use the rejected handler instead of the catch block, to prevent double-calling of callback
+    }, function rejected(e) {
+        cb(e, []);              //pro-tip, use the rejected handler instead of the catch block, to prevent double-calling of callback
     }).catch(function (err) {
         log.error(err);
     });
@@ -224,9 +226,3 @@ process.on('message', function (data) {   //use the closure, it is better that w
 
 ```
 
-In the future this lib may support other child_process commands besides fork()
-
-
-this lib was sponsored by Poolio's Fantastic Voyage:
-
-![alt tag](http://i.ytimg.com/vi/a3QAHZicSjQ/0.jpg)

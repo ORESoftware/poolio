@@ -2,5 +2,5 @@ node_modules/
 .idea/
 exp*.js
 
-suman/logs/
+test/_suman/logs/
 test-target/

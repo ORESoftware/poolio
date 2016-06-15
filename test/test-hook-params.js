@@ -3,8 +3,8 @@
 const suman = require('suman');
 const Test = suman.init(module);
 
-//
 
+//
 
 Test.describe('Test inits', {parallel: true}, function (Pool, assert, path) {
 
