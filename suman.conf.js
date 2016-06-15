@@ -18,7 +18,7 @@ module.exports = Object.freeze({
     testDestDirectory: 'test/target',
     testDirCopyDir: 'test-target',
     runnerLock: true,
-    transpile: false,                    //default, can be overridden with command line
+    transpile: true,                    //default, can be overridden with command line
     timeoutToSearchForAvailServer: 2000,
     sendStderrToSumanErrLogOnly: true,
     useSuiteNameInTestCaseOutput: false,
