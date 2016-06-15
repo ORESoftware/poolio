@@ -1,0 +1,20 @@
+
+
+ Suman server started on Mon Jun 13 2016 23:39:34 GMT-0700 (PDT) => Suman Server message => using config at path => /Users/Olegzandr/WebstormProjects/poolio/suman.conf.js
+ => Suman config used:  /Users/Olegzandr/WebstormProjects/poolio/suman.conf.js
+
+
+		      :::::::: :::    :::  :::   :::      :::    ::::    ::: 
+		    :+:    :+::+:    :+: :+:+: :+:+:   :+: :+:  :+:+:   :+:  
+		   +:+       +:+    +:++:+ +:+:+ +:+ +:+   +:+ :+:+:+  +:+   
+		  +#++:++#+++#+    +:++#+  +:+  +#++#++:++#++:+#+ +:+ +#+    
+		        +#++#+    +#++#+       +#++#+     +#++#+  +#+#+#     
+		#+#    #+##+#    #+##+#       #+##+#     #+##+#   #+#+#      
+		########  ######## ###       ######     ######    ####       
+
+
+sumanMatches: []
+sumanNotMatches: [ /fixture/ ]
+	Server listening on port 6969 , CWD = /Users/Olegzandr/WebstormProjects/poolio
+
+
