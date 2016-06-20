@@ -1,0 +1,118 @@
+{
+  "/Users/Olegzandr/WebstormProjects/poolio/test": {
+    "transpile": false,
+    "testPath": "/Users/Olegzandr/WebstormProjects/poolio/test",
+    "execute": true
+  },
+  "/Users/Olegzandr/WebstormProjects/poolio/test/_suman": {
+    "transpile": false,
+    "testPath": "/Users/Olegzandr/WebstormProjects/poolio/test/_suman",
+    "execute": true
+  },
+  "/Users/Olegzandr/WebstormProjects/poolio/test/fixtures": {
+    "transpile": false,
+    "testPath": "/Users/Olegzandr/WebstormProjects/poolio/test/fixtures",
+    "execute": true
+  },
+  "/Users/Olegzandr/WebstormProjects/poolio/test/test-canonical.js": {
+    "transpile": false,
+    "testPath": "/Users/Olegzandr/WebstormProjects/poolio/test/test-canonical.js",
+    "execute": true
+  },
+  "/Users/Olegzandr/WebstormProjects/poolio/test/test-hook-params.js": {
+    "transpile": false,
+    "testPath": "/Users/Olegzandr/WebstormProjects/poolio/test/test-hook-params.js",
+    "execute": true
+  },
+  "/Users/Olegzandr/WebstormProjects/poolio/test/test-poolio-w-suman.js": {
+    "transpile": false,
+    "testPath": "/Users/Olegzandr/WebstormProjects/poolio/test/test-poolio-w-suman.js",
+    "execute": true
+  },
+  "/Users/Olegzandr/WebstormProjects/poolio/test/test-repeated-inits.js": {
+    "transpile": false,
+    "testPath": "/Users/Olegzandr/WebstormProjects/poolio/test/test-repeated-inits.js",
+    "execute": true
+  },
+  "/Users/Olegzandr/WebstormProjects/poolio/test/test.js": {
+    "transpile": false,
+    "testPath": "/Users/Olegzandr/WebstormProjects/poolio/test/test.js",
+    "execute": true
+  },
+  "/Users/Olegzandr/WebstormProjects/poolio/test/_suman/.readme": {
+    "transpile": false,
+    "testPath": "/Users/Olegzandr/WebstormProjects/poolio/test/_suman/.readme",
+    "execute": true
+  },
+  "/Users/Olegzandr/WebstormProjects/poolio/test/_suman/examples": {
+    "transpile": false,
+    "testPath": "/Users/Olegzandr/WebstormProjects/poolio/test/_suman/examples",
+    "execute": true
+  },
+  "/Users/Olegzandr/WebstormProjects/poolio/test/_suman/logs": {
+    "transpile": false,
+    "testPath": "/Users/Olegzandr/WebstormProjects/poolio/test/_suman/logs",
+    "execute": true
+  },
+  "/Users/Olegzandr/WebstormProjects/poolio/test/_suman/suman.globals.js": {
+    "transpile": false,
+    "testPath": "/Users/Olegzandr/WebstormProjects/poolio/test/_suman/suman.globals.js",
+    "execute": true
+  },
+  "/Users/Olegzandr/WebstormProjects/poolio/test/_suman/suman.hooks.js": {
+    "transpile": false,
+    "testPath": "/Users/Olegzandr/WebstormProjects/poolio/test/_suman/suman.hooks.js",
+    "execute": true
+  },
+  "/Users/Olegzandr/WebstormProjects/poolio/test/_suman/suman.ioc.js": {
+    "transpile": false,
+    "testPath": "/Users/Olegzandr/WebstormProjects/poolio/test/_suman/suman.ioc.js",
+    "execute": true
+  },
+  "/Users/Olegzandr/WebstormProjects/poolio/test/_suman/suman.once.js": {
+    "transpile": false,
+    "testPath": "/Users/Olegzandr/WebstormProjects/poolio/test/_suman/suman.once.js",
+    "execute": true
+  },
+  "/Users/Olegzandr/WebstormProjects/poolio/test/_suman/suman.order.js": {
+    "transpile": false,
+    "testPath": "/Users/Olegzandr/WebstormProjects/poolio/test/_suman/suman.order.js",
+    "execute": true
+  },
+  "/Users/Olegzandr/WebstormProjects/poolio/test/_suman/suman.reporters.js": {
+    "transpile": false,
+    "testPath": "/Users/Olegzandr/WebstormProjects/poolio/test/_suman/suman.reporters.js",
+    "execute": true
+  },
+  "/Users/Olegzandr/WebstormProjects/poolio/test/fixtures/sample-file.js": {
+    "transpile": false,
+    "testPath": "/Users/Olegzandr/WebstormProjects/poolio/test/fixtures/sample-file.js",
+    "execute": true
+  },
+  "/Users/Olegzandr/WebstormProjects/poolio/test/fixtures/sample-file1.js": {
+    "transpile": false,
+    "testPath": "/Users/Olegzandr/WebstormProjects/poolio/test/fixtures/sample-file1.js",
+    "execute": true
+  },
+  "/Users/Olegzandr/WebstormProjects/poolio/test/fixtures/worker1.js": {
+    "transpile": false,
+    "testPath": "/Users/Olegzandr/WebstormProjects/poolio/test/fixtures/worker1.js",
+    "execute": true
+  },
+  "/Users/Olegzandr/WebstormProjects/poolio/test/_suman/examples/one.js": {
+    "transpile": false,
+    "testPath": "/Users/Olegzandr/WebstormProjects/poolio/test/_suman/examples/one.js",
+    "execute": true
+  },
+  "/Users/Olegzandr/WebstormProjects/poolio/test/_suman/examples/three.js": {
+    "transpile": false,
+    "testPath": "/Users/Olegzandr/WebstormProjects/poolio/test/_suman/examples/three.js",
+    "execute": true
+  },
+  "/Users/Olegzandr/WebstormProjects/poolio/test/_suman/examples/two.js": {
+    "transpile": false,
+    "testPath": "/Users/Olegzandr/WebstormProjects/poolio/test/_suman/examples/two.js",
+    "execute": true
+  }
+}
+

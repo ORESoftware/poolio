@@ -4,7 +4,7 @@ const suman = require('suman');
 const Test = suman.init(module);
 
 
-//
+//////
 
 Test.describe('Test inits', {parallel: true}, function (Pool, assert, path) {
 
@@ -65,14 +65,26 @@ Test.describe('Test inits', {parallel: true}, function (Pool, assert, path) {
 
     });
 
+    //
 
-    data.forEach(d => {
-        this.it.cb({value: d}, t => {
+
+    data.forEach((d,index) => {
+        this.it.cb(String(index), {value: d}, t => {
             const pool = t.data.pool;
             assert.equal(pool.getCurrentStats().all, d.size);
             t.done();
+            // process.nextTick(t.done);
+            // process.nextTick(function(){
+            //     t.done();
+            // });
         });
     });
+
+    // this.after(function(){
+    //
+    //     console.log('after all');
+    //
+    // });
 
 
 });

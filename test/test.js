@@ -2,7 +2,7 @@
 const suman = require('suman');
 const Test = suman.init(module, {});
 
-////////
+///////////////
 
 Test.describe('@TestsPoolio', {parallel: true}, function (suite, path, async, assert) {
 
@@ -78,7 +78,7 @@ Test.describe('@TestsPoolio', {parallel: true}, function (suite, path, async, as
 
 	});
 
-	this.after.cb(t => {
+	this.after.cb(t => {  ///////
 
 		async.each([pool0, pool1, pool2, pool3], function (p, cb) {
 

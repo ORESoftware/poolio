@@ -1,8 +1,6 @@
 
 
- Suman server started on Tue Jun 14 2016 20:54:12 GMT-0700 (PDT) => Suman Server message => using config at path => /Users/Olegzandr/WebstormProjects/poolio/suman.conf.js
- => Suman config used:  /Users/Olegzandr/WebstormProjects/poolio/suman.conf.js
-
+ Suman server started on Sun Jun 19 2016 22:42:35 GMT-0700 (PDT)
 
 		      :::::::: :::    :::  :::   :::      :::    ::::    ::: 
 		    :+:    :+::+:    :+: :+:+: :+:+:   :+: :+:  :+:+:   :+:  
@@ -13,31 +11,33 @@
 		########  ######## ###       ######     ######    ####       
 
 
-sumanMatches: []
-sumanNotMatches: [ /fixture/ ]
+global.sumanHelperDirRoot: /Users/Olegzandr/WebstormProjects/poolio/test/_suman
+watcherOutputLogPath: /Users/Olegzandr/WebstormProjects/poolio/test/_suman/logs/watcher-output.log
+
+
+	 => Warning Suman main executable file could not be located, attempting "$ suman"...
 	Server listening on port 6969 , CWD = /Users/Olegzandr/WebstormProjects/poolio
 
 
 
  Client connected. 
 
- => Suman server event => socketio watch event has been received by server:
+ => Suman server => "watch" request received via socket.io.
+ => Suman server event => socket.io watch event has been received by server:
  { paths: [ '/Users/Olegzandr/WebstormProjects/poolio/test' ],
-  transpile: true }
- => chokidar watcher initialized.
+  transpile: true,
+  executeTests: false }
+ => Suman server => chokidar watcher initialized.
 
  Client connected. 
 
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465962843072'
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1466401355876'
     at Error (native)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465962843072'
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1466401355876'
     at Error (native)
-[0mPOST /results/make/new [31m500 [0m102.318 ms - 128[0m
-
-Client disconnected.
-
-Initial scan complete. Ready for changes
-Watched paths: { '/Users/Olegzandr/WebstormProjects/poolio': [ 'test' ],
+[0mPOST /results/make/new [31m500 [0m23.967 ms - 128[0m
+ => Suman server => Suman watch process => Initial scan complete. Ready for changes
+ => Suman server => watched paths: { '/Users/Olegzandr/WebstormProjects/poolio': [ 'test' ],
   '/Users/Olegzandr/WebstormProjects/poolio/test': 
    [ '_suman',
      'fixtures',
@@ -46,6 +46,7 @@ Watched paths: { '/Users/Olegzandr/WebstormProjects/poolio': [ 'test' ],
      'test-poolio-w-suman.js',
      'test-repeated-inits.js',
      'test.js' ],
+  '/Users/Olegzandr/WebstormProjects/poolio/test/fixtures': [ 'sample-file.js', 'sample-file1.js', 'worker1.js' ],
   '/Users/Olegzandr/WebstormProjects/poolio/test/_suman': 
    [ '.readme',
      'examples',
@@ -56,7 +57,6 @@ Watched paths: { '/Users/Olegzandr/WebstormProjects/poolio': [ 'test' ],
      'suman.once.js',
      'suman.order.js',
      'suman.reporters.js' ],
-  '/Users/Olegzandr/WebstormProjects/poolio/test/fixtures': [ 'sample-file.js', 'sample-file1.js', 'worker1.js' ],
   '/Users/Olegzandr/WebstormProjects/poolio/test/_suman/examples': [ 'one.js', 'three.js', 'two.js' ],
   '/Users/Olegzandr/WebstormProjects/poolio/test/_suman/logs': [] }
  => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/poolio/test
@@ -67,6 +67,9 @@ Watched paths: { '/Users/Olegzandr/WebstormProjects/poolio': [ 'test' ],
  => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/poolio/test/test-poolio-w-suman.js
  => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/poolio/test/test-repeated-inits.js
  => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/poolio/test/test.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/poolio/test/fixtures/sample-file.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/poolio/test/fixtures/sample-file1.js
+ => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/poolio/test/fixtures/worker1.js
  => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/poolio/test/_suman/.readme
  => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/poolio/test/_suman/examples
  => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/poolio/test/_suman/logs
@@ -76,54 +79,9 @@ Watched paths: { '/Users/Olegzandr/WebstormProjects/poolio': [ 'test' ],
  => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/poolio/test/_suman/suman.once.js
  => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/poolio/test/_suman/suman.order.js
  => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/poolio/test/_suman/suman.reporters.js
- => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/poolio/test/fixtures/sample-file.js
- => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/poolio/test/fixtures/sample-file1.js
- => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/poolio/test/fixtures/worker1.js
  => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/poolio/test/_suman/examples/one.js
  => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/poolio/test/_suman/examples/three.js
  => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/poolio/test/_suman/examples/two.js
-File /Users/Olegzandr/WebstormProjects/poolio/test/test.js has been changed
-{ transpile: true }
-transpiling!
-
-  => Test file will be transpiled to => /Users/Olegzandr/WebstormProjects/poolio/test-target/test.js
- => transpile results: [ '/Users/Olegzandr/WebstormProjects/poolio/test-target/test.js' ]
-item: /Users/Olegzandr/WebstormProjects/poolio/test-target/test.js
-_matchesInput: true
-_doesNotMatch: true
-
-
- => Test will now be run with command:
- node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/poolio/test-target/test.js
-
- Client connected. 
-
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465962878676'
-    at Error (native)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465962878676'
-    at Error (native)
-[0mPOST /results/make/new [31m500 [0m3.190 ms - 128[0m
-
-Client disconnected.
-
-File /Users/Olegzandr/WebstormProjects/poolio/test/test.js has been changed
-{ transpile: true }
-transpiling!
-
-  => Test file will be transpiled to => /Users/Olegzandr/WebstormProjects/poolio/test-target/test.js
- => transpile results: [ '/Users/Olegzandr/WebstormProjects/poolio/test-target/test.js' ]
-item: /Users/Olegzandr/WebstormProjects/poolio/test-target/test.js
-_matchesInput: true
-_doesNotMatch: true
-
-
- => Test will now be run with command:
- node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/poolio/test-target/test.js
-
- Client connected. 
-
-created dir at /Users/Olegzandr/suman/test_results/1465962882933
-[0mPOST /results/make/new [32m200 [0m1.517 ms - 86[0m
 
 Client disconnected.
 
@@ -131,424 +89,55 @@ Client disconnected.
 Client disconnected.
 
 File /Users/Olegzandr/WebstormProjects/poolio/test/test.js has been changed
-{ transpile: true }
+{ transpile: true,
+  testPath: '/Users/Olegzandr/WebstormProjects/poolio/test/test.js',
+  execute: true }
 transpiling!
+
+
+ => file will first be transpiled/copied.
+ => testDirCopyDir: /Users/Olegzandr/WebstormProjects/poolio/test-target
 
   => Test file will be transpiled to => /Users/Olegzandr/WebstormProjects/poolio/test-target/test.js
- => transpile results: [ '/Users/Olegzandr/WebstormProjects/poolio/test-target/test.js' ]
-item: /Users/Olegzandr/WebstormProjects/poolio/test-target/test.js
-_matchesInput: true
-_doesNotMatch: true
+ => transpile results: [ { originalPath: '/Users/Olegzandr/WebstormProjects/poolio/test/test.js',
+    targetPath: '/Users/Olegzandr/WebstormProjects/poolio/test-target/test.js' } ]
 
+ => file transpiled successfully.
+originalTestPath: /Users/Olegzandr/WebstormProjects/poolio/test/test.js
+pathHash: {"/Users/Olegzandr/WebstormProjects/poolio/test":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test","execute":true},"/Users/Olegzandr/WebstormProjects/poolio/test/_suman":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test/_suman","execute":true},"/Users/Olegzandr/WebstormProjects/poolio/test/fixtures":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test/fixtures","execute":true},"/Users/Olegzandr/WebstormProjects/poolio/test/test-canonical.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test/test-canonical.js","execute":true},"/Users/Olegzandr/WebstormProjects/poolio/test/test-hook-params.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test/test-hook-params.js","execute":true},"/Users/Olegzandr/WebstormProjects/poolio/test/test-poolio-w-suman.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test/test-poolio-w-suman.js","execute":true},"/Users/Olegzandr/WebstormProjects/poolio/test/test-repeated-inits.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test/test-repeated-inits.js","execute":true},"/Users/Olegzandr/WebstormProjects/poolio/test/test.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test/test.js","execute":true},"/Users/Olegzandr/WebstormProjects/poolio/test/fixtures/sample-file.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test/fixtures/sample-file.js","execute":true},"/Users/Olegzandr/WebstormProjects/poolio/test/fixtures/sample-file1.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test/fixtures/sample-file1.js","execute":true},"/Users/Olegzandr/WebstormProjects/poolio/test/fixtures/worker1.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test/fixtures/worker1.js","execute":true},"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/.readme":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/.readme","execute":true},"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/examples":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/examples","execute":true},"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/logs":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/logs","execute":true},"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/suman.globals.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/suman.globals.js","execute":true},"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/suman.hooks.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/suman.hooks.js","execute":true},"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/suman.ioc.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/suman.ioc.js","execute":true},"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/suman.once.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/suman.once.js","execute":true},"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/suman.order.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/suman.order.js","execute":true},"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/suman.reporters.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/suman.reporters.js","execute":true},"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/examples/one.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/examples/one.js","execute":true},"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/examples/three.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/examples/three.js","execute":true},"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/examples/two.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/examples/two.js","execute":true}}
 
- => Test will now be run with command:
- node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/poolio/test-target/test.js
+ => Suman watcher => test will now execute.
 
- Client connected. 
 
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465970604872'
-    at Error (native)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465970604872'
-    at Error (native)
-[0mPOST /results/make/new [31m500 [0m1.844 ms - 128[0m
 
-Client disconnected.
 
-File /Users/Olegzandr/WebstormProjects/poolio/test/test.js has been changed
-{ transpile: true }
-transpiling!
+ => Suman Server => Uncaught Exception => TypeError: pool.killAllActiveWorkers is not a function
+    at runTestWithSuman (/Users/Olegzandr/WebstormProjects/suman-server/server/bin/socket-server.js:213:7)
+    at /Users/Olegzandr/WebstormProjects/suman-server/server/bin/socket-server.js:112:6
+    at /Users/Olegzandr/WebstormProjects/suman-utils/node_modules/async/dist/async.js:396:20
+    at /Users/Olegzandr/WebstormProjects/suman-utils/node_modules/async/dist/async.js:904:13
+    at /Users/Olegzandr/WebstormProjects/suman-utils/node_modules/async/dist/async.js:396:20
+    at replenish (/Users/Olegzandr/WebstormProjects/suman-utils/node_modules/async/dist/async.js:858:28)
+    at /Users/Olegzandr/WebstormProjects/suman-utils/node_modules/async/dist/async.js:877:29
+    at /Users/Olegzandr/WebstormProjects/suman-utils/node_modules/async/dist/async.js:840:20
+    at /Users/Olegzandr/WebstormProjects/suman-utils/node_modules/async/dist/async.js:901:17
+    at /Users/Olegzandr/WebstormProjects/suman-utils/all/run-transpile.js:304:9 
 
-  => Test file will be transpiled to => /Users/Olegzandr/WebstormProjects/poolio/test-target/test.js
- => transpile results: [ '/Users/Olegzandr/WebstormProjects/poolio/test-target/test.js' ]
-item: /Users/Olegzandr/WebstormProjects/poolio/test-target/test.js
-_matchesInput: true
-_doesNotMatch: true
 
 
- => Test will now be run with command:
- node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/poolio/test-target/test.js
+ => Suman Server => Uncaught Exception => TypeError: pool.killAllActiveWorkers is not a function
+    at runTestWithSuman (/Users/Olegzandr/WebstormProjects/suman-server/server/bin/socket-server.js:213:7)
+    at /Users/Olegzandr/WebstormProjects/suman-server/server/bin/socket-server.js:112:6
+    at /Users/Olegzandr/WebstormProjects/suman-utils/node_modules/async/dist/async.js:396:20
+    at /Users/Olegzandr/WebstormProjects/suman-utils/node_modules/async/dist/async.js:904:13
+    at /Users/Olegzandr/WebstormProjects/suman-utils/node_modules/async/dist/async.js:396:20
+    at replenish (/Users/Olegzandr/WebstormProjects/suman-utils/node_modules/async/dist/async.js:858:28)
+    at /Users/Olegzandr/WebstormProjects/suman-utils/node_modules/async/dist/async.js:877:29
+    at /Users/Olegzandr/WebstormProjects/suman-utils/node_modules/async/dist/async.js:840:20
+    at /Users/Olegzandr/WebstormProjects/suman-utils/node_modules/async/dist/async.js:901:17
+    at /Users/Olegzandr/WebstormProjects/suman-utils/all/run-transpile.js:304:9
 
- Client connected. 
 
-created dir at /Users/Olegzandr/suman/test_results/1465970614646
-[0mPOST /results/make/new [32m200 [0m1.344 ms - 86[0m
 
-Client disconnected.
-
-File /Users/Olegzandr/WebstormProjects/poolio/test/test-canonical.js has been changed
-{ transpile: true }
-transpiling!
-
-  => Test file will be transpiled to => /Users/Olegzandr/WebstormProjects/poolio/test-target/test-canonical.js
- => transpile results: [ '/Users/Olegzandr/WebstormProjects/poolio/test-target/test-canonical.js' ]
-item: /Users/Olegzandr/WebstormProjects/poolio/test-target/test-canonical.js
-_matchesInput: true
-_doesNotMatch: true
-
-
- => Test will now be run with command:
- node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/poolio/test-target/test-canonical.js
-
- Client connected. 
-
-created dir at /Users/Olegzandr/suman/test_results/1465970621019
-[0mPOST /results/make/new [32m200 [0m1.152 ms - 86[0m
-
-Client disconnected.
-
-File /Users/Olegzandr/WebstormProjects/poolio/test/test-canonical.js has been changed
-{ transpile: true }
-transpiling!
-
-  => Test file will be transpiled to => /Users/Olegzandr/WebstormProjects/poolio/test-target/test-canonical.js
- => transpile results: [ '/Users/Olegzandr/WebstormProjects/poolio/test-target/test-canonical.js' ]
-item: /Users/Olegzandr/WebstormProjects/poolio/test-target/test-canonical.js
-_matchesInput: true
-_doesNotMatch: true
-
-
- => Test will now be run with command:
- node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/poolio/test-target/test-canonical.js
-
- Client connected. 
-
-created dir at /Users/Olegzandr/suman/test_results/1465973015088
-[0mPOST /results/make/new [32m200 [0m0.990 ms - 86[0m
-
-Client disconnected.
-
-
- Client connected. 
-
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465973022446'
-    at Error (native)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465973022446'
-    at Error (native)
-[0mPOST /results/make/new [31m500 [0m1.215 ms - 128[0m
-
-Client disconnected.
-
-
- Client connected. 
-
-created dir at /Users/Olegzandr/suman/test_results/1465973058424
-[0mPOST /results/make/new [32m200 [0m56.165 ms - 86[0m
-
-Client disconnected.
-
-
- Client connected. 
-
-created dir at /Users/Olegzandr/suman/test_results/1465973096342
-[0mPOST /results/make/new [32m200 [0m1.548 ms - 86[0m
-
- Client connected. 
-
-created dir at /Users/Olegzandr/suman/test_results/1465973160908
-[0mPOST /results/make/new [32m200 [0m0.667 ms - 86[0m
-
-Client disconnected.
-
-
-Client disconnected.
-
-
- Client connected. 
-
-created dir at /Users/Olegzandr/suman/test_results/1465973302803
-[0mPOST /results/make/new [32m200 [0m0.782 ms - 86[0m
-
-Client disconnected.
-
-[0mGET /results/1465973302803 [32m200 [0m34.664 ms - 2140[0m
-[0mGET /js/vendor/require.js [36m304 [0m2.427 ms - -[0m
-[0mGET /styles/style-accordion.css [36m304 [0m0.817 ms - -[0m
-[0mGET /styles/suman-styles.css [36m304 [0m0.961 ms - -[0m
-[0mGET /images/suman-main-logo.png [36m304 [0m0.401 ms - -[0m
-[0mGET /js/main.js [36m304 [0m0.303 ms - -[0m
-[0mGET /js/pages/results/app.js [36m304 [0m0.387 ms - -[0m
-[0mGET /js/react-components/AccordionComp.js [36m304 [0m1.291 ms - -[0m
-[0mGET /js/react-components/AccordionSection.js [36m304 [0m1.049 ms - -[0m
-[0mGET /js/react-components/react-controller.js [36m304 [0m1.076 ms - -[0m
-[0mGET /js/react-components/TestFileSuite.js [36m304 [0m0.322 ms - -[0m
-[0mGET /results/1465973302803/test-repeated-inits [32m200 [0m1.346 ms - 2918[0m
-[0mGET /results/1465973302803/test-poolio-w-suman [32m200 [0m0.990 ms - 1715[0m
-[0mGET /results/1465973302803/test-canonical [32m200 [0m0.925 ms - 3644[0m
-
- Client connected. 
-
-created dir at /Users/Olegzandr/suman/test_results/1465974193207
-[0mPOST /results/make/new [32m200 [0m2.136 ms - 86[0m
-
-Client disconnected.
-
-
- Client connected. 
-
-created dir at /Users/Olegzandr/suman/test_results/1465974335697
-[0mPOST /results/make/new [32m200 [0m0.686 ms - 86[0m
-
-Client disconnected.
-
-
- Client connected. 
-
-created dir at /Users/Olegzandr/suman/test_results/1465974431064
-[0mPOST /results/make/new [32m200 [0m0.820 ms - 86[0m
-
-Client disconnected.
-
-
- Client connected. 
-
-created dir at /Users/Olegzandr/suman/test_results/1465974484354
-[0mPOST /results/make/new [32m200 [0m0.661 ms - 86[0m
-
-Client disconnected.
-
-
- Client connected. 
-
-created dir at /Users/Olegzandr/suman/test_results/1465974498179
-[0mPOST /results/make/new [32m200 [0m0.686 ms - 86[0m
-
-Client disconnected.
-
-
- Client connected. 
-
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465974507039'
-    at Error (native)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465974507039'
-    at Error (native)
-[0mPOST /results/make/new [31m500 [0m2.210 ms - 128[0m
-
-Client disconnected.
-
-File /Users/Olegzandr/WebstormProjects/poolio/test/test-poolio-w-suman.js has been changed
-{ transpile: true }
-transpiling!
-
-  => Test file will be transpiled to => /Users/Olegzandr/WebstormProjects/poolio/test-target/test-poolio-w-suman.js
- => transpile results: [ '/Users/Olegzandr/WebstormProjects/poolio/test-target/test-poolio-w-suman.js' ]
-item: /Users/Olegzandr/WebstormProjects/poolio/test-target/test-poolio-w-suman.js
-_matchesInput: true
-_doesNotMatch: true
-
-
- => Test will now be run with command:
- node /Users/Olegzandr/WebstormProjects/suman/index.js /Users/Olegzandr/WebstormProjects/poolio/test-target/test-poolio-w-suman.js
-
- Client connected. 
-
-created dir at /Users/Olegzandr/suman/test_results/1465974562412
-[0mPOST /results/make/new [32m200 [0m1.051 ms - 86[0m
-
-Client disconnected.
-
-
- Client connected. 
-
-created dir at /Users/Olegzandr/suman/test_results/1465974574480
-[0mPOST /results/make/new [32m200 [0m1.099 ms - 86[0m
-
-Client disconnected.
-
-
- Client connected. 
-
-created dir at /Users/Olegzandr/suman/test_results/1465974584124
-[0mPOST /results/make/new [32m200 [0m0.644 ms - 86[0m
-
-Client disconnected.
-
-
- Client connected. 
-
-created dir at /Users/Olegzandr/suman/test_results/1465975153480
-[0mPOST /results/make/new [32m200 [0m1.015 ms - 86[0m
-
-Client disconnected.
-
-
- Client connected. 
-
-created dir at /Users/Olegzandr/suman/test_results/1465975213045
-[0mPOST /results/make/new [32m200 [0m0.600 ms - 86[0m
-
-Client disconnected.
-
-
- Client connected. 
-
-created dir at /Users/Olegzandr/suman/test_results/1465975238806
-[0mPOST /results/make/new [32m200 [0m0.661 ms - 86[0m
-
-Client disconnected.
-
-
- Client connected. 
-
-created dir at /Users/Olegzandr/suman/test_results/1465975373946
-[0mPOST /results/make/new [32m200 [0m0.597 ms - 86[0m
-
-Client disconnected.
-
-
- Client connected. 
-
-created dir at /Users/Olegzandr/suman/test_results/1465975426991
-[0mPOST /results/make/new [32m200 [0m0.830 ms - 86[0m
-
-Client disconnected.
-
-
- Client connected. 
-
-created dir at /Users/Olegzandr/suman/test_results/1465976661707
-[0mPOST /results/make/new [32m200 [0m0.586 ms - 86[0m
-
-Client disconnected.
-
-[0mGET /results/1465976661707 [32m200 [0m49.488 ms - 2140[0m
-[0mGET /js/vendor/require.js [36m304 [0m0.517 ms - -[0m
-[0mGET /styles/style-accordion.css [36m304 [0m0.241 ms - -[0m
-[0mGET /styles/suman-styles.css [36m304 [0m0.249 ms - -[0m
-[0mGET /images/suman-main-logo.png [36m304 [0m0.799 ms - -[0m
-[0mGET /js/main.js [36m304 [0m0.300 ms - -[0m
-[0mGET /js/pages/results/app.js [36m304 [0m0.352 ms - -[0m
-[0mGET /js/react-components/AccordionComp.js [36m304 [0m1.395 ms - -[0m
-[0mGET /js/react-components/AccordionSection.js [36m304 [0m1.711 ms - -[0m
-[0mGET /js/react-components/react-controller.js [36m304 [0m0.336 ms - -[0m
-[0mGET /js/react-components/TestFileSuite.js [36m304 [0m0.302 ms - -[0m
-[0mGET /results/1465976661707/test-repeated-inits [32m200 [0m0.861 ms - 2918[0m
-[0mGET /results/1465976661707/test [32m200 [0m1.050 ms - 890[0m
-[0mGET /results/1465976661707/test-poolio-w-suman [32m200 [0m1.764 ms - 4030[0m
-[0mGET /results/1465976661707/test-canonical [32m200 [0m0.882 ms - 3644[0m
-[0mGET /results/1465976661707 [32m200 [0m2.605 ms - 2140[0m
-[0mGET /js/vendor/require.js [36m304 [0m0.498 ms - -[0m
-[0mGET /styles/style-accordion.css [36m304 [0m0.485 ms - -[0m
-[0mGET /styles/suman-styles.css [36m304 [0m0.388 ms - -[0m
-[0mGET /images/suman-main-logo.png [36m304 [0m0.286 ms - -[0m
-[0mGET /js/main.js [36m304 [0m0.300 ms - -[0m
-[0mGET /js/pages/results/app.js [36m304 [0m0.302 ms - -[0m
-[0mGET /js/react-components/AccordionComp.js [36m304 [0m1.070 ms - -[0m
-[0mGET /js/react-components/AccordionSection.js [36m304 [0m0.647 ms - -[0m
-[0mGET /js/react-components/react-controller.js [36m304 [0m0.541 ms - -[0m
-[0mGET /js/react-components/TestFileSuite.js [36m304 [0m0.281 ms - -[0m
-[0mGET /results/1465976661707/test-poolio-w-suman [32m200 [0m0.799 ms - 4030[0m
-[0mGET /results/1465976661707/test-canonical [32m200 [0m1.029 ms - 3644[0m
-[0mGET /results/1465976661707/test-repeated-inits [32m200 [0m1.073 ms - 2918[0m
-[0mGET /results/1465976661707/test [32m200 [0m0.710 ms - 890[0m
-[0mGET /results/1465976661707 [32m200 [0m2.795 ms - 2140[0m
-[0mGET /js/vendor/require.js [36m304 [0m0.697 ms - -[0m
-[0mGET /styles/style-accordion.css [36m304 [0m0.661 ms - -[0m
-[0mGET /styles/suman-styles.css [36m304 [0m0.833 ms - -[0m
-[0mGET /images/suman-main-logo.png [36m304 [0m1.004 ms - -[0m
-[0mGET /js/main.js [36m304 [0m0.325 ms - -[0m
-[0mGET /js/pages/results/app.js [36m304 [0m0.366 ms - -[0m
-[0mGET /js/react-components/AccordionComp.js [36m304 [0m0.584 ms - -[0m
-[0mGET /js/react-components/AccordionSection.js [36m304 [0m0.736 ms - -[0m
-[0mGET /js/react-components/react-controller.js [36m304 [0m0.553 ms - -[0m
-[0mGET /js/react-components/TestFileSuite.js [36m304 [0m0.470 ms - -[0m
-[0mGET /results/1465976661707/test [32m200 [0m0.827 ms - 890[0m
-[0mGET /results/1465976661707/test-repeated-inits [32m200 [0m0.874 ms - 2918[0m
-[0mGET /results/1465976661707/test-poolio-w-suman [32m200 [0m0.847 ms - 4030[0m
-[0mGET /results/1465976661707/test-canonical [32m200 [0m1.035 ms - 3644[0m
-[0mGET /results/1465976661707 [32m200 [0m2.950 ms - 2142[0m
-[0mGET /js/vendor/require.js [36m304 [0m1.396 ms - -[0m
-[0mGET /styles/style-accordion.css [36m304 [0m0.708 ms - -[0m
-[0mGET /styles/suman-styles.css [36m304 [0m0.656 ms - -[0m
-[0mGET /images/suman-main-logo.png [36m304 [0m0.297 ms - -[0m
-[0mGET /js/main.js [36m304 [0m0.289 ms - -[0m
-[0mGET /js/pages/results/app.js [36m304 [0m0.345 ms - -[0m
-[0mGET /js/react-components/AccordionComp.js [36m304 [0m0.263 ms - -[0m
-[0mGET /js/react-components/AccordionSection.js [36m304 [0m0.174 ms - -[0m
-[0mGET /js/react-components/react-controller.js [36m304 [0m0.225 ms - -[0m
-[0mGET /js/react-components/TestFileSuite.js [36m304 [0m0.274 ms - -[0m
-[0mGET /results/1465976661707 [32m200 [0m2.174 ms - 2142[0m
-[0mGET /js/vendor/require.js [36m304 [0m0.484 ms - -[0m
-[0mGET /styles/style-accordion.css [36m304 [0m0.455 ms - -[0m
-[0mGET /styles/suman-styles.css [36m304 [0m0.163 ms - -[0m
-[0mGET /images/suman-main-logo.png [36m304 [0m0.288 ms - -[0m
-[0mGET /js/main.js [36m304 [0m0.313 ms - -[0m
-[0mGET /js/pages/results/app.js [36m304 [0m0.435 ms - -[0m
-[0mGET /js/react-components/AccordionComp.js [36m304 [0m0.290 ms - -[0m
-[0mGET /js/react-components/AccordionSection.js [36m304 [0m0.446 ms - -[0m
-[0mGET /js/react-components/react-controller.js [36m304 [0m0.644 ms - -[0m
-[0mGET /js/react-components/TestFileSuite.js [36m304 [0m0.288 ms - -[0m
-[0mGET /results/1465976661707 [32m200 [0m3.240 ms - 2140[0m
-[0mGET /js/vendor/require.js [36m304 [0m0.490 ms - -[0m
-[0mGET /styles/style-accordion.css [36m304 [0m0.448 ms - -[0m
-[0mGET /styles/suman-styles.css [36m304 [0m0.173 ms - -[0m
-[0mGET /images/suman-main-logo.png [36m304 [0m0.355 ms - -[0m
-[0mGET /js/main.js [36m304 [0m0.317 ms - -[0m
-[0mGET /js/pages/results/app.js [36m304 [0m0.348 ms - -[0m
-[0mGET /js/react-components/AccordionComp.js [36m304 [0m0.227 ms - -[0m
-[0mGET /js/react-components/AccordionSection.js [36m304 [0m0.175 ms - -[0m
-[0mGET /js/react-components/react-controller.js [36m304 [0m0.228 ms - -[0m
-[0mGET /js/react-components/TestFileSuite.js [36m304 [0m0.288 ms - -[0m
-[0mGET /results/1465976661707 [32m200 [0m3.541 ms - 2140[0m
-[0mGET /js/vendor/require.js [36m304 [0m0.911 ms - -[0m
-[0mGET /styles/style-accordion.css [36m304 [0m0.643 ms - -[0m
-[0mGET /styles/suman-styles.css [36m304 [0m0.190 ms - -[0m
-[0mGET /images/suman-main-logo.png [36m304 [0m0.298 ms - -[0m
-[0mGET /js/main.js [36m304 [0m0.298 ms - -[0m
-[0mGET /js/pages/results/app.js [36m304 [0m0.299 ms - -[0m
-[0mGET /js/react-components/AccordionComp.js [36m304 [0m0.272 ms - -[0m
-[0mGET /js/react-components/AccordionSection.js [36m304 [0m0.164 ms - -[0m
-[0mGET /js/react-components/react-controller.js [36m304 [0m0.285 ms - -[0m
-[0mGET /js/react-components/TestFileSuite.js [36m304 [0m0.288 ms - -[0m
-[0mGET /results/1465976661707/test-canonical [32m200 [0m1.445 ms - 3644[0m
-
- Client connected. 
-
-created dir at /Users/Olegzandr/suman/test_results/1465976718414
-[0mPOST /results/make/new [32m200 [0m2.938 ms - 86[0m
-
-Client disconnected.
-
-
- Client connected. 
-
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465976801278'
-    at Error (native)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465976801278'
-    at Error (native)
-[0mPOST /results/make/new [31m500 [0m4.508 ms - 128[0m
-
-Client disconnected.
-
-
- Client connected. 
-
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465976812075'
-    at Error (native)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465976812075'
-    at Error (native)
-[0mPOST /results/make/new [31m500 [0m0.703 ms - 128[0m
-
-Client disconnected.
-
-
- Client connected. 
-
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465976837369'
-    at Error (native)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465976837369'
-    at Error (native)
-[0mPOST /results/make/new [31m500 [0m0.677 ms - 128[0m
-
-Client disconnected.
-
-
- Client connected. 
-
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465976894519'
-    at Error (native)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1465976894519'
-    at Error (native)
-[0mPOST /results/make/new [31m500 [0m0.685 ms - 128[0m
-
-Client disconnected.
+ => Suman server exiting with code =>  1 
 
