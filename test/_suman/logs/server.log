@@ -1,6 +1,6 @@
 
 
- Suman server started on Sun Jun 19 2016 22:42:35 GMT-0700 (PDT)
+ Suman server started on Sat Jun 25 2016 19:02:37 GMT-0700 (PDT)
 
 		      :::::::: :::    :::  :::   :::      :::    ::::    ::: 
 		    :+:    :+::+:    :+: :+:+: :+:+:   :+: :+:  :+:+:   :+:  
@@ -11,12 +11,12 @@
 		########  ######## ###       ######     ######    ####       
 
 
-global.sumanHelperDirRoot: /Users/Olegzandr/WebstormProjects/poolio/test/_suman
-watcherOutputLogPath: /Users/Olegzandr/WebstormProjects/poolio/test/_suman/logs/watcher-output.log
+global.sumanHelperDirRoot: /Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman
+watcherOutputLogPath: /Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/logs/watcher-output.log
 
 
 	 => Warning Suman main executable file could not be located, attempting "$ suman"...
-	Server listening on port 6969 , CWD = /Users/Olegzandr/WebstormProjects/poolio
+	Server listening on port 6969 , CWD = /Users/Olegzandr/WebstormProjects/oresoftware/poolio
 
 
 
@@ -24,21 +24,21 @@ watcherOutputLogPath: /Users/Olegzandr/WebstormProjects/poolio/test/_suman/logs/
 
  => Suman server => "watch" request received via socket.io.
  => Suman server event => socket.io watch event has been received by server:
- { paths: [ '/Users/Olegzandr/WebstormProjects/poolio/test' ],
-  transpile: true,
+ { paths: [ '/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test' ],
+  transpile: false,
   executeTests: false }
  => Suman server => chokidar watcher initialized.
 
  Client connected. 
 
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1466401355876'
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1466906564253'
     at Error (native)
-Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1466401355876'
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1466906564253'
     at Error (native)
-[0mPOST /results/make/new [31m500 [0m23.967 ms - 128[0m
+[0mPOST /results/make/new [31m500 [0m85.720 ms - 128[0m
  => Suman server => Suman watch process => Initial scan complete. Ready for changes
- => Suman server => watched paths: { '/Users/Olegzandr/WebstormProjects/poolio': [ 'test' ],
-  '/Users/Olegzandr/WebstormProjects/poolio/test': 
+ => Suman server => watched paths: { '/Users/Olegzandr/WebstormProjects/oresoftware/poolio': [ 'test' ],
+  '/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test': 
    [ '_suman',
      'fixtures',
      'test-canonical.js',
@@ -46,8 +46,7 @@ Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1
      'test-poolio-w-suman.js',
      'test-repeated-inits.js',
      'test.js' ],
-  '/Users/Olegzandr/WebstormProjects/poolio/test/fixtures': [ 'sample-file.js', 'sample-file1.js', 'worker1.js' ],
-  '/Users/Olegzandr/WebstormProjects/poolio/test/_suman': 
+  '/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman': 
    [ '.readme',
      'examples',
      'logs',
@@ -57,87 +56,141 @@ Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1
      'suman.once.js',
      'suman.order.js',
      'suman.reporters.js' ],
-  '/Users/Olegzandr/WebstormProjects/poolio/test/_suman/examples': [ 'one.js', 'three.js', 'two.js' ],
-  '/Users/Olegzandr/WebstormProjects/poolio/test/_suman/logs': [] }
- => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/poolio/test
- => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/poolio/test/_suman
- => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/poolio/test/fixtures
- => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/poolio/test/test-canonical.js
- => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/poolio/test/test-hook-params.js
- => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/poolio/test/test-poolio-w-suman.js
- => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/poolio/test/test-repeated-inits.js
- => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/poolio/test/test.js
- => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/poolio/test/fixtures/sample-file.js
- => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/poolio/test/fixtures/sample-file1.js
- => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/poolio/test/fixtures/worker1.js
- => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/poolio/test/_suman/.readme
- => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/poolio/test/_suman/examples
- => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/poolio/test/_suman/logs
- => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/poolio/test/_suman/suman.globals.js
- => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/poolio/test/_suman/suman.hooks.js
- => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/poolio/test/_suman/suman.ioc.js
- => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/poolio/test/_suman/suman.once.js
- => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/poolio/test/_suman/suman.order.js
- => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/poolio/test/_suman/suman.reporters.js
- => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/poolio/test/_suman/examples/one.js
- => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/poolio/test/_suman/examples/three.js
- => The following file path is being saved as { transpile: true } => /Users/Olegzandr/WebstormProjects/poolio/test/_suman/examples/two.js
+  '/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/fixtures': [ 'sample-file.js', 'sample-file1.js', 'worker1.js' ],
+  '/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/examples': [ 'one.js', 'three.js', 'two.js' ],
+  '/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/logs': [] }
+ => The following file path is being saved as { transpile: false } => /Users/Olegzandr/WebstormProjects/oresoftware/poolio/test
+ => The following file path is being saved as { transpile: false } => /Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman
+ => The following file path is being saved as { transpile: false } => /Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/fixtures
+ => The following file path is being saved as { transpile: false } => /Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test-canonical.js
+ => The following file path is being saved as { transpile: false } => /Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test-hook-params.js
+ => The following file path is being saved as { transpile: false } => /Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test-poolio-w-suman.js
+ => The following file path is being saved as { transpile: false } => /Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test-repeated-inits.js
+ => The following file path is being saved as { transpile: false } => /Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test.js
+ => The following file path is being saved as { transpile: false } => /Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/.readme
+ => The following file path is being saved as { transpile: false } => /Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/examples
+ => The following file path is being saved as { transpile: false } => /Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/logs
+ => The following file path is being saved as { transpile: false } => /Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.globals.js
+ => The following file path is being saved as { transpile: false } => /Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.hooks.js
+ => The following file path is being saved as { transpile: false } => /Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.ioc.js
+ => The following file path is being saved as { transpile: false } => /Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.once.js
+ => The following file path is being saved as { transpile: false } => /Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.order.js
+ => The following file path is being saved as { transpile: false } => /Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.reporters.js
+ => The following file path is being saved as { transpile: false } => /Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/fixtures/sample-file.js
+ => The following file path is being saved as { transpile: false } => /Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/fixtures/sample-file1.js
+ => The following file path is being saved as { transpile: false } => /Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/fixtures/worker1.js
+ => The following file path is being saved as { transpile: false } => /Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/examples/one.js
+ => The following file path is being saved as { transpile: false } => /Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/examples/three.js
+ => The following file path is being saved as { transpile: false } => /Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/examples/two.js
 
 Client disconnected.
 
 
 Client disconnected.
 
-File /Users/Olegzandr/WebstormProjects/poolio/test/test.js has been changed
-{ transpile: true,
-  testPath: '/Users/Olegzandr/WebstormProjects/poolio/test/test.js',
+File /Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test.js has been changed
+{ transpile: false,
+  testPath: '/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test.js',
   execute: true }
-transpiling!
-
-
- => file will first be transpiled/copied.
- => testDirCopyDir: /Users/Olegzandr/WebstormProjects/poolio/test-target
-
-  => Test file will be transpiled to => /Users/Olegzandr/WebstormProjects/poolio/test-target/test.js
- => transpile results: [ { originalPath: '/Users/Olegzandr/WebstormProjects/poolio/test/test.js',
-    targetPath: '/Users/Olegzandr/WebstormProjects/poolio/test-target/test.js' } ]
-
- => file transpiled successfully.
-originalTestPath: /Users/Olegzandr/WebstormProjects/poolio/test/test.js
-pathHash: {"/Users/Olegzandr/WebstormProjects/poolio/test":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test","execute":true},"/Users/Olegzandr/WebstormProjects/poolio/test/_suman":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test/_suman","execute":true},"/Users/Olegzandr/WebstormProjects/poolio/test/fixtures":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test/fixtures","execute":true},"/Users/Olegzandr/WebstormProjects/poolio/test/test-canonical.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test/test-canonical.js","execute":true},"/Users/Olegzandr/WebstormProjects/poolio/test/test-hook-params.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test/test-hook-params.js","execute":true},"/Users/Olegzandr/WebstormProjects/poolio/test/test-poolio-w-suman.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test/test-poolio-w-suman.js","execute":true},"/Users/Olegzandr/WebstormProjects/poolio/test/test-repeated-inits.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test/test-repeated-inits.js","execute":true},"/Users/Olegzandr/WebstormProjects/poolio/test/test.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test/test.js","execute":true},"/Users/Olegzandr/WebstormProjects/poolio/test/fixtures/sample-file.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test/fixtures/sample-file.js","execute":true},"/Users/Olegzandr/WebstormProjects/poolio/test/fixtures/sample-file1.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test/fixtures/sample-file1.js","execute":true},"/Users/Olegzandr/WebstormProjects/poolio/test/fixtures/worker1.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test/fixtures/worker1.js","execute":true},"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/.readme":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/.readme","execute":true},"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/examples":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/examples","execute":true},"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/logs":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/logs","execute":true},"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/suman.globals.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/suman.globals.js","execute":true},"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/suman.hooks.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/suman.hooks.js","execute":true},"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/suman.ioc.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/suman.ioc.js","execute":true},"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/suman.once.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/suman.once.js","execute":true},"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/suman.order.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/suman.order.js","execute":true},"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/suman.reporters.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/suman.reporters.js","execute":true},"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/examples/one.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/examples/one.js","execute":true},"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/examples/three.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/examples/three.js","execute":true},"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/examples/two.js":{"transpile":true,"testPath":"/Users/Olegzandr/WebstormProjects/poolio/test/_suman/examples/two.js","execute":true}}
+running (without transpile)!!
+originalTestPath: /Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test.js
+pathHash: {"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/fixtures":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/fixtures","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test-canonical.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test-canonical.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test-hook-params.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test-hook-params.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test-poolio-w-suman.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test-poolio-w-suman.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test-repeated-inits.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test-repeated-inits.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/.readme":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/.readme","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/examples":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/examples","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/logs":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/logs","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.globals.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.globals.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.hooks.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.hooks.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.ioc.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.ioc.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.once.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.once.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.order.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.order.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.reporters.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.reporters.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/fixtures/sample-file.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/fixtures/sample-file.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/fixtures/sample-file1.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/fixtures/sample-file1.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/fixtures/worker1.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/fixtures/worker1.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/examples/one.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/examples/one.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/examples/three.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/examples/three.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/examples/two.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/examples/two.js","execute":true}}
 
  => Suman watcher => test will now execute.
 
 
+All active poolio workers killed.
+
+ Client connected. 
+
+created dir at /Users/Olegzandr/suman/test_results/1466906639325
+[0mPOST /results/make/new [32m200 [0m33.980 ms - 86[0m
+
+Client disconnected.
+
+File /Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test.js has been changed
+{ transpile: false,
+  testPath: '/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test.js',
+  execute: true }
+running (without transpile)!!
+originalTestPath: /Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test.js
+pathHash: {"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/fixtures":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/fixtures","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test-canonical.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test-canonical.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test-hook-params.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test-hook-params.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test-poolio-w-suman.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test-poolio-w-suman.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test-repeated-inits.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test-repeated-inits.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/.readme":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/.readme","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/examples":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/examples","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/logs":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/logs","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.globals.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.globals.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.hooks.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.hooks.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.ioc.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.ioc.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.once.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.once.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.order.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.order.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.reporters.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.reporters.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/fixtures/sample-file.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/fixtures/sample-file.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/fixtures/sample-file1.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/fixtures/sample-file1.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/fixtures/worker1.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/fixtures/worker1.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/examples/one.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/examples/one.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/examples/three.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/examples/three.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/examples/two.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/examples/two.js","execute":true}}
+
+ => Suman watcher => test will now execute.
 
 
- => Suman Server => Uncaught Exception => TypeError: pool.killAllActiveWorkers is not a function
-    at runTestWithSuman (/Users/Olegzandr/WebstormProjects/suman-server/server/bin/socket-server.js:213:7)
-    at /Users/Olegzandr/WebstormProjects/suman-server/server/bin/socket-server.js:112:6
-    at /Users/Olegzandr/WebstormProjects/suman-utils/node_modules/async/dist/async.js:396:20
-    at /Users/Olegzandr/WebstormProjects/suman-utils/node_modules/async/dist/async.js:904:13
-    at /Users/Olegzandr/WebstormProjects/suman-utils/node_modules/async/dist/async.js:396:20
-    at replenish (/Users/Olegzandr/WebstormProjects/suman-utils/node_modules/async/dist/async.js:858:28)
-    at /Users/Olegzandr/WebstormProjects/suman-utils/node_modules/async/dist/async.js:877:29
-    at /Users/Olegzandr/WebstormProjects/suman-utils/node_modules/async/dist/async.js:840:20
-    at /Users/Olegzandr/WebstormProjects/suman-utils/node_modules/async/dist/async.js:901:17
-    at /Users/Olegzandr/WebstormProjects/suman-utils/all/run-transpile.js:304:9 
+All active poolio workers killed.
+
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1466906647485'
+    at Error (native)
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1466906647485'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m3.962 ms - 128[0m
+
+Client disconnected.
+
+File /Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test.js has been changed
+{ transpile: false,
+  testPath: '/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test.js',
+  execute: true }
+running (without transpile)!!
+originalTestPath: /Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test.js
+pathHash: {"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/fixtures":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/fixtures","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test-canonical.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test-canonical.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test-hook-params.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test-hook-params.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test-poolio-w-suman.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test-poolio-w-suman.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test-repeated-inits.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test-repeated-inits.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/.readme":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/.readme","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/examples":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/examples","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/logs":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/logs","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.globals.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.globals.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.hooks.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.hooks.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.ioc.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.ioc.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.once.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.once.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.order.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.order.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.reporters.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.reporters.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/fixtures/sample-file.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/fixtures/sample-file.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/fixtures/sample-file1.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/fixtures/sample-file1.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/fixtures/worker1.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/fixtures/worker1.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/examples/one.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/examples/one.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/examples/three.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/examples/three.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/examples/two.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/examples/two.js","execute":true}}
+
+ => Suman watcher => test will now execute.
 
 
+All active poolio workers killed.
 
- => Suman Server => Uncaught Exception => TypeError: pool.killAllActiveWorkers is not a function
-    at runTestWithSuman (/Users/Olegzandr/WebstormProjects/suman-server/server/bin/socket-server.js:213:7)
-    at /Users/Olegzandr/WebstormProjects/suman-server/server/bin/socket-server.js:112:6
-    at /Users/Olegzandr/WebstormProjects/suman-utils/node_modules/async/dist/async.js:396:20
-    at /Users/Olegzandr/WebstormProjects/suman-utils/node_modules/async/dist/async.js:904:13
-    at /Users/Olegzandr/WebstormProjects/suman-utils/node_modules/async/dist/async.js:396:20
-    at replenish (/Users/Olegzandr/WebstormProjects/suman-utils/node_modules/async/dist/async.js:858:28)
-    at /Users/Olegzandr/WebstormProjects/suman-utils/node_modules/async/dist/async.js:877:29
-    at /Users/Olegzandr/WebstormProjects/suman-utils/node_modules/async/dist/async.js:840:20
-    at /Users/Olegzandr/WebstormProjects/suman-utils/node_modules/async/dist/async.js:901:17
-    at /Users/Olegzandr/WebstormProjects/suman-utils/all/run-transpile.js:304:9
+ Client connected. 
+
+created dir at /Users/Olegzandr/suman/test_results/1466906652526
+[0mPOST /results/make/new [32m200 [0m2.758 ms - 86[0m
+File /Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test.js has been changed
+{ transpile: false,
+  testPath: '/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test.js',
+  execute: true }
+running (without transpile)!!
+originalTestPath: /Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test.js
+pathHash: {"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/fixtures":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/fixtures","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test-canonical.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test-canonical.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test-hook-params.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test-hook-params.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test-poolio-w-suman.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test-poolio-w-suman.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test-repeated-inits.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test-repeated-inits.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/.readme":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/.readme","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/examples":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/examples","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/logs":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/logs","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.globals.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.globals.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.hooks.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.hooks.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.ioc.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.ioc.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.once.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.once.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.order.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.order.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.reporters.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.reporters.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/fixtures/sample-file.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/fixtures/sample-file.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/fixtures/sample-file1.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/fixtures/sample-file1.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/fixtures/worker1.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/fixtures/worker1.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/examples/one.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/examples/one.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/examples/three.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/examples/three.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/examples/two.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/examples/two.js","execute":true}}
+
+ => Suman watcher => test will now execute.
 
 
+All active poolio workers killed.
 
- => Suman server exiting with code =>  1 
+ Client connected. 
+
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1466906652995'
+    at Error (native)
+Error: EEXIST: file already exists, mkdir '/Users/Olegzandr/suman/test_results/1466906652995'
+    at Error (native)
+[0mPOST /results/make/new [31m500 [0m2.527 ms - 128[0m
+
+Client disconnected.
+
+File /Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test.js has been changed
+{ transpile: false,
+  testPath: '/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test.js',
+  execute: true }
+running (without transpile)!!
+originalTestPath: /Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test.js
+pathHash: {"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/fixtures":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/fixtures","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test-canonical.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test-canonical.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test-hook-params.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test-hook-params.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test-poolio-w-suman.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test-poolio-w-suman.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test-repeated-inits.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test-repeated-inits.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/test.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/.readme":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/.readme","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/examples":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/examples","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/logs":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/logs","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.globals.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.globals.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.hooks.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.hooks.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.ioc.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.ioc.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.once.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.once.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.order.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.order.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.reporters.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/suman.reporters.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/fixtures/sample-file.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/fixtures/sample-file.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/fixtures/sample-file1.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/fixtures/sample-file1.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/fixtures/worker1.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/fixtures/worker1.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/examples/one.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/examples/one.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/examples/three.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/examples/three.js","execute":true},"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/examples/two.js":{"transpile":false,"testPath":"/Users/Olegzandr/WebstormProjects/oresoftware/poolio/test/_suman/examples/two.js","execute":true}}
+
+ => Suman watcher => test will now execute.
+
+
+All active poolio workers killed.
+
+ Client connected. 
+
+created dir at /Users/Olegzandr/suman/test_results/1466906656405
+[0mPOST /results/make/new [32m200 [0m24.976 ms - 86[0m
+
+Client disconnected.
+
+
+Client disconnected.
 

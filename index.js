@@ -213,7 +213,7 @@ Pool.prototype.addWorker = function () {
 
         n.removeAllListeners();
         this.emit('worker-exited', code, signal, n.workerId);
-        removeSpecificWorker(this, n, true);
+        removeSpecificWorker(this, n, false);
 
         if (this.addWorkerOnExit) {
             this.addWorker();
@@ -277,12 +277,12 @@ Pool.prototype.addWorker = function () {
 
 };
 
-function removeSpecificWorker(pool, n, doNotCallKill) {
+function removeSpecificWorker(pool, n, callKill) {
 
     if (n) {
         n.tempId = 'gonna-die';
         resetDueToDeadWorkers(pool);
-        if (!doNotCallKill) {
+        if (callKill !== false) {
             n.kill();
         }
 
@@ -422,7 +422,9 @@ Pool.prototype.any = function (msg, cb) {
     const d = process.domain;
 
     if (typeof cb === 'function') {
-        if (d) d.bind(cb);
+        if (d) {
+            d.bind(cb);
+        }
         this.resolutions[workId] = {
             cb: cb
         };
