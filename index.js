@@ -28,6 +28,10 @@
 
  */
 
+
+//TODO: need to add oneTimeOnly:true boolean option - when message is sent to worker, worker is immediately removed
+//from all array, so it will never get reused
+
 /////////////////////////////////////////////////////////////////////////
 
 const isDebug = process.execArgv.indexOf('debug') > 0;
@@ -39,7 +43,6 @@ const assert = require('assert');
 const cp = require('child_process');
 const _ = require('underscore');
 const path = require('path');
-const debug = require('debug')('poolio');
 const EE = require('events');
 const util = require('util');
 const fs = require('fs');
@@ -57,6 +60,7 @@ const acceptableConstructorOptions = [
     'size',
     'filePath',
     'addWorkerOnExit',
+    'oneTimeOnly',
     'silent',
     'stdin',
     'stdout',
@@ -139,7 +143,7 @@ function Pool(options) {
     assert(isFile, ' => Poolio constructor error: filePath is not a file => ' + this.filePath);
 
     if ('size' in opts) {
-        assert(typeof opts.size === 'number',
+        assert(Number.isInteger(opts.size),
             'Poolio init error => "size" property of options should be an integer.');
     }
 
@@ -149,7 +153,9 @@ function Pool(options) {
         assert(typeof opts.addWorkerOnExit === 'boolean',
             'Poolio init error => "addWorkerOnExit" property of options should be a boolean value.');
     }
-    this.addWorkerOnExit = opts.addWorkerOnExit;
+
+    this.oneTimeOnly = !!opts.oneTimeOnly; //if undefined, defaults to false
+    this.addWorkerOnExit = !!opts.addWorkerOnExit; //if undefined, defaults to false
 
     if ('silent' in opts) {
         assert(typeof opts.silent === 'boolean',
@@ -227,7 +233,6 @@ Pool.prototype.addWorker = function () {
     });
 
     n.on('message', data => {
-        debug('message from worker: ' + data);
         if (!data.workId) {
             console.error(' => Poolio warning => message sent from worker with no workId => ', '\n', JSON.stringify(data));
         }
@@ -236,16 +241,16 @@ Pool.prototype.addWorker = function () {
                 handleCallback(this, data);
                 break;
             case 'return/to/pool':
-                delegateWorker(this, n);
+                delegateNewlyAvailableWorker(this, n);
                 break;
             case 'done/return/to/pool':
                 handleCallback(this, data); //probably want to handle callback first
-                delegateWorker(this, n);
+                delegateNewlyAvailableWorker(this, n);
                 break;
             case 'error':
                 this.emit('error', data); // TODO: handle this error event
                 handleCallback(this, data);
-                delegateWorker(this, n);
+                delegateNewlyAvailableWorker(this, n);
                 break;
             case 'fatal':
                 this.emit('error', data); // TODO: handle this error event
@@ -253,8 +258,9 @@ Pool.prototype.addWorker = function () {
                 removeSpecificWorker(this, n);
                 break;
             default:
-                this.emit('error', new Error('Poolio warning: your Poolio worker sent a message that ' +
-                    'was not recognized by the Poolio library.'))
+                const err = new Error('Poolio warning: your Poolio worker sent a message that ' +
+                    'was not recognized by the Poolio library =>' + '\n' + util.inspect(data));
+                this.emit('error', err);
         }
     });
 
@@ -358,10 +364,16 @@ function handleCallback(pool, data) {
     }
 }
 
-function delegateWorker(pool, n) {
+function delegateNewlyAvailableWorker(pool, n) {
 
     if (pool.kill) {
         removeSpecificWorker(pool, n);
+        return;
+    }
+
+    if (this.oneTimeOnly) {
+        removeSpecificWorker(pool, n);
+        console.error(' => Poolio warning => delegateNewlyAvailableWorker() was called on a worker that should have been "oneTimeOnly".');
         return;
     }
 
@@ -394,13 +406,17 @@ Pool.prototype.any = function (msg, cb) {
         return;
     }
 
-    debug('current available pool size for pool_id ' + this.__poolId + ' is: ' + this.available.length);
-
     const workId = this.jobIdCounter++;
 
     setImmediate(() => {
         if (this.available.length > 0) {
             const n = this.available.shift();
+
+            if (this.oneTimeOnly) {
+                n.tempId = 'gonna-die';
+                resetDueToDeadWorkers(this);
+            }
+
             n.send({
                 msg: msg,
                 workId: workId,

@@ -1,14 +1,14 @@
+
+// import * as suman from 'suman';
 const suman = require('suman');
 const Test = suman.init(module);
 
-////
-////////////////
 
 Test.describe('Test inits', {parallel: false}, function (Pool, assert, path) {
 
 	const data = {
 		size: 5,
-		filePath: path.resolve(__dirname + '/fixtures/sample-file.js')
+		filePath: path.resolve(__dirname + '/../fixtures/sample-file.js')
 	};
 
 	const pool = new Pool(data);

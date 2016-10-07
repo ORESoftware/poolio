@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "testx": "node_modules/.bin/suman",
+    "testx": "./node_modules/.bin/suman",
     "test": "suman -t -a"
   },
   "author": "",
@@ -18,6 +18,8 @@
     "underscore": "^1.8.3"
   },
   "devDependencies": {
-    "async": "^2.0.0-rc.6"
+    "async": "^2.0.0-rc.6",
+    "frontail": "^4.0.1",
+    "suman-server": "0.0.17"
   }
 }

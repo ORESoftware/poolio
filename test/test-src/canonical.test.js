@@ -1,5 +1,7 @@
 
 
+// import * as suman from 'suman';
+
 const suman = require('suman');
 const Test = suman.init(module, {});
 
@@ -7,24 +9,26 @@ const Test = suman.init(module, {});
 
 Test.describe('@TestsPoolio', {parallel: true}, function (suite, path, async, assert) {
 
-	const Pool = require('..');
+	const Pool = require('../..');
+
+	const filePath = path.resolve(__dirname + '/../fixtures/sample-file.js');
 
 	const data = [
 		{
 			size: 1,
-			filePath: path.resolve(__dirname + '/fixtures/sample-file.js')
+			filePath: filePath
 		},
 		{
 			size: 3,
-			filePath: path.resolve(__dirname + '/fixtures/sample-file.js')
+			filePath: filePath
 		},
 		{
 			size: 4,
-			filePath: path.resolve(__dirname + '/fixtures/sample-file.js')
+			filePath: filePath
 		},
 		{
 			size: 1,
-			filePath: path.resolve(__dirname + '/fixtures/sample-file.js')
+			filePath: filePath
 		}
 	];
 
