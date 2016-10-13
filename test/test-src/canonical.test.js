@@ -3,7 +3,10 @@
 // import * as suman from 'suman';
 
 const suman = require('suman');
-const Test = suman.init(module, {});
+const Test = suman.init(module, {
+	integrants:['make-a-bet'],
+	post: ['destroyAllPools']
+});
 
 /////////////////////////
 

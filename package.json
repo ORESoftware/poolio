@@ -20,6 +20,7 @@
   "devDependencies": {
     "async": "^2.0.0-rc.6",
     "frontail": "^4.0.1",
+    "suman": "^1.1.46",
     "suman-server": "0.0.17"
   }
 }
