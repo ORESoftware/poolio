@@ -8,7 +8,7 @@ const Test = suman.init(module, {
 	post: ['destroyAllPools']
 });
 
-/////////////////////////
+//////
 
 Test.describe('@TestsPoolio', {parallel: true}, function (suite, path, async, assert) {
 

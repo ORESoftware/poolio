@@ -64,7 +64,8 @@ const acceptableConstructorOptions = [
     'silent',
     'stdin',
     'stdout',
-    'stderr'
+    'stderr',
+    'getSharedWritableStream'
 ];
 
 ////////////////////////////////////////////////////////
@@ -113,7 +114,7 @@ function Pool(options) {
 
     const opts = _.defaults(_.pick(options, acceptableConstructorOptions), defaultOpts);
 
-    assert(typeof opts.size === 'number' && opts.size > 0, 'Poolio pool size must an integer greater than 0.');
+    assert(Number.isInteger(opts.size) && opts.size > 0, 'Poolio pool size must an integer greater than 0.');
     // assert(opts.args && !Array.isArray(opts.args),
     // 	'"args" option passed to poolio pool, but args was not an array => ' + JSON.stringify(opts));
     // assert(opts.execArgv && !Array.isArray(opts.execArgv),
@@ -166,6 +167,7 @@ function Pool(options) {
     this.stdin = opts.stdin;
     this.stdout = opts.stdout;
     this.stderr = opts.stderr;
+    this.getSharedWritableStream = opts.getSharedWritableStream
 
     this.on('error', err => {
         if (this.listenerCount('error') === 1) {
@@ -201,12 +203,22 @@ Pool.prototype.addWorker = function () {
     });
 
     if (this.silent) {
-        if (this.stdout) {
-            n.stdio[1].pipe(typeof this.stdout === 'function' ? this.stdout() : this.stdout); // fs.createWriteStream(p1)
+        const getWritable = this.getSharedWritableStream;
+        if(getWritable){
+            //we pipe stdout and stderr to the same stream
+            const strm = typeof getWritable === 'function' ? getWritable() : getWritable;
+            n.stdio[1].pipe(strm);
+            n.stdio[2].pipe(strm);
         }
-        if (this.stderr) {
-            n.stdio[2].pipe(typeof this.stderr === 'function' ? this.stderr() : this.stderr);
+        else{
+            if (this.stdout) {
+                n.stdio[1].pipe(typeof this.stdout === 'function' ? this.stdout() : this.stdout); // fs.createWriteStream(p1)
+            }
+            if (this.stderr) {
+                n.stdio[2].pipe(typeof this.stderr === 'function' ? this.stderr() : this.stderr);
+            }
         }
+
     }
 
     n.workerId = this.workerIdCounter++;

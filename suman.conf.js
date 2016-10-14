@@ -9,7 +9,7 @@ const path = require('path');
 
 module.exports = Object.freeze({
 
-    match: ['\\.test\\.js$'],                          //recommended =>  match: ['.test.js'],
+    match: [/*'.*\\.test\\.js$'*/],                          //recommended =>  match: ['.test.js'],
     notMatch: ['fixture'],
     testDir: 'test/test-src',
     sumanHelpersDir: 'test/_suman',
