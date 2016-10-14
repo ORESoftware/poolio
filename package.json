@@ -1,11 +1,13 @@
 {
   "name": "poolio",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "",
   "main": "index.js",
   "scripts": {
     "testx": "./node_modules/.bin/suman",
-    "test": "suman -t -a"
+    "test": "suman -t -a",
+    "remove-private-dirs": "",
+    "remove-private-files": ""
   },
   "author": "",
   "license": "ISC",
