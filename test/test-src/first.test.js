@@ -4,7 +4,7 @@ const Test = suman.init(module, {
     integrants:['make-a-bet'],
 });
 
-///////////
+//////
 
 Test.describe('@TestsPoolio', {parallel: true}, function (suite, path, async, assert) {
 
