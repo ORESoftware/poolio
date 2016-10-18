@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "testx": "./node_modules/.bin/suman",
-    "test": "suman -t -a",
+    "test": "suman",
     "remove-private-dirs": "echo poolio:noop",
     "remove-private-files": "echo poolio:noop"
   },
