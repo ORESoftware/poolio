@@ -1,7 +1,7 @@
 // import * as suman from 'suman';
 const suman = require('suman');
 const Test = suman.init(module, {
-    integrants:['make-a-bet']
+    integrants: ['make-a-bet']
 });
 
 /////////////////
@@ -28,7 +28,15 @@ Test.describe('@TestsPoolio', {parallel: true}, function (assert, path, async) {
             });
         });
 
-        this.it('test worker1 non-timeout 1', {timeout: 5000}, t => {
+
+        this.it('test worker1 non-timeout 22', {timeout: 6000}, function*(t) {
+            yield pool.any('run');
+            yield pool.any('run');
+            yield pool.any('run');
+        });
+
+
+        this.it('test worker1 non-timeout 11', {timeout: 5000}, t => {
 
             return Promise.all([
                 pool.any('run'),
@@ -39,17 +47,11 @@ Test.describe('@TestsPoolio', {parallel: true}, function (assert, path, async) {
         });
 
 
-        this.it('test worker1 non-timeout 1', {timeout: 5000}, function* (t) {
-            yield pool.any('run');
-            yield  pool.any('run');
-            yield  pool.any('run');
-        });
-
         this.it.cb('test worker1 expect-timeout', {timeout: 3000}, t => {
 
             console.log('current stats pool1:', pool1.getCurrentSize());
 
-            const to = setTimeout(t.fail, 2000);
+            const to = setTimeout(t.pass, 2000);
 
             Promise.all([
                 pool1.any('run'),
@@ -73,6 +75,13 @@ Test.describe('@TestsPoolio', {parallel: true}, function (assert, path, async) {
                 pool1.any('run'),
                 pool1.any('run')
             ]);
+
+        });
+
+        this.it('whoa', t => {
+
+            console.log('typeof =>',typeof t);
+            assert(typeof t === 'function');
 
         });
 

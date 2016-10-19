@@ -85,11 +85,6 @@ Test.describe('Test inits', {parallel: true}, function (Pool, assert, path) {
         });
     });
 
-    // this.after(function(){
-    //
-    //     console.log('after all');
-    //
-    // });
 
 
 });
