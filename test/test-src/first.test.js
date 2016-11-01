@@ -1,13 +1,12 @@
 // import * as suman from 'suman';
 const suman = require('suman');
 const Test = suman.init(module, {
-    integrants:['make-a-bet'],
+    pre:['make-a-bet'],
     post: ['destroyAllPools']
 });
 
-Test.describe('@TestsPoolio', {parallel: true}, function (suite, path, async, assert) {
+Test.describe('@TestsPoolio', {parallel: true}, function (suite, path, async, assert, Pool) {
 
-    const Pool = require('../..');
 
     const filePath = path.resolve(__dirname + '/../fixtures/sample-file.js');
 
@@ -32,23 +31,21 @@ Test.describe('@TestsPoolio', {parallel: true}, function (suite, path, async, as
     });
 
 
-    this.it('tests poolio', t => {
+    this.it('tests poolio 1', t => {
 
         t.plan(1);
 
         return Promise.all([
             pool2.any('dog'),
             pool3.any('big')
-        ]).then(function (values) {
-
-        }).catch(function (err) {
-            t.confirm(); //
-            assert(err, 'err not defined in catch block');
+        ]).catch(function (err) {
+            t.confirm();
+            throw err;
         });
 
     });
 
-    this.it('tests poolio', function * gen(t) {
+    this.it('tests poolio 2', function * gen(t) {
 
         t.plan(1);
         yield pool2.any('dog');
@@ -91,7 +88,7 @@ Test.describe('@TestsPoolio', {parallel: true}, function (suite, path, async, as
 
     });
 
-    this.after.cb(t => {  ///////
+    this.after.cb(t => {
 
         async.each([pool0, pool1, pool2, pool3], function (p, cb) {
 

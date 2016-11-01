@@ -27,7 +27,7 @@ process.on('message', function (data) {
 		process.nextTick(function () {
 			process.send({
 				msg: 'error',
-				error: '[some user error]',
+				error: '(some user error)',
 				result: null,
 				workId: workId
 			});

@@ -15,7 +15,7 @@ test.describe('@TestsPoolio1', {parallel: true}, function (assert) {
     });
 
     this.it(t => {
-        assert(typeof t === 'function');
+        assert(typeof t.bind === 'function');
     });
 
 });

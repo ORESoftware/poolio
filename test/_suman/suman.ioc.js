@@ -19,7 +19,7 @@ module.exports = data => {  //load async deps for any of your suman tests
         },
 
         Pool: function () {
-            return require('../../index')
+            return require('../..')
         },
 
         testVals: function (cb) {

@@ -6,9 +6,8 @@ const Test = suman.init(module, {
 
 /////////////////
 
-Test.describe('@TestsPoolio', {parallel: true}, function (assert, path, async) {
+Test.describe('@TestsPoolio', {parallel: true}, function (assert, path, async, Pool) {
 
-    const Pool = require('../..');
 
     const pool = new Pool({
         size: 3,
@@ -29,7 +28,7 @@ Test.describe('@TestsPoolio', {parallel: true}, function (assert, path, async) {
         });
 
 
-        this.it('test worker1 non-timeout 22', {timeout: 6000}, function*(t) {
+        this.it('test worker1 non-timeout 22', {timeout: 8000}, function*(t) {
             yield pool.any('run');
             yield pool.any('run');
             yield pool.any('run');
@@ -81,7 +80,7 @@ Test.describe('@TestsPoolio', {parallel: true}, function (assert, path, async) {
         this.it('whoa', t => {
 
             console.log('typeof =>',typeof t);
-            assert(typeof t === 'function');
+            assert(typeof t.apply === 'function');
 
         });
 

@@ -1,24 +1,24 @@
 // import * as suman from 'suman';
 
 const suman = require('suman');
-const test = suman.init(module, {
+const Test = suman.init(module, {
     pre: ['make-a-bet'],
     post: ['destroyAllPools']
 });
 
 
-test.describe('@TestsPoolio1', {parallel: true}, function (suite, path, async, assert, delay) {
+Test.describe.delay('@TestsPoolio1', {parallel: true}, function (suite, path, async, assert) {
 
 
     this.before(t => {
         console.log('before');
-        delay();
     });
+
+    this.resume();
 
     this.it(t => {
         console.log('test case that will never be invoked')
     });
-
 
     this.describe('this block will never be invoked',function () {
 

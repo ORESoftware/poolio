@@ -1,14 +1,13 @@
 // import * as suman from 'suman';
 
 const suman = require('suman');
-const test = suman.init(module, {
+const Test = suman.init(module, {
     pre: ['make-a-bet'],
     post: ['destroyAllPools']
 });
 
 
-test.describe('@TestsPoolio1', {parallel: true}, function (suite, path, async, assert) {
-
+Test.describe.skip('@TestsPoolio1', {parallel: true}, function (suite, path, async, assert) {
 
     this.it.cb(t => {
         setTimeout(t, 1000);
@@ -17,7 +16,7 @@ test.describe('@TestsPoolio1', {parallel: true}, function (suite, path, async, a
 });
 
 
-test.describe('@TestsPoolio2', {parallel: true}, function (suite, path, async, assert) {
+Test.describe('@TestsPoolio2', {parallel: true}, function (suite, path, async, assert) {
 
     this.it.cb(t => {
         setTimeout(t, 1000);

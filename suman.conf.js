@@ -9,16 +9,15 @@ const path = require('path');
 
 module.exports = Object.freeze({
 
-    match: [/*'.*\\.test\\.js$'*/],                          //recommended =>  match: ['.test.js'],
-    notMatch: ['fixture'],
+    matchAny: [/\.test\.js$/],                          //recommended =>  match: ['.test.js'],
+    matchNone: [/fixture/],
+    matchAll: [],
+
     testDir: 'test/test-src',
+    testTargetDir: 'test/test-target',
     sumanHelpersDir: 'test/_suman',
-    // defaultTestDir: 'test-target/src',
-    testSrcDirectory: 'test/test-src',
-    testDestDirectory: 'test-target',
-    testDirCopyDir: 'test-target',
     runnerLock: true,
-    transpile: false,                    //default, can be overridden with command line
+    transpile: true,                    //default, can be overridden with command line
     timeoutToSearchForAvailServer: 2000,
     sendStderrToSumanErrLogOnly: true,
     useSuiteNameInTestCaseOutput: false,
