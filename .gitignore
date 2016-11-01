@@ -3,3 +3,4 @@ node_modules/
 test/_suman/logs/
 test-target/
 coverage/
+*.log*
