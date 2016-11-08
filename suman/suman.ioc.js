@@ -7,23 +7,17 @@
 // which is actually pretty cool
 // ******************************************************************************************************************
 
-
 module.exports = () => {  //load async deps for any of your suman tests
 
+  return {
 
-    return {
-
-
-        'async': function () {
-            return require('async');
-        },
-
-        Pool: function(){
-            return require('../../index')
-        }
-
-
+    'Pool': function () {
+      return require('../index');
+    },
+    'async': function () {
+      return require('async');
     }
 
+  }
 
 };

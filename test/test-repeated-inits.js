@@ -1,8 +1,8 @@
 const suman = require('suman');
 const Test = suman.init(module);
 
-////
-////////////////
+////////////////////
+
 
 Test.describe('Test inits', {parallel: false}, function (Pool, assert, path) {
 
@@ -29,12 +29,12 @@ Test.describe('Test inits', {parallel: false}, function (Pool, assert, path) {
 
 	this.describe('#remove workers', function () {
 
-		this.beforeEach(function () {
+		this.beforeEach(t => {
 			pool.removeWorker();
 		});
 
 		for (var i = 0; i < 5; i++) {
-			this.it(function () {
+			this.it(t => {
 				assert.equal(pool.getCurrentSize().all, --size);
 			});
 		}
@@ -43,19 +43,19 @@ Test.describe('Test inits', {parallel: false}, function (Pool, assert, path) {
 
 	this.describe('#add workers', function () {
 
-		this.beforeEach(function () {
+		this.beforeEach(t => {
 			pool.addWorker();
 		});
 
 		for (var i = 0; i < 5; i++) {
-			this.it(function () {
+			this.it(t => {
 				assert.equal(pool.getCurrentSize().all, ++size);
 			});
 		}
 
 	});
 
-	this.after(function(){
+	this.after(t => {
 
 		process.nextTick(function(){
 			setTimeout(function(){

@@ -3,11 +3,9 @@
 const suman = require('suman');
 const Test = suman.init(module, {});
 
-/////////////////
+////////////////
 
-Test.describe('@TestsPoolio', {parallel:true}, function (assert, path, async) {
-
-    const Pool = require('..');
+Test.describe('@TestsPoolio', {parallel:true}, function (Pool, assert, path, async) {
 
     const pool = new Pool({
         size: 3,
@@ -41,7 +39,7 @@ Test.describe('@TestsPoolio', {parallel:true}, function (assert, path, async) {
 
             console.log('current stats pool1:', pool1.getCurrentSize());
 
-            const to = setTimeout(t.fail, 2000);
+            const to = setTimeout(t.pass, 2000);
 
             Promise.all([
                 pool1.any('run'),

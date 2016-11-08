@@ -1,12 +1,11 @@
 
-const suman = require('suman');
+import * as suman from 'suman';
 const Test = suman.init(module, {});
 
-///////////
+//////////
 
-Test.describe('@TestsPoolio', {parallel: true}, function (suite, path, async, assert) {
+Test.describe('@TestsPoolio', {parallel: true}, function (Pool, suite, path, async, assert) {
 
-	const Pool = require('..');
 
 	const pool0 = new Pool({
 		size: 1,
@@ -78,7 +77,7 @@ Test.describe('@TestsPoolio', {parallel: true}, function (suite, path, async, as
 
 	});
 
-	this.after.cb(t => {  ///////
+	this.after.cb(t => {
 
 		async.each([pool0, pool1, pool2, pool3], function (p, cb) {
 

@@ -3,3 +3,10 @@ node_modules/
 exp*.js
 test/_suman/logs/
 test-target/
+
+
+*suman/logs/
+test-target/
+
+*suman/logs/
+test-target/
