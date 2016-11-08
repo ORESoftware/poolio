@@ -3,8 +3,22 @@
  */
 
 
-module.exports = function(){
-  return {
+const util = require('util');
 
-  }
+
+module.exports = data => {
+
+    console.error('\n\n',' => data in suman.once.pre.js => ', util.inspect(data));
+
+    return {
+
+        'make-a-bet': function(cb){
+            process.nextTick(function(){
+                cb(null,'a');
+            });
+        }
+
+    }
+
 };
+

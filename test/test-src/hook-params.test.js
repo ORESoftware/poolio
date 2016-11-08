@@ -1,12 +1,11 @@
 
 
-// import * as suman from 'suman';
+
 const suman = require('suman');
 const Test = suman.init(module,{
-    integrants:['make-a-bet'],
+    pre:['make-a-bet'],
 });
 
-///////////////////
 
 Test.describe('Test inits', {parallel: true}, function (Pool, assert, path) {
 
@@ -85,11 +84,6 @@ Test.describe('Test inits', {parallel: true}, function (Pool, assert, path) {
         });
     });
 
-    // this.after(function(){
-    //
-    //     console.log('after all');
-    //
-    // });
 
 
 });

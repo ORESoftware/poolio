@@ -8,8 +8,7 @@ const util = require('util');
 
 module.exports = data => {
 
-
-    console.error(' => data in suman.once.post.js => ', util.inspect(data));
+    console.error('\n\n',' => data in suman.once.post.js => ', util.inspect(data));
 
     return {
 

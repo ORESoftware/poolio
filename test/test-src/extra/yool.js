@@ -1,15 +1,13 @@
 
 
-import * as suman from 'suman';
+const suman = require('suman');
 const Test = suman.init(module, {});
 
 /////////////////////////
 
-Test.describe('@TestsPoolio', {parallel: true}, function (suite, path, async, assert) {
+Test.describe('@TestsPoolio', {parallel: true}, function (suite, path, async, assert, Pool) {
 
-    const Pool = require('../../..');
-
-    const filePath = path.resolve(__dirname + '/../fixtures/sample-file.js');
+    const filePath = path.resolve(__dirname + '/../../fixtures/sample-file.js');
 
     const data = [
         {
