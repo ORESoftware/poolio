@@ -1,5 +1,4 @@
 
-';
 
 const suman = require('suman');
 const Test = suman.init(module, {
