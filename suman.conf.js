@@ -10,39 +10,38 @@ const numOfCPUs = os.cpus().length || 1;
 
 module.exports = Object.freeze({
 
-  match: [],                              //recommended =>  match: [/.test.js$/],
-  notMatch: [ 'fixture' ],                  //matches any, matchesNoneOf
-  sumanHelpersDir: 'suman',
-  defaultTestDir: 'test',
-  testDir: 'test',
-  testSrcDirectory: 'test',
-  testDestDirectory: 'test-target',
-  testDirCopyDir: 'test-target',
-  defaultHookTimeout: 5000,
-  defaultTestCaseTimeout: 5000,
-  executeRunnerCWDAtTestFile: true,
-  runnerLock: true,
-  transpile: false,                         //default, can be overridden with command line
-  timeoutToSearchForAvailServer: 2000,
-  sendStderrToSumanErrLogOnly: true,
-  useSuiteNameInTestCaseOutput: false,
-  defaultDelayFunctionTimeout: 8000,
-  warningLevel: 3,
-  noFrills: false,
-  defaultTestSuiteTimeout: 15000,
-  maxParallelProcesses: Math.max(6, numOfCPUs),           //maximum parallel processes running at one time, synonymous with --concurrency cmd line option
-  ultraSafe: false,                   //if true, Suman reads files before executing any supposed test file and makes sure it's a suman test before running
-  verbose: true,                      //handles and logs warnings (using warning level?)
-  checkMemoryUsage: false,            //limits stack traces to just relevant test case or test line
-  fullStackTraces: false,             //allows you to view more than 3 lines for errors in test cases and hooks
-  uniqueAppName: 'suman',
-  NODE_ENV: 'development',            // NODE_ENV to use if you don't specify one
-  browser: 'Firefox',                 // browser to open test results with
-  disableAutoOpen: false,             // use true if you never want suman to automatically open the browser to the latest test results
-  expireResultsAfter: '10000000',     // test results will be deleted after this amount of time
-  resultsCapCount: 100,               // test results will be deleted if they are 101st oldest run
-  suppressRunnerOutput: true,         // this defaults to true, use no-silent or silent to switch value
-  resultsCapSize: 7000, // 3 gb's     // oldest test results will be deleted if the results dir expands beyond this size
+
+    match: [/*'.*\\.test\\.js$'*/],                          //recommended =>  match: ['.test.js'],
+    notMatch: ['fixture'],
+    testDir: 'test/test-src',
+    sumanHelpersDir: 'test/_suman',
+    // defaultTestDir: 'test-target/src',
+    testSrcDirectory: 'test/test-src',
+    testDestDirectory: 'test-target',
+    testDirCopyDir: 'test-target',
+    runnerLock: true,
+    transpile: false,                    //default, can be overridden with command line
+    timeoutToSearchForAvailServer: 2000,
+    sendStderrToSumanErrLogOnly: true,
+    useSuiteNameInTestCaseOutput: false,
+    defaultDelayFunctionTimeout: 8000,
+    warningLevel: 3,
+    noFrills: false,
+    defaultTestSuiteTimeout: 15000,
+    maxParallelProcesses: 25,           //maximum parallel processes running at one time
+    ultraSafe: false,                   //if true, Suman reads files before executing any supposed test file and makes sure it's a suman test before running
+    verbose: true,                      //handles and logs warnings (using warning level?)
+    checkMemoryUsage: false,            //limits stack traces to just relevant test case or test line
+    fullStackTraces: false,             //allows you to view more than 3 lines for errors in test cases and hooks
+    uniqueAppName: 'suman',
+    NODE_ENV: 'development',            // NODE_ENV to use if you don't specify one
+    browser: 'Firefox',                 // browser to open test results with
+    disableAutoOpen: false,             // use true if you never want suman to automatically open the browser to the latest test results
+    expireResultsAfter: '10000000',     // test results will be deleted after this amount of time
+    resultsCapCount: 100,               // test results will be deleted if they are 101st oldest run
+    suppressRunnerOutput: true,         // this defaults to true, use no-silent or silent to switch value
+    resultsCapSize: 7000, // 3 gb's     // oldest test results will be deleted if the results dir expands beyond this size
+
 
   reporters: {
     'tap': 'suman/reporters/tap'

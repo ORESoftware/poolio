@@ -1,11 +1,17 @@
 {
   "name": "poolio",
-  "version": "0.2.3",
+  "version": "0.2.52",
   "description": "",
   "main": "index.js",
   "scripts": {
     "testx": "./node_modules/.bin/suman",
+<<<<<<< HEAD
     "test": "./node_modules/.bin/suman"
+=======
+    "test": "suman -t -a",
+    "remove-private-dirs": "echo poolio:noop",
+    "remove-private-files": "echo poolio:noop"
+>>>>>>> 7a9652d759daf2a64968098f255f1eb18404232d
   },
   "author": "",
   "license": "ISC",
@@ -19,6 +25,8 @@
   },
   "devDependencies": {
     "async": "^2.0.0-rc.6",
-    "suman": "1.1.42"
+    "frontail": "^4.0.1",
+    "suman": "^1.1.46",
+    "suman-server": "0.0.17"
   }
 }

@@ -1,28 +1,33 @@
 
+';
 
 const suman = require('suman');
-const Test = suman.init(module, {});
+const Test = suman.init(module, {
+	integrants:['make-a-bet'],
+	post: ['destroyAllPools']
+});
 
-////////////////
 
 Test.describe('@TestsPoolio', {parallel: true}, function (suite, path, async, assert, Pool) {
-	
+
+	const filePath = path.resolve(__dirname + '/../fixtures/sample-file.js');
+
 	const data = [
 		{
 			size: 1,
-			filePath: path.resolve(__dirname + '/fixtures/sample-file.js')
+			filePath: filePath
 		},
 		{
 			size: 3,
-			filePath: path.resolve(__dirname + '/fixtures/sample-file.js')
+			filePath: filePath
 		},
 		{
 			size: 4,
-			filePath: path.resolve(__dirname + '/fixtures/sample-file.js')
+			filePath: filePath
 		},
 		{
 			size: 1,
-			filePath: path.resolve(__dirname + '/fixtures/sample-file.js')
+			filePath: filePath
 		}
 	];
 
