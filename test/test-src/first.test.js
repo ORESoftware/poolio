@@ -45,13 +45,17 @@ Test.describe('@TestsPoolio', {parallel: true}, function (suite, path, async, as
 
     });
 
-    this.it('tests poolio 2', function * gen(t) {
+    this.it('tests poolio 2', function * (t) {
 
         t.plan(1);
-        yield pool2.any('dog');
-        yield pool3.any('big');
-        t.confirm();
-        assert(err, 'err not defined in catch block');
+        try{
+            yield pool2.any('dog');
+            yield pool3.any('big');
+        }
+        catch(err){
+            t.confirm();
+            assert(err, 'err not defined in catch block');
+        }
 
     });
 
