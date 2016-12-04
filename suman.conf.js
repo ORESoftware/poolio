@@ -1,24 +1,26 @@
 //**************************************************************************************************
-// Default Suman config file, should always remain at the root of your project
+//  Suman config file, should always remain at the root of your project
 // *************************************************************************************************
-
 
 const os = require('os');
 const path = require('path');
 
+// let's get bizzy
+const numOfCPUs = os.cpus().length || 1;
+
+//////
 
 module.exports = Object.freeze({
 
-    match: [/*'.*\\.test\\.js$'*/],                          //recommended =>  match: ['.test.js'],
-    notMatch: ['fixture'],
-    testDir: 'test/test-src',
+    matchAny: [/\.test\.js$/],                          //recommended =>  match: ['.test.js'],
+    matchNone: [/fixture/],
+    matchAll: [],
+    testDir: 'test',
+    testSrcDir: 'test/test-src',
+    testTargetDir: 'test/test-target',
     sumanHelpersDir: 'test/_suman',
-    // defaultTestDir: 'test-target/src',
-    testSrcDirectory: 'test/test-src',
-    testDestDirectory: 'test-target',
-    testDirCopyDir: 'test-target',
     runnerLock: true,
-    transpile: false,                    //default, can be overridden with command line
+    transpile: true,                    //default, can be overridden with command line
     timeoutToSearchForAvailServer: 2000,
     sendStderrToSumanErrLogOnly: true,
     useSuiteNameInTestCaseOutput: false,
@@ -40,6 +42,24 @@ module.exports = Object.freeze({
     suppressRunnerOutput: true,         // this defaults to true, use no-silent or silent to switch value
     resultsCapSize: 7000, // 3 gb's     // oldest test results will be deleted if the results dir expands beyond this size
 
+
+    //
+    watch: {
+        '//tests': {
+            script: function (p) {
+                return `./node_modules/.bin/suman ${p}`
+            },
+            include: [],
+            exclude: ['^test.*']
+        },
+
+        '//project': {
+            script: 'suman',
+            include: [__dirname],
+            exclude: ['^test.*']
+        },
+    },
+
     reporters: {
         'tap': 'suman/reporters/tap'
     },
@@ -49,7 +69,13 @@ module.exports = Object.freeze({
         '*default': {
             host: '127.0.0.1',
             port: 6969
-        }
+        },
+
+        '###': {   /// replace this with user's local machines os.hostname()
+            host: '127.0.0.1',
+            port: 6969
+        },
+
     },
 
     useBabelRegister: false,
@@ -57,7 +83,7 @@ module.exports = Object.freeze({
 
         // Optional ignore regex - if any filenames match this regex then they
         // aren't compiled.
-        // ignore: /fixture/,
+        ignore: /fixture/,
 
         // Ignore can also be specified as a function.
         // ignore: function(filename) {

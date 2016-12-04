@@ -8,22 +8,27 @@
 // ******************************************************************************************************************
 
 
-module.exports = () => {  //load async deps for any of your suman tests
+
+module.exports = data => {  //load async deps for any of your suman tests
 
 
-    return {
+  return {
 
 
-        'async': function () {
-            return require('async');
-        },
+    'async': function () {
+      return require('async');
+    },
 
-        Pool: function(){
-            return require('../../index')
-        }
+    Pool: function () {
+      return require('../..')
+    },
 
-
+    testVals: function (cb) {
+      cb(null, [1, 2, 3]);
     }
+
+  }
 
 
 };
+

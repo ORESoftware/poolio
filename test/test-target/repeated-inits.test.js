@@ -1,20 +1,19 @@
+'use strict';
 
 // import * as suman from 'suman';
-const suman = require('suman');
-const Test = suman.init(module,{
-	integrants:['make-a-bet'],
+var suman = require('suman');
+var Test = suman.init(module, {
+	integrants: ['make-a-bet']
 });
 
+Test.describe('Test inits', { parallel: false }, function (Pool, assert, path) {
 
-
-Test.describe('Test inits', {parallel: false}, function (Pool, assert, path) {
-
-	const data = {
+	var data = {
 		size: 5,
 		filePath: path.resolve(__dirname + '/../fixtures/sample-file.js')
 	};
 
-	const pool = new Pool(data);
+	var pool = new Pool(data);
 
 	var size = pool.getCurrentStats().all;
 
@@ -32,41 +31,36 @@ Test.describe('Test inits', {parallel: false}, function (Pool, assert, path) {
 
 	this.describe('#remove workers', function () {
 
-		this.beforeEach(t => {
+		this.beforeEach(function (t) {
 			pool.removeWorker();
 		});
 
 		for (var i = 0; i < 5; i++) {
-			this.it(t => {
+			this.it(function (t) {
 				assert.equal(pool.getCurrentSize().all, --size);
 			});
 		}
-
 	});
 
 	this.describe('#add workers', function () {
 
-		this.beforeEach(t => {
+		this.beforeEach(function (t) {
 			pool.addWorker();
 		});
 
 		for (var i = 0; i < 5; i++) {
-			this.it(t => {
+			this.it(function (t) {
 				assert.equal(pool.getCurrentSize().all, ++size);
 			});
 		}
-
 	});
 
-	this.after(t => {
+	this.after(function (t) {
 
-		process.nextTick(function(){
-			setTimeout(function(){
+		process.nextTick(function () {
+			setTimeout(function () {
 				pool.removeAllListeners();
-			},1000);
-
+			}, 1000);
 		});
-
 	});
-
 });

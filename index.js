@@ -353,7 +353,7 @@ function handleCallback(pool, data) {
 
     if (cbOrPromise) {
         if (data.error) {
-            const err = new Error(data.error);
+            const err = new Error(util.inspect(data.error));
             if (cbOrPromise.cb) {
                 cbOrPromise.cb(err);
             } else if (cbOrPromise.reject) {
@@ -450,21 +450,14 @@ Pool.prototype.any = function (msg, cb) {
     const d = process.domain;
 
     if (typeof cb === 'function') {
-        if (d) {
-            d.bind(cb);
-        }
         this.resolutions[workId] = {
-            cb: cb
+            cb: d ? d.bind(cb) : cb
         };
     } else {
         return new Promise((resolve, reject) => {
-            if (d) {
-                d.bind(resolve);
-                d.bind(reject);
-            }
             this.resolutions[workId] = {
-                resolve: resolve,
-                reject: reject
+                resolve: d ? d.bind(resolve) : resolve,
+                reject: d ? d.bind(reject) : reject
             };
         });
     }

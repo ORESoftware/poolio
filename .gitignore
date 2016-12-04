@@ -1,5 +1,6 @@
 node_modules/
 .idea/
-exp*.js
-test/_suman/logs/
-test-target/
+*suman/logs/
+coverage/
+*.log*
+
