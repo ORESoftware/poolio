@@ -4,7 +4,7 @@ const Test = suman.init(module, {});
 
 //////////
 
-Test.describe('@TestsPoolio', {parallel: true}, function (Pool, suite, path, async, assert) {
+Test.create('@TestsPoolio', {parallel: true}, function (Pool, suite, path, async, assert) {
 
 
 	const pool0 = new Pool({

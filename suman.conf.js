@@ -12,6 +12,7 @@ const numOfCPUs = os.cpus().length || 1;
 
 module.exports = Object.freeze({
 
+
     matchAny: [/\.test\.js$/],                          //recommended =>  match: ['.test.js'],
     matchNone: [/fixture/],
     matchAll: [],
@@ -64,13 +65,31 @@ module.exports = Object.freeze({
         'tap': 'suman/reporters/tap'
     },
 
+
+    watch: {
+        '//tests': {
+            script: function (p) {
+                return `./node_modules/.bin/suman ${p}`
+            },
+            include: [],
+            exclude: ['^test.*']
+        },
+
+        '//project': {
+            script: 'suman --no-color test/test-src',
+            include: [__dirname],
+            exclude: ['^test.*']
+        },
+    },
+
+
     servers: {                           // list of servers to output test result data to, with the os.hostname() as the key
+
 
         '*default': {
             host: '127.0.0.1',
             port: 6969
         },
-
         '###': {   /// replace this with user's local machines os.hostname()
             host: '127.0.0.1',
             port: 6969
