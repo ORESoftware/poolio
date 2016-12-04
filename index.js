@@ -167,7 +167,7 @@ function Pool(options) {
     this.stdin = opts.stdin;
     this.stdout = opts.stdout;
     this.stderr = opts.stderr;
-    this.getSharedWritableStream = opts.getSharedWritableStream
+    this.getSharedWritableStream = opts.getSharedWritableStream;
 
     this.on('error', err => {
         if (this.listenerCount('error') === 1) {
