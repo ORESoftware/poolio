@@ -58,6 +58,22 @@ module.exports = Object.freeze({
 
   },
 
+  watch: {
+    '//tests': {
+      script: function (p) {
+        return `./node_modules/.bin/suman ${p}`
+      },
+      include: [],
+      exclude: ['^test.*']
+    },
+
+    '//project': {
+      script: 'suman --no-color test/test-src',
+      include: [__dirname],
+      exclude: ['^test.*']
+    },
+  },
+
   useBabelRegister: false,
   babelRegisterOpts: {
 

@@ -37,7 +37,7 @@
     "babel-runtime": "^6.18.0",
     "frontail": "^4.0.1",
     "suman": "latest",
-    "suman-server": "0.0.17",
+    "suman-server": "latest",
     "webpack": "^1.13.3"
   }
 }
