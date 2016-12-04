@@ -66,6 +66,7 @@ module.exports = Object.freeze({
         'tap': 'suman/reporters/tap'
     },
 
+
     servers: {                           // list of servers to output test result data to, with the os.hostname() as the key
 
 
@@ -75,28 +76,9 @@ module.exports = Object.freeze({
         },
         '###': {   /// replace this with user's local machines os.hostname()
             host: '127.0.0.1',
-                port: 6969
+            port: 6969
         },
-
     },
-
-  watch: {
-    '//tests': {
-      script: function (p) {
-        return `./node_modules/.bin/suman ${p}`
-      },
-      include: [],
-      exclude: ['^test.*']
-    },
-
-    '//project': {
-      script: 'suman --no-color test/test-src',
-      include: [__dirname],
-      exclude: ['^test.*']
-    },
-  },
-
-
 
 
     useBabelRegister: false,

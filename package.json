@@ -21,7 +21,6 @@
   },
   "devDependencies": {
     "async": "^2.0.0-rc.6",
-    "suman": "latest",
     "babel-cli": "^6.18.0",
     "babel-core": "^6.18.0",
     "babel-loader": "^6.2.6",
@@ -36,14 +35,7 @@
     "babel-preset-stage-3": "^6.17.0",
     "babel-register": "^6.18.0",
     "babel-runtime": "^6.18.0",
-    "frontail": "^4.0.1",
-<<<<<<< HEAD
-    "suman-server": "0.0.17",
-=======
     "suman": "latest",
-    "suman-server": "latest",
->>>>>>> d73980223c8b7b27e6fa5444e3c3a3d4e49223a1
     "webpack": "^1.13.3"
-
   }
 }
