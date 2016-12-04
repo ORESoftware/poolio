@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "testx": "./node_modules/.bin/suman",
     "test": "./node_modules/.bin/suman",
     "remove-private-dirs": "echo poolio:noop",
     "remove-private-files": "echo poolio:noop"
