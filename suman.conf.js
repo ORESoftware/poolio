@@ -9,8 +9,10 @@ const path = require('path');
 const numOfCPUs = os.cpus().length || 1;
 
 //////
+const pkgJSON = require('./package.json');
 
 module.exports = Object.freeze({
+
 
     matchAny: [/\.test\.js$/],                          //recommended =>  match: ['.test.js'],
     matchNone: [/fixture/],
@@ -33,7 +35,7 @@ module.exports = Object.freeze({
     verbose: true,                      //handles and logs warnings (using warning level?)
     checkMemoryUsage: false,            //limits stack traces to just relevant test case or test line
     fullStackTraces: false,             //allows you to view more than 3 lines for errors in test cases and hooks
-    uniqueAppName: 'suman',
+    uniqueAppName: pkgJSON.name || 'poolio',
     NODE_ENV: 'development',            // NODE_ENV to use if you don't specify one
     browser: 'Firefox',                 // browser to open test results with
     disableAutoOpen: false,             // use true if you never want suman to automatically open the browser to the latest test results
@@ -66,17 +68,36 @@ module.exports = Object.freeze({
 
     servers: {                           // list of servers to output test result data to, with the os.hostname() as the key
 
+
         '*default': {
             host: '127.0.0.1',
             port: 6969
         },
-
         '###': {   /// replace this with user's local machines os.hostname()
             host: '127.0.0.1',
-            port: 6969
+                port: 6969
         },
 
     },
+
+  watch: {
+    '//tests': {
+      script: function (p) {
+        return `./node_modules/.bin/suman ${p}`
+      },
+      include: [],
+      exclude: ['^test.*']
+    },
+
+    '//project': {
+      script: 'suman --no-color test/test-src',
+      include: [__dirname],
+      exclude: ['^test.*']
+    },
+  },
+
+
+
 
     useBabelRegister: false,
     babelRegisterOpts: {
