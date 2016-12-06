@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-GIT_COMMIT_MSG = $1 # first argument to script
+GIT_COMMIT_MSG=$1 # first argument to script
 
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
 if [[ "$BRANCH" != "dev" ]]; then
