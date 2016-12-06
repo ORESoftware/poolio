@@ -383,7 +383,7 @@ function delegateNewlyAvailableWorker(pool, n) {
         return;
     }
 
-    if (this.oneTimeOnly) {
+    if (pool.oneTimeOnly) {
         removeSpecificWorker(pool, n);
         console.error(' => Poolio warning => delegateNewlyAvailableWorker() was called on a worker that should have been "oneTimeOnly".');
         return;

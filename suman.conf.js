@@ -81,7 +81,7 @@ module.exports = Object.freeze({
     },
 
 
-    useBabelRegister: false,
+    useBabelRegister: true,
     babelRegisterOpts: {
 
         // Optional ignore regex - if any filenames match this regex then they
