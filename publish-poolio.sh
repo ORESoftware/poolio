@@ -8,18 +8,20 @@ if [[ "$BRANCH" != "dev" ]]; then
   exit 1;
 fi
 
-npm version patch --force -m "Upgrade for several reasons"
-git add .
-git add -A
-git commit -am "publish/release:${GIT_COMMIT_MSG}"
-git push
-git checkout -b master
-npm run remove-private-dirs
-npm run remove-private-files
-git add .
-git add -A
-git commit -am "publish/release:${GIT_COMMIT_MSG}"
-git push origin master -f
-git checkout dev
-git branch -D master
+npm version patch --force -m "Upgrade for several reasons" &&
+
+
+git add . &&
+git add -A &&
+git commit -am "publish/release:${GIT_COMMIT_MSG}" &&
+git push &&
+git checkout -b temp &&
+npm run remove-private-dirs &&
+npm run remove-private-files &&
+git add . &&
+git add -A &&
+git commit -am "publish/release:${GIT_COMMIT_MSG}" &&
+git push origin HEAD:master -f &&
+git checkout dev &&
+git branch -D temp &&
 npm publish .

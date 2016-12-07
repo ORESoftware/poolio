@@ -145,7 +145,7 @@ process.on('message', function (data) {   //use the closure, it is better that w
     const workId = data.workId;
     const d = domain.create();
     
-    d.on('error', _.once(function(err){
+    d.once('error', function(err){
        this.exit();
        process.send({
          msg: 'error',
@@ -154,7 +154,7 @@ process.on('message', function (data) {   //use the closure, it is better that w
          result: null
        });
     
-    }));
+    });
     
     d.run(function(){
     
@@ -202,7 +202,7 @@ process.on('message', function (data) {   //use the closure, it is better that w
        
             // ....do some async work...
         
-       }):
+       })
        
     }
     
@@ -213,7 +213,7 @@ process.on('message', function (data) {   //use the closure, it is better that w
              
             // ....do some async work...
               
-        }):
+        })
     
     }
     
@@ -223,7 +223,7 @@ process.on('message', function (data) {   //use the closure, it is better that w
               
            // ....do some async work...
                
-       }):
+       })
     }
     
     

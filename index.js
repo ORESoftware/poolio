@@ -303,6 +303,7 @@ function removeSpecificWorker(pool, n, callKill) {
         if (callKill !== false) {
             n.kill();
         }
+        pool.emit('worker-removed', n.workerId);
 
     } else {
         console.error(' => Poolio internal error: no worker passed to internal ' +
@@ -328,7 +329,6 @@ Pool.prototype.removeWorker = function () {
         const n = this.available.pop();
         if (n) {
             removeSpecificWorker(this, n);
-            this.emit('worker-removed', n.workerId);
         } else {
             this.removeNextAvailableWorker = true;
         }
@@ -392,7 +392,6 @@ function delegateNewlyAvailableWorker(pool, n) {
     if (pool.removeNextAvailableWorker) {
         pool.removeNextAvailableWorker = false;
         removeSpecificWorker(pool, n);
-        this.emit('worker-removed', n.workerId);
         return; //note: don't push cp back on available queue
     }
 
