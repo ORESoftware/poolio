@@ -448,13 +448,15 @@ Pool.prototype.any = function (msg, cb) {
 
     const d = process.domain;
 
+    const self = this;
+
     if (typeof cb === 'function') {
-        this.resolutions[workId] = {
+        self.resolutions[workId] = {
             cb: d ? d.bind(cb) : cb
         };
     } else {
         return new Promise((resolve, reject) => {
-            this.resolutions[workId] = {
+            self.resolutions[workId] = {
                 resolve: d ? d.bind(resolve) : resolve,
                 reject: d ? d.bind(reject) : reject
             };
