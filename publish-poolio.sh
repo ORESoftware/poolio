@@ -13,15 +13,15 @@ npm version patch --force -m "Upgrade for several reasons" &&
 
 git add . &&
 git add -A &&
-git commit -am "publish/release:${GIT_COMMIT_MSG}" &&
+git commit --allow-empty  -am "publish/release:${GIT_COMMIT_MSG}" &&
 git push &&
 git checkout -b temp &&
 npm run remove-private-dirs &&
 npm run remove-private-files &&
 git add . &&
 git add -A &&
-git commit -am "publish/release:${GIT_COMMIT_MSG}" &&
+git commit --allow-empty  -am "publish/release:${GIT_COMMIT_MSG}" &&
 git push origin HEAD:master -f &&
+npm publish . &&
 git checkout dev &&
-git branch -D temp &&
-npm publish .
+git branch -D temp
