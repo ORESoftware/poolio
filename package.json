@@ -4,9 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/suman",
-    "remove-private-dirs": "echo poolio:noop",
-    "remove-private-files": "echo poolio:noop"
+    "test": "./node_modules/.bin/suman"
   },
   "author": "Olegzandr Denman",
   "license": "ISC",
@@ -24,6 +22,6 @@
   },
   "devDependencies": {
     "async": "^2.0.0-rc.6",
-    "suman": "github:oresoftware/suman#dev"
+    "suman": "latest"
   }
 }
