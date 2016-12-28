@@ -3,6 +3,8 @@
  */
 
 
+//TODO: when sending message back to parent process from the pool, give the parent the chance
+//to decide whether to kill the child or bring back into the pool
 //TODO: move to lodash from underscore
 //TODO: https://devnet.jetbrains.com/message/5507221
 //TODO: https://youtrack.jetbrains.com/issue/WEB-1919
