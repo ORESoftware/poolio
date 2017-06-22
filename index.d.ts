@@ -74,11 +74,11 @@ export declare class Pool extends EventEmitter {
     removeWorker(): Pool;
     getCurrentSize(): Object;
     getCurrentStats(): Object;
-    any(msg: string, cb?: IResolutionCallback): Promise<{}>;
-    destroy(): this;
+    any(msg: string, cb?: IResolutionCallback): Promise<IPoolioResponseMsg> | void;
+    destroy(): Pool;
     killAllActiveWorkers(): Pool;
     killAll(): Pool;
-    killAllImmediately(): this;
+    killAllImmediately(): Pool;
 }
 declare const $exports: any;
 export default $exports;
