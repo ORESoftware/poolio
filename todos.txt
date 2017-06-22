@@ -1,0 +1,8 @@
+//TODO: when sending message back to parent process from the pool, give the parent the chance
+//to decide whether to kill the child or bring back into the pool
+//TODO: move to lodash from underscore
+//TODO: https://devnet.jetbrains.com/message/5507221
+//TODO: https://youtrack.jetbrains.com/issue/WEB-1919
+//TODO: add logger argument, or pipe stdout somewhere
+//TODO: need to add oneTimeOnly:true boolean option - when message is sent to worker, worker is immediately removed
+//from all array, so it will never get reused
