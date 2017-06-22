@@ -1,6 +1,6 @@
 // typescript improts
 import EventEmitter = NodeJS.EventEmitter;
-import {ChildProcess} from "child_process";
+import {ChildProcess, SpawnOptions} from "child_process";
 import {Stream, Writable} from "stream";
 
 const isDebug = process.execArgv.indexOf('debug') > 0;
@@ -15,7 +15,7 @@ import * as EE from 'events';
 import * as util from 'util';
 import * as fs from 'fs';
 import * as chalk from 'chalk';
-import residence from 'residence';
+import * as residence from 'residence';
 
 //////////////////////////////////////////////////////////
 
@@ -48,6 +48,7 @@ let id = 1; //avoid falsy 0 values, just start with 1
 
 //opts
 const defaultOpts = {
+
   filePath: null,
   addWorkerOnExit: false,
   size: 1,
@@ -55,57 +56,66 @@ const defaultOpts = {
   env: process.env,
   execArgv: [],
   args: []
-};
+
+} as IPoolOptionsPartial;
 
 ///////////////////////////////////////////////////////
 
-interface IPoolOptions{
+export interface IPoolOptions {
   filePath: string,
   addWorkerOnExit: boolean,
   size: number,
-  silent: boolean,
   env: Object,
   execArgv: Array<string>,
-  args:  Array<string>,
+  args: Array<string>,
   oneTimeOnly: boolean,
-  addWorkerOnExit: boolean;
-  stdin: IStreamFunction | Stream;
-  stderr: IStreamFunction | Stream;
-  stdout: IStreamFunction | Stream;
+  stdin: IStreamFunction | Writable;
+  stderr: IStreamFunction | Writable;
+  stdout: IStreamFunction | Writable;
   silent: boolean;
-  getSharedWritableStream: IStreamFunction | Stream;
+  getSharedWritableStream: IStreamFunction | Writable;
 }
 
-type IPoolOptionsPartial = Partial<IPoolOptions>;
+export type IPoolOptionsPartial = Partial<IPoolOptions>;
 
-
-interface IPoolResolutions {
+export interface IPoolResolutions {
   [key: string]: IPoolResolution
 }
 
-interface IStreamFunction {
+export interface IStreamFunction {
   (): Writable
 }
 
-interface IPoolioChildProcess extends ChildProcess {
+export interface IResolutionCallback {
+  (err: Error | string, data: Object): void
+}
+
+export interface IPoolioChildProcess extends ChildProcess {
   workerId: number;
   tempId: string
 }
 
-interface IPoolMsgQueue {
+export interface IPoolMsgQueue {
   workId: number,
   msg: string
+  __poolioWorkerId?: number
 }
 
-interface IPoolResolution {
+export interface IPoolResolution {
   cb?: Function,
   resolve?: Function,
   reject?: Function
 }
 
+export interface IPoolioResponseMsg {
+  workId: number;
+  error?: string,
+  result: Object
+}
+
 /////////////////// private helper functions  ////////////////////
 
-let getWritable = function (fnOrStrm: Stream | IStreamFunction): Writable {
+let getWritable = function (fnOrStrm: Writable | IStreamFunction): Writable {
   return (typeof fnOrStrm === 'function') ? fnOrStrm() : fnOrStrm
 };
 
@@ -125,12 +135,12 @@ function removeSpecificWorker(pool: Pool, n: IPoolioChildProcess, callKill?: boo
   }
 }
 
-function resetDueToDeadWorkers(pool) {
+function resetDueToDeadWorkers(pool: Pool) {
   pool.all = pool.all.filter(n => n.tempId !== 'gonna-die');
   pool.available = pool.available.filter(n => n.tempId !== 'gonna-die');
 }
 
-function handleCallback(pool, data) {
+function handleCallback(pool: Pool, data: IPoolioResponseMsg) {
 
   const workId = data.workId;
   const cbOrPromise = pool.resolutions[workId];
@@ -162,7 +172,7 @@ function handleCallback(pool, data) {
   }
 }
 
-function delegateNewlyAvailableWorker(pool, n) {
+function delegateNewlyAvailableWorker(pool: Pool, n: IPoolioChildProcess) {
 
   if (pool.kill) {
     removeSpecificWorker(pool, n);
@@ -210,11 +220,11 @@ export class Pool extends EventEmitter {
   size: number;
   oneTimeOnly: boolean;  // works only receive one message, then they are off
   addWorkerOnExit: boolean;
-  stdin: IStreamFunction | Stream;
-  stderr: IStreamFunction | Stream;
-  stdout: IStreamFunction | Stream;
+  stdin: IStreamFunction | Writable;
+  stderr: IStreamFunction | Writable;
+  stdout: IStreamFunction | Writable;
   silent: boolean;
-  getSharedWritableStream: IStreamFunction | Stream;
+  getSharedWritableStream: IStreamFunction | Writable;
   env: Object;
   detached: boolean; // allow users to decide whether workers should die when parent dies
 
@@ -256,9 +266,6 @@ export class Pool extends EventEmitter {
     this.filePath = path.isAbsolute(opts.filePath) ? opts.filePath :
       path.resolve(root + '/' + this.filePath);
 
-    if (path.extname(this.filePath) === '') {
-      this.filePath = this.filePath.concat('.js');
-    }
 
     let isFile = false;
     try {
@@ -320,12 +327,16 @@ export class Pool extends EventEmitter {
       execArgv.push('--debug=' + (53034 + id)); //http://stackoverflow.com/questions/16840623/how-to-debug-node-js-child-forked-process
     }
 
-    const n = cp.fork(this.filePath, this.args, {
+    this.args.unshift(this.filePath);
+
+    this.execArgv.forEach((arg) => {
+      this.args.unshift(arg);
+    });
+
+    const n = <IPoolioChildProcess> cp.spawn('node', this.args, {
       detached: false,
-      execArgv: execArgv,
-      silent: this.silent,
-      env: this.env
-    })  as IPoolioChildProcess;
+      env: Object.assign({}, process.env, this.env || {})
+    });
 
     if (this.silent) {
       if (this.getSharedWritableStream) {
@@ -342,7 +353,6 @@ export class Pool extends EventEmitter {
           n.stdio[2].pipe(getWritable(this.stderr));
         }
       }
-
     }
 
     n.workerId = this.workerIdCounter++;
@@ -451,7 +461,7 @@ export class Pool extends EventEmitter {
     return this.getCurrentSize()
   }
 
-  any(msg: string, cb?: Function) {
+  any(msg: string, cb?: IResolutionCallback) {
 
     if (this.kill) {
       console.error('\n', ' => Poolio usage warning: pool.any() called on pool of dead/dying workers => ', '\n', 'use pool.addWorker() to replenish the pool.');

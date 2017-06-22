@@ -3,6 +3,8 @@
   "version": "0.2.54003",
   "description": "Create a versatile pool of child process workers.",
   "main": "index.js",
+  "types": "index.d.ts",
+  "typings": "index.d.ts",
   "scripts": {
     "test": "./node_modules/.bin/suman"
   },
