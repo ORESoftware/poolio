@@ -4,6 +4,8 @@ node_modules
 *.txt
 *.md
 *.ts
+*.json
 !*.d.ts
 .npmignore
 .gitignore
+yarn.lock

@@ -461,7 +461,7 @@ export class Pool extends EventEmitter {
     return this.getCurrentSize()
   }
 
-  any(msg: string, cb?: IResolutionCallback) : Promise<IPoolioResponseMsg> | void {
+  any(msg: Object | string, cb?: IResolutionCallback) : Promise<IPoolioResponseMsg> | void {
 
     if (this.kill) {
       console.error('\n', ' => Poolio usage warning: pool.any() called on pool of dead/dying workers => ', '\n', 'use pool.addWorker() to replenish the pool.');
