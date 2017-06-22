@@ -97,7 +97,7 @@ export interface IPoolioChildProcess extends ChildProcess {
 
 export interface IPoolMsgQueue {
   workId: number,
-  msg: string
+  msg:  string | Object,
   __poolioWorkerId?: number
 }
 

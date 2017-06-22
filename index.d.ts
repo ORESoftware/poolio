@@ -32,7 +32,7 @@ export interface IPoolioChildProcess extends ChildProcess {
 }
 export interface IPoolMsgQueue {
     workId: number;
-    msg: string;
+    msg: string | Object;
     __poolioWorkerId?: number;
 }
 export interface IPoolResolution {
@@ -74,7 +74,7 @@ export declare class Pool extends EventEmitter {
     removeWorker(): Pool;
     getCurrentSize(): Object;
     getCurrentStats(): Object;
-    any(msg: string, cb?: IResolutionCallback): Promise<IPoolioResponseMsg> | void;
+    any(msg: Object | string, cb?: IResolutionCallback): Promise<IPoolioResponseMsg> | void;
     destroy(): Pool;
     killAllActiveWorkers(): Pool;
     killAll(): Pool;
