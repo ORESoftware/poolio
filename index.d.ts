@@ -1,9 +1,10 @@
 /// <reference types="node" />
-import EventEmitter = NodeJS.EventEmitter;
 import { ChildProcess } from "child_process";
 import { Writable } from "stream";
+import * as EE from 'events';
 export interface IPoolOptions {
     filePath: string;
+    inheritStdio: boolean;
     addWorkerOnExit: boolean;
     size: number;
     env: Object;
@@ -24,7 +25,7 @@ export interface IStreamFunction {
     (): Writable;
 }
 export interface IResolutionCallback {
-    (err: Error | string, data: Object): void;
+    (err: Error | string, data?: Object): void;
 }
 export interface IPoolioChildProcess extends ChildProcess {
     workerId: number;
@@ -45,7 +46,7 @@ export interface IPoolioResponseMsg {
     error?: string;
     result: Object;
 }
-export declare class Pool extends EventEmitter {
+export declare class Pool extends EE {
     kill: boolean;
     all: Array<IPoolioChildProcess>;
     available: Array<IPoolioChildProcess>;
@@ -60,6 +61,7 @@ export declare class Pool extends EventEmitter {
     args: Array<string>;
     filePath: string;
     size: number;
+    inheritStdio: boolean;
     oneTimeOnly: boolean;
     addWorkerOnExit: boolean;
     stdin: IStreamFunction | Writable;
@@ -74,7 +76,8 @@ export declare class Pool extends EventEmitter {
     removeWorker(): Pool;
     getCurrentSize(): Object;
     getCurrentStats(): Object;
-    any(msg: Object | string, cb?: IResolutionCallback): Promise<IPoolioResponseMsg> | void;
+    anyCB(msg: Object | string, cb: IResolutionCallback): void;
+    any(msg: Object | string): Promise<IPoolioResponseMsg>;
     destroy(): Pool;
     killAllActiveWorkers(): Pool;
     killAll(): Pool;

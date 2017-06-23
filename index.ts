@@ -1,7 +1,9 @@
-// typescript improts
+'use strict';
+
+// typescript imports
 import EventEmitter = NodeJS.EventEmitter;
-import {ChildProcess, SpawnOptions} from "child_process";
-import {Stream, Writable} from "stream";
+import {ChildProcess} from "child_process";
+import {Writable} from "stream";
 
 const isDebug = process.execArgv.indexOf('debug') > 0;
 if (isDebug) console.log('Poolio isDebug flag set to:', isDebug);
@@ -49,6 +51,7 @@ let id = 1; //avoid falsy 0 values, just start with 1
 //opts
 const defaultOpts = {
 
+  inheritStdio: true,
   filePath: null,
   addWorkerOnExit: false,
   size: 1,
@@ -63,6 +66,7 @@ const defaultOpts = {
 
 export interface IPoolOptions {
   filePath: string,
+  inheritStdio: boolean,
   addWorkerOnExit: boolean,
   size: number,
   env: Object,
@@ -87,7 +91,7 @@ export interface IStreamFunction {
 }
 
 export interface IResolutionCallback {
-  (err: Error | string, data: Object): void
+  (err: Error | string, data?: Object): void
 }
 
 export interface IPoolioChildProcess extends ChildProcess {
@@ -97,7 +101,7 @@ export interface IPoolioChildProcess extends ChildProcess {
 
 export interface IPoolMsgQueue {
   workId: number,
-  msg:  string | Object,
+  msg: string | Object,
   __poolioWorkerId?: number
 }
 
@@ -115,32 +119,28 @@ export interface IPoolioResponseMsg {
 
 /////////////////// private helper functions  ////////////////////
 
-let getWritable = function (fnOrStrm: Writable | IStreamFunction): Writable {
+const getWritable = function (fnOrStrm: Writable | IStreamFunction): Writable {
   return (typeof fnOrStrm === 'function') ? fnOrStrm() : fnOrStrm
 };
 
-function removeSpecificWorker(pool: Pool, n: IPoolioChildProcess, callKill?: boolean) {
+const removeSpecificWorker = function (pool: Pool, n: IPoolioChildProcess, callKill?: boolean) {
 
-  if (n) {
-    n.tempId = 'gonna-die';
-    resetDueToDeadWorkers(pool);
-    if (callKill !== false) {
-      n.kill();
-    }
-    pool.emit('worker-removed', n.workerId);
-
-  } else {
-    console.error(' => Poolio internal error: no worker passed to internal ' +
-      'removeSpecificWorker() function.');
+  n.tempId = 'gonna-die';
+  resetDueToDeadWorkers(pool);
+  if (callKill !== false) {
+    n.kill('SIGINT');
   }
-}
+  console.log('worker removed.');
+  pool.emit('worker-removed', n.workerId);
 
-function resetDueToDeadWorkers(pool: Pool) {
+};
+
+const resetDueToDeadWorkers = function (pool: Pool) {
   pool.all = pool.all.filter(n => n.tempId !== 'gonna-die');
   pool.available = pool.available.filter(n => n.tempId !== 'gonna-die');
-}
+};
 
-function handleCallback(pool: Pool, data: IPoolioResponseMsg) {
+const handleCallback = function (pool: Pool, data: IPoolioResponseMsg) {
 
   const workId = data.workId;
   const cbOrPromise = pool.resolutions[workId];
@@ -170,9 +170,9 @@ function handleCallback(pool: Pool, data: IPoolioResponseMsg) {
     console.error('Internal Poolio error => this should not happen - but might if' +
       ' a callback is attempted to be called more than once.')
   }
-}
+};
 
-function delegateNewlyAvailableWorker(pool: Pool, n: IPoolioChildProcess) {
+const delegateNewlyAvailableWorker = function (pool: Pool, n: IPoolioChildProcess) {
 
   if (pool.kill) {
     removeSpecificWorker(pool, n);
@@ -198,11 +198,11 @@ function delegateNewlyAvailableWorker(pool: Pool, n: IPoolioChildProcess) {
   } else {
     pool.available.push(n);
   }
-}
+};
 
 //////////////////////////////////////////////////////
 
-export class Pool extends EventEmitter {
+export class Pool extends EE {
 
   kill: boolean;
   all: Array<IPoolioChildProcess>;
@@ -218,6 +218,7 @@ export class Pool extends EventEmitter {
   args: Array<string>;
   filePath: string;
   size: number;
+  inheritStdio: boolean;
   oneTimeOnly: boolean;  // works only receive one message, then they are off
   addWorkerOnExit: boolean;
   stdin: IStreamFunction | Writable;
@@ -260,12 +261,12 @@ export class Pool extends EventEmitter {
     //do this explicitly instead of using loop, for syntax highlighting
     this.execArgv = opts.execArgv;
     this.args = opts.args;
+    this.inheritStdio = opts.inheritStdio;
 
     assert(opts.filePath, ' => Poolio: user error => you need to provide "filePath" option for Poolio constructor');
 
     this.filePath = path.isAbsolute(opts.filePath) ? opts.filePath :
       path.resolve(root + '/' + this.filePath);
-
 
     let isFile = false;
     try {
@@ -327,6 +328,8 @@ export class Pool extends EventEmitter {
       execArgv.push('--debug=' + (53034 + id)); //http://stackoverflow.com/questions/16840623/how-to-debug-node-js-child-forked-process
     }
 
+    console.log('worker added.');
+
     this.args.unshift(this.filePath);
 
     this.execArgv.forEach((arg) => {
@@ -335,10 +338,17 @@ export class Pool extends EventEmitter {
 
     const n = <IPoolioChildProcess> cp.spawn('node', this.args, {
       detached: false,
-      env: Object.assign({}, process.env, this.env || {})
+      env: Object.assign({}, process.env, this.env || {}),
+      stdio: [
+        'ignore',
+        (this.silent ? 'ignore' : 'pipe'),
+        (this.silent ? 'ignore' : 'pipe'),
+        'ipc'  //TODO: assume 'ipc' is ignored if not a .js file..
+      ],
     });
 
-    if (this.silent) {
+    if (n.stdio) {
+
       if (this.getSharedWritableStream) {
         //we pipe stdout and stderr to the same stream
         const strm = getWritable(this.getSharedWritableStream);
@@ -353,6 +363,11 @@ export class Pool extends EventEmitter {
           n.stdio[2].pipe(getWritable(this.stderr));
         }
       }
+
+      if (this.inheritStdio) {
+        n.stdio[1].pipe(process.stdout);
+        n.stdio[2].pipe(process.stderr);
+      }
     }
 
     n.workerId = this.workerIdCounter++;
@@ -362,6 +377,12 @@ export class Pool extends EventEmitter {
     });
 
     n.once('exit', (code, signal) => {
+
+      console.log('worker exitted with code => ', code);
+
+      setImmediate(() => {
+        console.log(' => pool stats', this.getCurrentSize());
+      });
 
       n.removeAllListeners();
       this.emit('worker-exited', code, signal, n.workerId);
@@ -461,17 +482,17 @@ export class Pool extends EventEmitter {
     return this.getCurrentSize()
   }
 
-  any(msg: Object | string, cb?: IResolutionCallback) : Promise<IPoolioResponseMsg> | void {
+  anyCB(msg: Object | string, cb: IResolutionCallback): void {
 
     if (this.kill) {
-      console.error('\n', ' => Poolio usage warning: pool.any() called on pool of dead/dying workers => ', '\n', 'use pool.addWorker() to replenish the pool.');
-      return;
+      return cb(new Error(' => Poolio usage warning: pool.any() called on pool of dead/dying workers => ' +
+        'use pool.addWorker() to replenish the pool.'));
     }
 
     if (this.all.length < 1) {
-      console.error('\n', ' => Poolio usage warning: you called pool.any() but your worker pool has 0 workers most likely because all have exited => ' +
-        'you need to call pool.addWorker() to replenish the pool, or use the {addWorkerOnExit:true} option.');
-      return;
+      return cb(new Error(' => Poolio usage warning: you called pool.any() but your worker pool has 0 workers,' +
+        'most likely because all have exited => ' +
+        'you need to call pool.addWorker() to replenish the pool, or use the {addWorkerOnExit:true} option.'));
     }
 
     const workId = this.jobIdCounter++;
@@ -495,7 +516,8 @@ export class Pool extends EventEmitter {
       } else {
 
         if (this.all.length < 1) {
-          console.log('Poolio warning: your Poolio pool has been reduced to size of 0 workers, you will have to add a worker to process new and/or existing messages.');
+          logWarning('Poolio warning: your Poolio pool has been reduced to size of 0 workers, ' +
+            'you will have to add a worker to process new and/or existing messages.');
         }
 
         this.msgQueue.push({
@@ -506,24 +528,65 @@ export class Pool extends EventEmitter {
     });
 
     const d = process.domain;
-
-    const self = this;
-
-    if (typeof cb === 'function') {
-      self.resolutions[workId] = {
-        cb: d ? d.bind(cb) : cb
-      };
-    } else {
-      return new Promise((resolve, reject) => {
-        self.resolutions[workId] = {
-          resolve: d ? d.bind(resolve) : resolve,
-          reject: d ? d.bind(reject) : reject
-        };
-      });
-    }
+    this.resolutions[workId] = {
+      cb: d ? d.bind(cb) : cb
+    };
   }
 
-  destroy() : Pool {
+  any(msg: Object | string): Promise<IPoolioResponseMsg> {
+
+    if (this.kill) {
+      return Promise.reject(' => Poolio usage warning: pool.any() called on pool of dead/dying workers => use pool.addWorker() to replenish the pool.')
+    }
+
+    if (this.all.length < 1) {
+      return Promise.reject(' => Poolio usage warning: you called pool.any() but your worker pool has 0 workers most likely because all have exited => ' +
+        'you need to call pool.addWorker() to replenish the pool, or use the {addWorkerOnExit:true} option.');
+    }
+
+    const workId = this.jobIdCounter++;
+
+    setImmediate(() => {
+      if (this.available.length > 0) {
+
+        const n = this.available.shift();
+
+        if (this.oneTimeOnly) {
+          n.tempId = 'gonna-die';
+          resetDueToDeadWorkers(this);
+        }
+
+        n.send({
+          msg: msg,
+          workId: workId,
+          __poolioWorkerId: n.workerId
+        });
+
+      } else {
+
+        if (this.all.length < 1) {
+          logWarning('Poolio warning: your Poolio pool has been reduced to size of 0 workers, ' +
+            'you will have to add a worker to process new and/or existing messages.');
+        }
+
+        this.msgQueue.push({
+          workId: workId,
+          msg: msg
+        });
+      }
+    });
+
+    const d = process.domain;
+    return new Promise((resolve, reject) => {
+      this.resolutions[workId] = {
+        resolve: d ? d.bind(resolve) : resolve,
+        reject: d ? d.bind(reject) : reject
+      };
+    });
+
+  }
+
+  destroy(): Pool {
 
     // killall and remove all listeners
     return this;
@@ -550,7 +613,7 @@ export class Pool extends EventEmitter {
     return this;
   }
 
-  killAllImmediately() : Pool {
+  killAllImmediately(): Pool {
 
     this.kill = true;
     this.all.forEach(n => {
