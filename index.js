@@ -140,6 +140,8 @@ var Pool = (function (_super) {
         _this.jobIdCounter = 1;
         _this.okToDelegate = false;
         _this.__poolId = '@poolio_pool_' + id++;
+        _this.numberOfSpawnedWorkers = 0;
+        _this.numberOfDeadWorkers = 0;
         if (typeof options !== 'object' || Array.isArray(options)) {
             throw new Error('Options object should be defined for your poolio pool, as "filePath" option property is required.');
         }
@@ -234,11 +236,13 @@ var Pool = (function (_super) {
                 n.stdio[2].pipe(process.stderr);
             }
         }
+        this.numberOfSpawnedWorkers++;
         n.workerId = this.workerIdCounter++;
         n.on('error', function (err) {
             _this.emit('worker-error', err, n.workerId);
         });
         n.once('exit', function (code, signal) {
+            _this.numberOfDeadWorkers++;
             console.log('worker exitted with code => ', code);
             setImmediate(function () {
                 console.log(' => pool stats', _this.getCurrentSize());
@@ -325,7 +329,9 @@ var Pool = (function (_super) {
     Pool.prototype.getCurrentSize = function () {
         return {
             available: this.available.length,
-            all: this.all.length
+            all: this.all.length,
+            numberOfDeadWorkers: this.numberOfDeadWorkers,
+            numberOfSpawnedWorkers: this.numberOfSpawnedWorkers
         };
     };
     Pool.prototype.getCurrentStats = function () {

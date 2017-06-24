@@ -224,6 +224,8 @@ export class Pool extends EE {
   stdin: IStreamFunction | Writable;
   stderr: IStreamFunction | Writable;
   stdout: IStreamFunction | Writable;
+  numberOfSpawnedWorkers: number;
+  numberOfDeadWorkers: number;
   silent: boolean;
   getSharedWritableStream: IStreamFunction | Writable;
   env: Object;
@@ -244,6 +246,8 @@ export class Pool extends EE {
     this.jobIdCounter = 1; //avoid falsy 0 values, start with 1
     this.okToDelegate = false;
     this.__poolId = '@poolio_pool_' + id++;
+    this.numberOfSpawnedWorkers = 0;
+    this.numberOfDeadWorkers = 0;
 
     if (typeof options !== 'object' || Array.isArray(options)) {
       throw new Error('Options object should be defined for your poolio pool, as "filePath" option property is required.');
@@ -370,6 +374,7 @@ export class Pool extends EE {
       }
     }
 
+    this.numberOfSpawnedWorkers++;
     n.workerId = this.workerIdCounter++;
 
     n.on('error', err => {
@@ -378,6 +383,7 @@ export class Pool extends EE {
 
     n.once('exit', (code, signal) => {
 
+      this.numberOfDeadWorkers++;
       console.log('worker exitted with code => ', code);
 
       setImmediate(() => {
@@ -474,7 +480,9 @@ export class Pool extends EE {
   getCurrentSize(): Object {
     return {
       available: this.available.length,
-      all: this.all.length
+      all: this.all.length,
+      numberOfDeadWorkers: this.numberOfDeadWorkers,
+      numberOfSpawnedWorkers: this.numberOfSpawnedWorkers
     }
   }
 

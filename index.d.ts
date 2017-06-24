@@ -67,6 +67,8 @@ export declare class Pool extends EE {
     stdin: IStreamFunction | Writable;
     stderr: IStreamFunction | Writable;
     stdout: IStreamFunction | Writable;
+    numberOfSpawnedWorkers: number;
+    numberOfDeadWorkers: number;
     silent: boolean;
     getSharedWritableStream: IStreamFunction | Writable;
     env: Object;
