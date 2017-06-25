@@ -6,7 +6,7 @@
   "types": "index.d.ts",
   "typings": "index.d.ts",
   "scripts": {
-    "test": "./node_modules/.bin/suman"
+    "test": "./@test.sh"
   },
   "author": "Olegzandr Denman",
   "license": "ISC",
@@ -20,7 +20,6 @@
     "residence": "latest"
   },
   "devDependencies": {
-    "async": "2.4.1",
-    "suman": "latest"
+    "async": "2.4.1"
   }
 }
