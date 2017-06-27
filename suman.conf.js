@@ -76,6 +76,7 @@ module.exports = Object.freeze({
     },
   },
 
+  useBabel: true,
   useBabelRegister: true,
   babelRegisterOpts: {
 
