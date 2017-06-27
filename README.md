@@ -1,4 +1,7 @@
-# poolio
+# Poolio
+
+[![Build Status](https://travis-ci.org/ORESoftware/poolio.svg?branch=master)](https://travis-ci.org/ORESoftware/poolio)
+
 
 ##  => a versatile process pool for Node.js
 
@@ -28,7 +31,7 @@ this lib utilizes a child_process pool, using child_process.fork() like so:
 ```javascript
 
 const cp = require('child_process');
-const n = cp.fork('your-file.js');
+const n = cp.spawn('node',['<your-worker-script>']);
 
 ```
 
@@ -49,7 +52,7 @@ npm install -S poolio
 
 // in the parent process, we require the module and initialize a pool
 
-const Pool = require('poolio');
+const {Pool} = require('poolio');
 
 const pool = new Pool({
     filePath: 'child.js',    //path is relative to root of your project, but it's best to pass in an absolute path
@@ -62,7 +65,7 @@ function rankPostsUsingWorkerPool(postIds, cb){
     pool.any({action: 'run', posts: postIds}).then(function resolved(posts) {
         cb(null, posts);
     }, function rejected(e) {
-        cb(e, []);              //pro-tip, use the rejected handler instead of the catch block, to prevent double-calling of callback
+        cb(e, []);              //pro-tip, use the rejected handler instead of the catch block, to ensure cb only gets called once
     }).catch(function (err) {
         log.error(err);
     });
