@@ -4,7 +4,7 @@ const Test = suman.init(module, {});
 
 //////////
 
-Test.create('@TestsPoolio', {parallel: true}, function (Pool, suite, path, async, assert) {
+Test.create('@TestsPoolio', {parallel: true}, function (Pool, suite, path, async, assert, it, after) {
 
 
 	const pool0 = new Pool({
@@ -28,7 +28,7 @@ Test.create('@TestsPoolio', {parallel: true}, function (Pool, suite, path, async
 	});
 
 
-	this.it('tests poolio', t => {
+	it('tests poolio', t => {
 
 		t.plan(1);
 
@@ -44,7 +44,7 @@ Test.create('@TestsPoolio', {parallel: true}, function (Pool, suite, path, async
 
 	});
 
-	this.it.cb('a', t => {
+	it.cb('a', t => {
 
 		var called = false;
 
@@ -66,7 +66,7 @@ Test.create('@TestsPoolio', {parallel: true}, function (Pool, suite, path, async
 		});
 	});
 
-	this.it.cb('c', t => {
+	it.cb('c', t => {
 
 		setTimeout(function () {
 			pool0.any('run').then(t.fail, function (err) {
@@ -77,7 +77,7 @@ Test.create('@TestsPoolio', {parallel: true}, function (Pool, suite, path, async
 
 	});
 
-	this.after.cb(t => {
+	after.cb(t => {
 
 		async.each([pool0, pool1, pool2, pool3], function (p, cb) {
 
