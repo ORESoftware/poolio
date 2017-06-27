@@ -1,6 +1,6 @@
 {
   "name": "poolio",
-  "version": "0.2.54007",
+  "version": "0.2.54008",
   "description": "Create a versatile pool of child process workers.",
   "main": "index.js",
   "types": "index.d.ts",
@@ -15,11 +15,14 @@
     "url": "git://github.com/oresoftware/poolio.git"
   },
   "dependencies": {
-    "colors": "latest",
+    "chalk": "^1.1.3",
     "debug": "^2.2.0",
     "residence": "latest"
   },
   "devDependencies": {
+    "@types/async": "^2.0.40",
+    "@types/chalk": "^0.4.31",
+    "@types/node": "^8.0.3",
     "async": "2.4.1"
   }
 }
