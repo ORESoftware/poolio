@@ -17,11 +17,11 @@ module.exports = Object.freeze({
   matchNone: [/fixture/],
   matchAll: [],
   testDir: 'test',
-  testSrcDir: 'test/@src',
-  testTargetDir: 'test/@target',
+  testSrcDir: 'test/e2e/@src',
+  testTargetDir: 'test/e2e/@target',
   sumanHelpersDir: 'test/_suman',
   runnerLock: true,
-  transpile: true,                    //default, can be overridden with command line
+  transpile: false,                    //default, can be overridden with command line
   timeoutToSearchForAvailServer: 2000,
   sendStderrToSumanErrLogOnly: true,
   useSuiteNameInTestCaseOutput: false,
@@ -76,8 +76,8 @@ module.exports = Object.freeze({
     },
   },
 
-  useBabel: true,
-  useBabelRegister: true,
+  useBabel: false,
+  useBabelRegister: false,
   babelRegisterOpts: {
 
     // Optional ignore regex - if any filenames match this regex then they

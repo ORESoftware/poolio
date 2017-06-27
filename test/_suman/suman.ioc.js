@@ -7,28 +7,32 @@
 // which is actually pretty cool
 // ******************************************************************************************************************
 
-
+const path = require('path');
 
 module.exports = data => {  //load async deps for any of your suman tests
 
-
   return {
 
+    dependencies: {
 
-    'async': function () {
-      return require('async');
-    },
+      'async': function () {
+        return require('async');
+      },
 
-    Pool: function () {
-      return require('../..')
-    },
+      Pool: function () {
+        return require('poolio').Pool
+      },
 
-    testVals: function (cb) {
-      cb(null, [1, 2, 3]);
+      testVals: function (cb) {
+        cb(null, [1, 2, 3]);
+      },
+
+      fixturesDir: function(){
+        return path.resolve(__dirname + '/../fixtures');
+      }
     }
 
   }
-
 
 };
 

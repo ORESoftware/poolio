@@ -1,37 +1,40 @@
-const suman = require('suman');
-const Test = suman.init(module, {
+'use strict';
+
+var _promise = require('babel-runtime/core-js/promise');
+
+var _promise2 = _interopRequireDefault(_promise);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var suman = require('suman');
+var Test = suman.init(module, {
   pre: ['make-a-bet'],
   post: ['destroyAllPools']
 });
 
-Test.create('@TestsPoolio', {parallel: true}, function (suite, path, async, assert, Pool, describe) {
+Test.create('@TestsPoolio', { parallel: true }, function (suite, path, async, assert, Pool, describe, it, after, fixturesDir) {
 
-  const filePath = path.resolve(__dirname + '/../fixtures/sample-file.js');
+  var filePath = path.resolve(fixturesDir + '/sample-file.js');
 
-  const data = [
-    {
-      size: 1,
-      filePath: filePath
-    },
-    {
-      size: 3,
-      filePath: filePath
-    },
-    {
-      size: 4,
-      filePath: filePath
-    },
-    {
-      size: 1,
-      filePath: filePath
-    }
-  ];
+  var data = [{
+    size: 1,
+    filePath: filePath
+  }, {
+    size: 3,
+    filePath: filePath
+  }, {
+    size: 4,
+    filePath: filePath
+  }, {
+    size: 1,
+    filePath: filePath
+  }];
 
-  describe('test delay feature', {parallel: true}, function () {
+  describe('test delay feature', { parallel: true }, function () {
 
-    data.forEach(p => {
+    data.forEach(function (p) {
 
-      const pool = new Pool(p);
+      var pool = new Pool(p);
 
       pool.on('error', function (err) {
         console.error(err.stack || err);
@@ -39,22 +42,16 @@ Test.create('@TestsPoolio', {parallel: true}, function (suite, path, async, asse
 
       describe('test unique pool', function () {
 
-        this.it('tests poolio', t => {
+        it('tests poolio', function (t) {
 
           t.plan(1);
 
-          return Promise.all([
-            pool.any('dog'),
-            pool.any('big')
-          ]).then(function (values) {
-
-          }).catch(function (e) {
+          return _promise2.default.all([pool.any('dog'), pool.any('big')]).then(function (values) {}).catch(function (e) {
             t.confirm(); ////
           });
-
         });
 
-        this.it.cb('a', t => {
+        it.cb('a', function (t) {
 
           var called = false;
 
@@ -76,7 +73,7 @@ Test.create('@TestsPoolio', {parallel: true}, function (suite, path, async, asse
           });
         });
 
-        this.it.cb('c', t => {
+        it.cb('c', function (t) {
 
           t.plan(1);
           setTimeout(function () {
@@ -86,10 +83,9 @@ Test.create('@TestsPoolio', {parallel: true}, function (suite, path, async, asse
               t.done();
             });
           }, 1000);
-
         });
 
-        this.after.cb(t => {
+        after.cb(function (t) {
 
           // t.plan(1);
 
@@ -104,14 +100,8 @@ Test.create('@TestsPoolio', {parallel: true}, function (suite, path, async, asse
           });
 
           pool.once('error', t.fatal);
-
         });
-
       });
-
     });
-
   });
-
 });
-

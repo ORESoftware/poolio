@@ -1,24 +1,20 @@
-/**
- * Created by Olegzandr on 11/7/16.
- */
-
-
 const util = require('util');
-
 
 module.exports = data => {
 
-    console.error('\n\n',' => data in suman.once.pre.js => ', util.inspect(data));
+  return {
 
-    return {
+    dependencies: {
 
-        'make-a-bet': function(cb){
-            process.nextTick(function(){
-                cb(null,'a');
-            });
-        }
+      'make-a-bet': function (data, cb) {
+        process.nextTick(function () {
+          cb(null, 'a');
+        });
+      }
 
     }
+
+  }
 
 };
 

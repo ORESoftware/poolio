@@ -20,18 +20,16 @@ var Test = suman.init(module, {
   integrants: ['make-a-bet']
 });
 
-////////////////
-
-Test.describe('@TestsPoolio', { parallel: true }, function (assert, path, async, Pool) {
+Test.create('@TestsPoolio', { parallel: true }, function (assert, path, async, Pool, fixturesDir) {
 
   var pool = new Pool({
     size: 3,
-    filePath: path.resolve(__dirname + '/../fixtures/worker1')
+    filePath: path.resolve(fixturesDir + '/worker1.js')
   });
 
   var pool1 = new Pool({
     size: 9,
-    filePath: path.resolve(__dirname + '/../fixtures/worker1')
+    filePath: path.resolve(fixturesDir + '/worker1.js')
   });
 
   this.describe('actual do the tests', { parallel: true }, function () {
