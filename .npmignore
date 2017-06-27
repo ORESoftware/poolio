@@ -5,7 +5,12 @@ node_modules
 *.md
 *.ts
 *.json
-!*.d.ts
+*.yml
+suman.conf.js
+.editorconfig
+.babelrc
+test
 .npmignore
 .gitignore
 yarn.lock
+!*.d.ts
