@@ -294,8 +294,8 @@ export class Pool extends EE {
     assert(Number.isInteger(opts.size) && opts.size > 0, 'Poolio pool size must an integer greater than 0.');
 
     //do this explicitly instead of using loop, for syntax highlighting
-    this.execArgv = opts.execArgv;
-    this.args = opts.args;
+    this.execArgv = opts.execArgv ? opts.execArgv.slice(0) : [];
+    this.args = opts.args ? opts.args.slice(0) : [];
     this.inheritStdio = Boolean(opts.inheritStdio);
     this.streamStdioAfterDelegation = Boolean(opts.streamStdioAfterDelegation);
 
@@ -361,19 +361,19 @@ export class Pool extends EE {
 
   addWorker(): Pool {
 
-    const execArgv = JSON.parse(JSON.stringify(this.execArgv)); //copy execArgv
+    const args = this.args.slice(0);
+    args.unshift(this.filePath);
+    const execArgv = this.execArgv.slice(0);
 
     if (isDebug) {
       execArgv.push('--debug=' + (53034 + id)); //http://stackoverflow.com/questions/16840623/how-to-debug-node-js-child-forked-process
     }
 
-    this.args.unshift(this.filePath);
-
-    this.execArgv.forEach((arg) => {
-      this.args.unshift(arg);
+    execArgv.forEach((arg) => {
+      args.unshift(arg);
     });
 
-    const n = <IPoolioChildProcess> cp.spawn('node', this.args, {
+    const n = <IPoolioChildProcess> cp.spawn('node', args, {
       detached: false,
       env: Object.assign({}, this.env),
       stdio: [

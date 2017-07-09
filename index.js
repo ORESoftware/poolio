@@ -167,8 +167,8 @@ var Pool = (function (_super) {
         });
         var opts = Object.assign({}, defaultOpts, options);
         assert(Number.isInteger(opts.size) && opts.size > 0, 'Poolio pool size must an integer greater than 0.');
-        _this.execArgv = opts.execArgv;
-        _this.args = opts.args;
+        _this.execArgv = opts.execArgv ? opts.execArgv.slice(0) : [];
+        _this.args = opts.args ? opts.args.slice(0) : [];
         _this.inheritStdio = Boolean(opts.inheritStdio);
         _this.streamStdioAfterDelegation = Boolean(opts.streamStdioAfterDelegation);
         assert(opts.filePath, ' => Poolio: user error => you need to provide "filePath" option for Poolio constructor');
@@ -217,15 +217,16 @@ var Pool = (function (_super) {
     }
     Pool.prototype.addWorker = function () {
         var _this = this;
-        var execArgv = JSON.parse(JSON.stringify(this.execArgv));
+        var args = this.args.slice(0);
+        args.unshift(this.filePath);
+        var execArgv = this.execArgv.slice(0);
         if (isDebug) {
             execArgv.push('--debug=' + (53034 + id));
         }
-        this.args.unshift(this.filePath);
-        this.execArgv.forEach(function (arg) {
-            _this.args.unshift(arg);
+        execArgv.forEach(function (arg) {
+            args.unshift(arg);
         });
-        var n = cp.spawn('node', this.args, {
+        var n = cp.spawn('node', args, {
             detached: false,
             env: Object.assign({}, this.env),
             stdio: [
