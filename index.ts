@@ -49,7 +49,7 @@ const acceptableConstructorOptions = [
 let id = 1; //avoid falsy 0 values, just start with 1
 
 //opts
-const defaultOpts = {
+const defaultOpts = <IPoolOptionsPartial> {
 
   inheritStdio: true,
   filePath: null,
@@ -59,7 +59,7 @@ const defaultOpts = {
   execArgv: [],
   args: []
 
-} as IPoolOptionsPartial;
+};
 
 ///////////////////////////////////////////////////////
 
