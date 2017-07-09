@@ -9,6 +9,7 @@ export interface IPoolOptions {
     size: number;
     env: Object;
     execArgv: Array<string>;
+    streamStdioAfterDelegation: boolean;
     args: Array<string>;
     oneTimeOnly: boolean;
     stdin: IStreamFunction | Writable;
@@ -16,6 +17,9 @@ export interface IPoolOptions {
     stdout: IStreamFunction | Writable;
     silent: boolean;
     getSharedWritableStream: IStreamFunction | Writable;
+    resolveWhenWorkerExits: boolean;
+    doNotListenForMessagesFromWorkers: boolean;
+    oneJobPerWorker: boolean;
 }
 export declare type IPoolOptionsPartial = Partial<IPoolOptions>;
 export interface IPoolResolutions {
@@ -55,6 +59,9 @@ export declare class Pool extends EE {
     removeNextAvailableWorker: boolean;
     workerIdCounter: number;
     jobIdCounter: number;
+    resolveWhenWorkerExits: boolean;
+    doNotListenForMessagesFromWorkers: boolean;
+    oneJobPerWorker: boolean;
     okToDelegate: boolean;
     __poolId: string;
     execArgv: Array<string>;
@@ -69,6 +76,7 @@ export declare class Pool extends EE {
     stdout: IStreamFunction | Writable;
     numberOfSpawnedWorkers: number;
     numberOfDeadWorkers: number;
+    streamStdioAfterDelegation: boolean;
     silent: boolean;
     getSharedWritableStream: IStreamFunction | Writable;
     env: Object;
