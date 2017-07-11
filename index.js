@@ -45,7 +45,7 @@ var id = 1;
 var defaultOpts = {
     inheritStdio: true,
     filePath: null,
-    addWorkerOnExit: false,
+    addWorkerOnExit: true,
     size: 1,
     silent: false,
     execArgv: [],
@@ -63,8 +63,20 @@ var removeSpecificWorker = function (pool, n, callKill) {
     pool.emit('worker-removed', n.workerId);
 };
 var resetDueToDeadWorkers = function (pool) {
-    pool.all = pool.all.filter(function (n) { return n.tempId !== 'gonna-die'; });
-    pool.available = pool.available.filter(function (n) { return n.tempId !== 'gonna-die'; });
+    var all = pool.all.filter(function (n) { return n.tempId !== 'gonna-die'; });
+    var available = pool.available.filter(function (n) { return n.tempId !== 'gonna-die'; });
+    while (pool.all.length) {
+        pool.all.pop();
+    }
+    while (pool.available.length) {
+        pool.available.pop();
+    }
+    all.forEach(function (v) {
+        pool.all.push(v);
+    });
+    available.forEach(function (v) {
+        pool.available.push(v);
+    });
 };
 var handleCallback = function (pool, data) {
     var workId = data.workId;
@@ -103,10 +115,7 @@ var delegateNewWorker = function (pool, n) {
     debugger;
     if (pool.okToDelegate) {
         if (pool.msgQueue.length > 0) {
-            if (pool.streamStdioAfterDelegation) {
-                n.stdio[1] && n.stdio[1].pipe(process.stdout);
-                n.stdio[2] && n.stdio[2].pipe(process.stderr);
-            }
+            handleStdio(this, n);
             var msg = this.msgQueue.shift();
             n.workId = msg.workId;
             n.send(msg);
@@ -114,6 +123,36 @@ var delegateNewWorker = function (pool, n) {
         }
     }
     pool.available.push(n);
+};
+var handleStdio = function (pool, n, opts) {
+    opts = opts || {};
+    if (pool.getSharedWritableStream) {
+        var strm = getWritable(pool.getSharedWritableStream);
+        n.stdio[1].pipe(strm);
+        n.stdio[2].pipe(strm);
+    }
+    if (pool.stdout) {
+        n.stdio[1].pipe(getWritable(pool.stdout));
+    }
+    if (pool.stderr) {
+        n.stdio[2].pipe(getWritable(pool.stderr));
+    }
+    if (pool.inheritStdio) {
+        n.stdio[1].pipe(process.stdout);
+        n.stdio[2].pipe(process.stderr);
+    }
+    if (opts.tty) {
+        var fd = fs.openSync(opts.tty, 'r+');
+        var strm = fs.createWriteStream(null, { fd: fd });
+        n.stdio[1].pipe(strm);
+        n.stdio[2].pipe(strm);
+    }
+    if (opts.file) {
+        console.log('file in poolio => ', opts.file);
+        var strm = fs.createWriteStream(opts.file);
+        n.stdio[1].pipe(strm);
+        n.stdio[2].pipe(strm);
+    }
 };
 var delegateNewlyAvailableWorker = function (pool, n) {
     if (pool.kill) {
@@ -189,7 +228,12 @@ var Pool = (function (_super) {
             assert(typeof opts.addWorkerOnExit === 'boolean', 'Poolio init error => "addWorkerOnExit" property of options should be a boolean value.');
         }
         _this.oneTimeOnly = Boolean(opts.oneTimeOnly);
-        _this.addWorkerOnExit = Boolean(opts.addWorkerOnExit);
+        if (_this.oneTimeOnly) {
+            _this.addWorkerOnExit = opts.addWorkerOnExit !== false;
+        }
+        else {
+            _this.addWorkerOnExit = Boolean(opts.addWorkerOnExit);
+        }
         if ('silent' in opts) {
             assert(typeof opts.silent === 'boolean', 'Poolio init error => "silent" property of options should be a boolean value.');
         }
@@ -236,24 +280,8 @@ var Pool = (function (_super) {
                 'ipc'
             ],
         });
-        if (n.stdio) {
-            if (this.getSharedWritableStream) {
-                var strm = getWritable(this.getSharedWritableStream);
-                n.stdio[1] && n.stdio[1].pipe(strm);
-                n.stdio[2] && n.stdio[2].pipe(strm);
-            }
-            else {
-                if (this.stdout) {
-                    n.stdio[1].pipe(getWritable(this.stdout));
-                }
-                if (this.stderr) {
-                    n.stdio[2].pipe(getWritable(this.stderr));
-                }
-            }
-            if (this.inheritStdio && !this.streamStdioAfterDelegation) {
-                n.stdio[1].pipe(process.stdout);
-                n.stdio[2].pipe(process.stderr);
-            }
+        if (n.stdio && this.streamStdioAfterDelegation === false) {
+            handleStdio(this, n);
         }
         this.numberOfSpawnedWorkers++;
         n.workerId = this.workerIdCounter++;
@@ -265,11 +293,9 @@ var Pool = (function (_super) {
             var workId = n.workId;
             delete n.workId;
             if (_this.resolveWhenWorkerExits) {
-                setImmediate(function () {
-                    handleCallback(_this, {
-                        workId: workId,
-                        result: null
-                    });
+                handleCallback(_this, {
+                    workId: workId,
+                    result: null
                 });
             }
             n.removeAllListeners();
@@ -287,7 +313,7 @@ var Pool = (function (_super) {
         });
         n.on('message', function (data) {
             if (!data.workId) {
-                console.error(' => Poolio warning => message sent from worker with no workId => ', '\n', JSON.stringify(data));
+                logWarning('message sent from worker with no workId => ', '\n', JSON.stringify(data));
             }
             switch (data.msg) {
                 case 'done':
@@ -352,17 +378,22 @@ var Pool = (function (_super) {
     Pool.prototype.getCurrentStats = function () {
         return this.getCurrentSize();
     };
-    Pool.prototype.anyCB = function (msg, cb) {
+    Pool.prototype.anyCB = function (msg, opts, cb) {
         var _this = this;
+        if (typeof opts === 'function') {
+            cb = opts;
+            opts = {};
+        }
+        opts = opts || {};
         debugger;
         if (this.kill) {
             return cb(new Error(' => Poolio usage warning: pool.any() called on pool of dead/dying workers => ' +
                 'use pool.addWorker() to replenish the pool.'));
         }
         if (this.all.length < 1) {
-            return cb(new Error(' => Poolio usage warning: you called pool.any() but your worker pool has 0 workers,' +
+            this.emit('error', 'warning: you called pool.any() but your worker pool has 0 workers,' +
                 'most likely because all have exited => ' +
-                'you need to call pool.addWorker() to replenish the pool, or use the {addWorkerOnExit:true} option.'));
+                'you need to call pool.addWorker() to replenish the pool, or use the {addWorkerOnExit:true} option.');
         }
         var workId = this.jobIdCounter++;
         setImmediate(function () {
@@ -372,9 +403,8 @@ var Pool = (function (_super) {
                     n.tempId = 'gonna-die';
                     resetDueToDeadWorkers(_this);
                 }
-                if (_this.streamStdioAfterDelegation) {
-                    n.stdio[1] && n.stdio[1].pipe(process.stdout);
-                    n.stdio[2] && n.stdio[2].pipe(process.stderr);
+                if (_this.streamStdioAfterDelegation === true) {
+                    handleStdio(_this, n);
                 }
                 n.workId = workId;
                 n.send({
@@ -400,14 +430,16 @@ var Pool = (function (_super) {
             cb: d ? d.bind(cb) : cb
         };
     };
-    Pool.prototype.any = function (msg) {
+    Pool.prototype.any = function (msg, opts) {
         var _this = this;
-        debugger;
+        opts = opts || {};
         if (this.kill) {
-            return Promise.reject(' => Poolio usage warning: pool.any() called on pool of dead/dying workers => use pool.addWorker() to replenish the pool.');
+            return Promise.reject(' => Poolio usage warning: pool.any() called on pool of dead/dying workers => ' +
+                'use pool.addWorker() to replenish the pool.');
         }
         if (this.all.length < 1) {
-            return Promise.reject(' => Poolio usage warning: you called pool.any() but your worker pool has 0 workers most likely because all have exited => ' +
+            this.emit('error', 'warning: you called pool.any() but your worker pool has 0 workers ' +
+                'most likely because all have exited => ' +
                 'you need to call pool.addWorker() to replenish the pool, or use the {addWorkerOnExit:true} option.');
         }
         var workId = this.jobIdCounter++;
@@ -417,6 +449,9 @@ var Pool = (function (_super) {
                 if (_this.oneTimeOnly) {
                     n.tempId = 'gonna-die';
                     resetDueToDeadWorkers(_this);
+                }
+                if (_this.streamStdioAfterDelegation === true) {
+                    handleStdio(_this, n, opts);
                 }
                 n.workId = workId;
                 n.send({

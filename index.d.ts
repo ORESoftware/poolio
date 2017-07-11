@@ -86,8 +86,8 @@ export declare class Pool extends EE {
     removeWorker(): Pool;
     getCurrentSize(): Object;
     getCurrentStats(): Object;
-    anyCB(msg: Object | string, cb: IResolutionCallback): void;
-    any(msg: Object | string): Promise<IPoolioResponseMsg>;
+    anyCB(msg: Object | string, opts?: Object, cb?: IResolutionCallback): void;
+    any(msg: Object | string, opts?: Object): Promise<IPoolioResponseMsg>;
     destroy(): Pool;
     killAllActiveWorkers(): Pool;
     killAll(): Pool;

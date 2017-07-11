@@ -53,7 +53,7 @@ const defaultOpts = <IPoolOptionsPartial> {
 
   inheritStdio: true,
   filePath: null,
-  addWorkerOnExit: false,
+  addWorkerOnExit: true,
   size: 1,
   silent: false,
   execArgv: [],
@@ -137,9 +137,27 @@ const removeSpecificWorker = function (pool: Pool, n: IPoolioChildProcess, callK
 
 };
 
-const resetDueToDeadWorkers = function (pool: Pool) {
-  pool.all = pool.all.filter(n => n.tempId !== 'gonna-die');
-  pool.available = pool.available.filter(n => n.tempId !== 'gonna-die');
+const resetDueToDeadWorkers = function (pool: Pool): void {
+
+  const all = pool.all.filter(n => n.tempId !== 'gonna-die');
+  const available = pool.available.filter(n => n.tempId !== 'gonna-die');
+
+  while (pool.all.length) {
+    pool.all.pop();
+  }
+
+  while (pool.available.length) {
+    pool.available.pop();
+  }
+
+  all.forEach(function (v) {
+    pool.all.push(v);
+  });
+
+  available.forEach(function (v) {
+    pool.available.push(v);
+  });
+
 };
 
 const handleCallback = function (pool: Pool, data: IPoolioResponseMsg) {
@@ -182,10 +200,7 @@ const delegateNewWorker = function (pool: Pool, n: IPoolioChildProcess): void {
 
   if (pool.okToDelegate) {
     if (pool.msgQueue.length > 0) {
-      if (pool.streamStdioAfterDelegation) {
-        n.stdio[1] && n.stdio[1].pipe(process.stdout);
-        n.stdio[2] && n.stdio[2].pipe(process.stderr);
-      }
+      handleStdio(this, n);
       const msg = this.msgQueue.shift();
       n.workId = msg.workId;
       n.send(msg);
@@ -194,6 +209,45 @@ const delegateNewWorker = function (pool: Pool, n: IPoolioChildProcess): void {
   }
 
   pool.available.push(n);
+};
+
+const handleStdio = function (pool: Pool, n: IPoolioChildProcess, opts?: Object) {
+
+  opts = opts || {};
+
+  if (pool.getSharedWritableStream) {
+    //we pipe stdout and stderr to the same stream
+    const strm = getWritable(pool.getSharedWritableStream);
+    n.stdio[1].pipe(strm);
+    n.stdio[2].pipe(strm);
+  }
+
+  if (pool.stdout) {
+    n.stdio[1].pipe(getWritable(pool.stdout));
+  }
+  if (pool.stderr) {
+    n.stdio[2].pipe(getWritable(pool.stderr));
+  }
+
+  if (pool.inheritStdio) {
+    n.stdio[1].pipe(process.stdout);
+    n.stdio[2].pipe(process.stderr);
+  }
+
+  if (opts.tty) {
+    const fd = fs.openSync(opts.tty, 'r+');
+    const strm = fs.createWriteStream(null, {fd});
+    n.stdio[1].pipe(strm);
+    n.stdio[2].pipe(strm);
+  }
+
+  if (opts.file) { //
+    console.log('file in poolio => ', opts.file);
+    const strm = fs.createWriteStream(opts.file);
+    n.stdio[1].pipe(strm);
+    n.stdio[2].pipe(strm);
+  }
+
 };
 
 const delegateNewlyAvailableWorker = function (pool: Pool, n: IPoolioChildProcess) {
@@ -326,7 +380,14 @@ export class Pool extends EE {
     }
 
     this.oneTimeOnly = Boolean(opts.oneTimeOnly);
-    this.addWorkerOnExit = Boolean(opts.addWorkerOnExit);
+
+    if (this.oneTimeOnly) {
+      // if oneTimeOnly is true, addWorkerOnExit defaults to true
+      this.addWorkerOnExit = opts.addWorkerOnExit !== false;
+    }
+    else {
+      this.addWorkerOnExit = Boolean(opts.addWorkerOnExit);
+    }
 
     if ('silent' in opts) {
       assert(typeof opts.silent === 'boolean',
@@ -384,26 +445,8 @@ export class Pool extends EE {
       ],
     });
 
-    if (n.stdio) {
-      if (this.getSharedWritableStream) {
-        //we pipe stdout and stderr to the same stream
-        const strm = getWritable(this.getSharedWritableStream);
-        n.stdio[1] && n.stdio[1].pipe(strm);
-        n.stdio[2] && n.stdio[2].pipe(strm);
-      }
-      else {
-        if (this.stdout) {
-          n.stdio[1].pipe(getWritable(this.stdout));
-        }
-        if (this.stderr) {
-          n.stdio[2].pipe(getWritable(this.stderr));
-        }
-      }
-
-      if (this.inheritStdio && !this.streamStdioAfterDelegation) {
-        n.stdio[1].pipe(process.stdout);
-        n.stdio[2].pipe(process.stderr);
-      }
+    if (n.stdio && this.streamStdioAfterDelegation === false) {
+      handleStdio(this, n);
     }
 
     this.numberOfSpawnedWorkers++;
@@ -421,11 +464,9 @@ export class Pool extends EE {
       delete n.workId;
 
       if (this.resolveWhenWorkerExits) {
-        setImmediate(() => {
-          handleCallback(this, {
-            workId,
-            result: null
-          });
+        handleCallback(this, {
+          workId,
+          result: null
         });
       }
 
@@ -445,8 +486,9 @@ export class Pool extends EE {
     });
 
     n.on('message', data => {
+
       if (!data.workId) {
-        console.error(' => Poolio warning => message sent from worker with no workId => ', '\n', JSON.stringify(data));
+        logWarning('message sent from worker with no workId => ', '\n', JSON.stringify(data));
       }
 
       switch (data.msg) {
@@ -519,7 +561,14 @@ export class Pool extends EE {
     return this.getCurrentSize()
   }
 
-  anyCB(msg: Object | string, cb: IResolutionCallback): void {
+  anyCB(msg: Object | string, opts?: Object, cb?: IResolutionCallback): void {
+
+    if (typeof opts === 'function') {
+      cb = opts;
+      opts = {};
+    }
+
+    opts = opts || {};
 
     debugger;
 
@@ -529,9 +578,9 @@ export class Pool extends EE {
     }
 
     if (this.all.length < 1) {
-      return cb(new Error(' => Poolio usage warning: you called pool.any() but your worker pool has 0 workers,' +
+      this.emit('error', 'warning: you called pool.any() but your worker pool has 0 workers,' +
         'most likely because all have exited => ' +
-        'you need to call pool.addWorker() to replenish the pool, or use the {addWorkerOnExit:true} option.'));
+        'you need to call pool.addWorker() to replenish the pool, or use the {addWorkerOnExit:true} option.');
     }
 
     const workId = this.jobIdCounter++;
@@ -546,9 +595,8 @@ export class Pool extends EE {
           resetDueToDeadWorkers(this);
         }
 
-        if (this.streamStdioAfterDelegation) {
-          n.stdio[1] && n.stdio[1].pipe(process.stdout);
-          n.stdio[2] && n.stdio[2].pipe(process.stderr);
+        if (this.streamStdioAfterDelegation === true) {
+          handleStdio(this, n);
         }
 
         n.workId = workId;
@@ -581,16 +629,18 @@ export class Pool extends EE {
     };
   }
 
-  any(msg: Object | string): Promise<IPoolioResponseMsg> {
+  any(msg: Object | string, opts?: Object): Promise<IPoolioResponseMsg> {
 
-    debugger;
+    opts = opts || {};
 
     if (this.kill) {
-      return Promise.reject(' => Poolio usage warning: pool.any() called on pool of dead/dying workers => use pool.addWorker() to replenish the pool.')
+      return Promise.reject(' => Poolio usage warning: pool.any() called on pool of dead/dying workers => ' +
+        'use pool.addWorker() to replenish the pool.')
     }
 
     if (this.all.length < 1) {
-      return Promise.reject(' => Poolio usage warning: you called pool.any() but your worker pool has 0 workers most likely because all have exited => ' +
+      this.emit('error', 'warning: you called pool.any() but your worker pool has 0 workers ' +
+        'most likely because all have exited => ' +
         'you need to call pool.addWorker() to replenish the pool, or use the {addWorkerOnExit:true} option.');
     }
 
@@ -604,6 +654,10 @@ export class Pool extends EE {
         if (this.oneTimeOnly) {
           n.tempId = 'gonna-die';
           resetDueToDeadWorkers(this);
+        }
+
+        if (this.streamStdioAfterDelegation === true) {
+          handleStdio(this, n, opts);
         }
 
         n.workId = workId;
