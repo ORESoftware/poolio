@@ -18,6 +18,7 @@ import * as util from 'util';
 import * as fs from 'fs';
 import * as chalk from 'chalk';
 import * as residence from 'residence';
+import * as net from "net";
 
 //////////////////////////////////////////////////////////
 
@@ -120,6 +121,13 @@ export interface IPoolioResponseMsg {
   result: Object
 }
 
+export interface IPoolioAnyOpts {
+  file: string,
+  fd: number,
+  tty: string,
+  socket: net.Socket
+}
+
 /////////////////// private helper functions  ////////////////////
 
 const getWritable = function (fnOrStrm: Writable | IStreamFunction): Writable {
@@ -196,8 +204,6 @@ const handleCallback = function (pool: Pool, data: IPoolioResponseMsg) {
 
 const delegateNewWorker = function (pool: Pool, n: IPoolioChildProcess): void {
 
-  debugger;
-
   if (pool.okToDelegate) {
     if (pool.msgQueue.length > 0) {
       handleStdio(this, n);
@@ -211,7 +217,7 @@ const delegateNewWorker = function (pool: Pool, n: IPoolioChildProcess): void {
   pool.available.push(n);
 };
 
-const handleStdio = function (pool: Pool, n: IPoolioChildProcess, opts?: Object) {
+const handleStdio = function (pool: Pool, n: IPoolioChildProcess, opts?: Partial<IPoolioAnyOpts>) {
 
   opts = opts || {};
 
@@ -246,6 +252,18 @@ const handleStdio = function (pool: Pool, n: IPoolioChildProcess, opts?: Object)
     const strm = fs.createWriteStream(opts.file);
     n.stdio[1].pipe(strm);
     n.stdio[2].pipe(strm);
+  }
+
+  if (opts.fd) {
+    const strm = fs.createWriteStream(null, {fd: opts.fd});
+    n.stdio[1].pipe(strm);
+    n.stdio[2].pipe(strm);
+  }
+
+  if (opts.socket) {
+    console.log('streaming data to socket.');
+    n.stdio[1].pipe(opts.socket);
+    n.stdio[2].pipe(opts.socket);
   }
 
 };
@@ -561,7 +579,7 @@ export class Pool extends EE {
     return this.getCurrentSize()
   }
 
-  anyCB(msg: Object | string, opts?: Object, cb?: IResolutionCallback): void {
+  anyCB(msg: Object | string, opts?: Partial<IPoolioAnyOpts>, cb?: IResolutionCallback): void {
 
     if (typeof opts === 'function') {
       cb = opts;
@@ -569,8 +587,6 @@ export class Pool extends EE {
     }
 
     opts = opts || {};
-
-    debugger;
 
     if (this.kill) {
       return cb(new Error(' => Poolio usage warning: pool.any() called on pool of dead/dying workers => ' +
@@ -596,7 +612,7 @@ export class Pool extends EE {
         }
 
         if (this.streamStdioAfterDelegation === true) {
-          handleStdio(this, n);
+          handleStdio(this, n, opts);
         }
 
         n.workId = workId;
@@ -614,8 +630,6 @@ export class Pool extends EE {
             'you will have to add a worker to process new and/or existing messages.');
         }
 
-        debugger;
-
         this.msgQueue.push({
           workId,
           msg
@@ -629,7 +643,7 @@ export class Pool extends EE {
     };
   }
 
-  any(msg: Object | string, opts?: Object): Promise<IPoolioResponseMsg> {
+  any(msg: Object | string, opts?: Partial<IPoolioAnyOpts>): Promise<IPoolioResponseMsg> {
 
     opts = opts || {};
 

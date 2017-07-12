@@ -112,7 +112,6 @@ var handleCallback = function (pool, data) {
     }
 };
 var delegateNewWorker = function (pool, n) {
-    debugger;
     if (pool.okToDelegate) {
         if (pool.msgQueue.length > 0) {
             handleStdio(this, n);
@@ -152,6 +151,16 @@ var handleStdio = function (pool, n, opts) {
         var strm = fs.createWriteStream(opts.file);
         n.stdio[1].pipe(strm);
         n.stdio[2].pipe(strm);
+    }
+    if (opts.fd) {
+        var strm = fs.createWriteStream(null, { fd: opts.fd });
+        n.stdio[1].pipe(strm);
+        n.stdio[2].pipe(strm);
+    }
+    if (opts.socket) {
+        console.log('streaming data to socket.');
+        n.stdio[1].pipe(opts.socket);
+        n.stdio[2].pipe(opts.socket);
     }
 };
 var delegateNewlyAvailableWorker = function (pool, n) {
@@ -385,7 +394,6 @@ var Pool = (function (_super) {
             opts = {};
         }
         opts = opts || {};
-        debugger;
         if (this.kill) {
             return cb(new Error(' => Poolio usage warning: pool.any() called on pool of dead/dying workers => ' +
                 'use pool.addWorker() to replenish the pool.'));
@@ -404,7 +412,7 @@ var Pool = (function (_super) {
                     resetDueToDeadWorkers(_this);
                 }
                 if (_this.streamStdioAfterDelegation === true) {
-                    handleStdio(_this, n);
+                    handleStdio(_this, n, opts);
                 }
                 n.workId = workId;
                 n.send({
@@ -418,7 +426,6 @@ var Pool = (function (_super) {
                     logWarning('Poolio warning: your Poolio pool has been reduced to size of 0 workers, ' +
                         'you will have to add a worker to process new and/or existing messages.');
                 }
-                debugger;
                 _this.msgQueue.push({
                     workId: workId,
                     msg: msg

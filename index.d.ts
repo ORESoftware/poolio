@@ -2,6 +2,7 @@
 import { ChildProcess } from "child_process";
 import { Writable } from "stream";
 import * as EE from 'events';
+import * as net from "net";
 export interface IPoolOptions {
     filePath: string;
     inheritStdio: boolean;
@@ -50,6 +51,12 @@ export interface IPoolioResponseMsg {
     error?: string;
     result: Object;
 }
+export interface IPoolioAnyOpts {
+    file: string;
+    fd: number;
+    tty: string;
+    socket: net.Socket;
+}
 export declare class Pool extends EE {
     kill: boolean;
     all: Array<IPoolioChildProcess>;
@@ -86,8 +93,8 @@ export declare class Pool extends EE {
     removeWorker(): Pool;
     getCurrentSize(): Object;
     getCurrentStats(): Object;
-    anyCB(msg: Object | string, opts?: Object, cb?: IResolutionCallback): void;
-    any(msg: Object | string, opts?: Object): Promise<IPoolioResponseMsg>;
+    anyCB(msg: Object | string, opts?: Partial<IPoolioAnyOpts>, cb?: IResolutionCallback): void;
+    any(msg: Object | string, opts?: Partial<IPoolioAnyOpts>): Promise<IPoolioResponseMsg>;
     destroy(): Pool;
     killAllActiveWorkers(): Pool;
     killAll(): Pool;
