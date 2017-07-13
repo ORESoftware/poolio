@@ -223,7 +223,7 @@ const handleStdio = function (pool: Pool, n: IPoolioChildProcess, opts?: Partial
 
   if (pool.getSharedWritableStream) {
     //we pipe stdout and stderr to the same stream
-    const strm = getWritable(pool.getSharedWritableStream);
+    let strm = getWritable(pool.getSharedWritableStream);
     n.stdio[1].pipe(strm);
     n.stdio[2].pipe(strm);
   }
@@ -235,27 +235,22 @@ const handleStdio = function (pool: Pool, n: IPoolioChildProcess, opts?: Partial
     n.stdio[2].pipe(getWritable(pool.stderr));
   }
 
-  if (pool.inheritStdio) {
-    n.stdio[1].pipe(process.stdout);
-    n.stdio[2].pipe(process.stderr);
-  }
 
   if (opts.tty) {
-    const fd = fs.openSync(opts.tty, 'r+');
-    const strm = fs.createWriteStream(null, {fd});
+    let fd = fs.openSync(opts.tty, 'r+');
+    let strm = fs.createWriteStream(null, {fd});
     n.stdio[1].pipe(strm);
     n.stdio[2].pipe(strm);
   }
 
-  if (opts.file) { //
-    console.log('file in poolio => ', opts.file);
-    const strm = fs.createWriteStream(opts.file);
+  if (opts.file) {
+    let strm = fs.createWriteStream(opts.file);
     n.stdio[1].pipe(strm);
     n.stdio[2].pipe(strm);
   }
 
   if (opts.fd) {
-    const strm = fs.createWriteStream(null, {fd: opts.fd});
+    let strm = fs.createWriteStream(null, {fd: opts.fd});
     n.stdio[1].pipe(strm);
     n.stdio[2].pipe(strm);
   }
@@ -462,6 +457,18 @@ export class Pool extends EE {
         'ipc'  //TODO: assume 'ipc' is ignored if not a .js file..
       ],
     });
+
+    if (this.inheritStdio) {
+      console.log('we are sending stdio to /dev/null.');
+      n.stdio[1].pipe(process.stdout);
+      n.stdio[2].pipe(process.stderr);
+    }
+    else {
+      console.log('we are sending stdio to /dev/null.');
+      let strm = fs.createWriteStream('/dev/null');
+      n.stdio[1].pipe(strm);
+      n.stdio[2].pipe(strm);
+    }
 
     if (n.stdio && this.streamStdioAfterDelegation === false) {
       handleStdio(this, n);

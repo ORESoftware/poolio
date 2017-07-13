@@ -136,10 +136,6 @@ var handleStdio = function (pool, n, opts) {
     if (pool.stderr) {
         n.stdio[2].pipe(getWritable(pool.stderr));
     }
-    if (pool.inheritStdio) {
-        n.stdio[1].pipe(process.stdout);
-        n.stdio[2].pipe(process.stderr);
-    }
     if (opts.tty) {
         var fd = fs.openSync(opts.tty, 'r+');
         var strm = fs.createWriteStream(null, { fd: fd });
@@ -147,7 +143,6 @@ var handleStdio = function (pool, n, opts) {
         n.stdio[2].pipe(strm);
     }
     if (opts.file) {
-        console.log('file in poolio => ', opts.file);
         var strm = fs.createWriteStream(opts.file);
         n.stdio[1].pipe(strm);
         n.stdio[2].pipe(strm);
@@ -289,6 +284,17 @@ var Pool = (function (_super) {
                 'ipc'
             ],
         });
+        if (this.inheritStdio) {
+            console.log('we are sending stdio to /dev/null.');
+            n.stdio[1].pipe(process.stdout);
+            n.stdio[2].pipe(process.stderr);
+        }
+        else {
+            console.log('we are sending stdio to /dev/null.');
+            var strm = fs.createWriteStream('/dev/null');
+            n.stdio[1].pipe(strm);
+            n.stdio[2].pipe(strm);
+        }
         if (n.stdio && this.streamStdioAfterDelegation === false) {
             handleStdio(this, n);
         }
