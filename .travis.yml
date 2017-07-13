@@ -22,9 +22,8 @@ addons:
       - g++-4.8
 
 before_install: 'if [[ `npm -v` != 4* ]]; then npm i -g npm@4; fi'
-install:
-  - npm install
-script: 'npm install istanbul && npm link && npm link poolio && npm test'
+install: 'rm -rf node_modules && npm install'
+script: 'npm test'
 after_script: 'npm install coveralls && cat coverage/lcov.info | ./node_modules/.bin/coveralls'
 notifications:
   email: false

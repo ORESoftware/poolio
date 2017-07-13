@@ -1,5 +1,4 @@
 'use strict';
-'use striiiict';
 
 var _typeof2 = require('babel-runtime/helpers/typeof');
 
@@ -20,7 +19,7 @@ var Test = suman.init(module, {
   integrants: ['make-a-bet']
 });
 
-Test.create('@TestsPoolio', { parallel: true }, function (assert, path, async, Pool, fixturesDir) {
+Test.create('@TestsPoolio', { parallel: true }, function (after, assert, path, async, Pool, fixturesDir, describe, it) {
 
   var pool = new Pool({
     size: 3,
@@ -32,15 +31,15 @@ Test.create('@TestsPoolio', { parallel: true }, function (assert, path, async, P
     filePath: path.resolve(fixturesDir + '/worker1.js')
   });
 
-  this.describe('actual do the tests', { parallel: true }, function () {
+  describe('actual do the tests', { parallel: true }, function () {
 
-    this.it('test worker1', function (t) {
+    it('test worker1', function (t) {
       return pool.any('run').then(function (msg) {
         assert.equal(path.basename(msg, '.js'), 'worker1', t.desc + ' => failed');
       });
     });
 
-    this.it('test worker1 non-timeout 22', { timeout: 8000 }, _regenerator2.default.mark(function _callee(t) {
+    it('test worker1 non-timeout 22', { timeout: 8000 }, _regenerator2.default.mark(function _callee(t) {
       return _regenerator2.default.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
@@ -64,12 +63,12 @@ Test.create('@TestsPoolio', { parallel: true }, function (assert, path, async, P
       }, _callee, this);
     }));
 
-    this.it('test worker1 non-timeout 11', { timeout: 5000 }, function (t) {
+    it('test worker1 non-timeout 11', { timeout: 5000 }, function (t) {
 
       return _promise2.default.all([pool.any('run'), pool.any('run'), pool.any('run')]);
     });
 
-    this.it.cb('test worker1 expect-timeout', { timeout: 3000 }, function (t) {
+    it.cb('test worker1 expect-timeout', { timeout: 3000 }, function (t) {
 
       console.log('current stats pool1:', pool1.getCurrentSize());
 
@@ -81,20 +80,20 @@ Test.create('@TestsPoolio', { parallel: true }, function (assert, path, async, P
       });
     });
 
-    this.it('test worker1 no-timeout 2', { timeout: 2600 }, function (t) {
+    it('test worker1 no-timeout 2', { timeout: 2600 }, function (t) {
 
       console.log('current stats pool1:', pool1.getCurrentSize());
 
       return _promise2.default.all([pool1.any('run'), pool1.any('run'), pool1.any('run'), pool1.any('run'), pool1.any('run'), pool1.any('run')]);
     });
 
-    this.it('whoa', function (t) {
+    it('whoa', function (t) {
 
       console.log('typeof =>', typeof t === 'undefined' ? 'undefined' : (0, _typeof3.default)(t));
       assert(typeof t.apply === 'function');
     });
 
-    this.after.cb(function (t) {
+    after.cb(function (t) {
 
       async.each([pool, pool1], function (p, cb) {
 
