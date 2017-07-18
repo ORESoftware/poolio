@@ -285,12 +285,10 @@ var Pool = (function (_super) {
             ],
         });
         if (this.inheritStdio) {
-            console.log('we are sending stdio to /dev/null.');
             n.stdio[1].pipe(process.stdout);
             n.stdio[2].pipe(process.stderr);
         }
         else {
-            console.log('we are sending stdio to /dev/null.');
             var strm = fs.createWriteStream('/dev/null');
             n.stdio[1].pipe(strm);
             n.stdio[2].pipe(strm);

@@ -459,12 +459,13 @@ export class Pool extends EE {
     });
 
     if (this.inheritStdio) {
-      console.log('we are sending stdio to /dev/null.');
       n.stdio[1].pipe(process.stdout);
       n.stdio[2].pipe(process.stderr);
     }
     else {
-      console.log('we are sending stdio to /dev/null.');
+      // we call this instead of calling nothing, so that the stdio doesn't build up
+      // this way the early stdio called in the child process before delegation, gets thrown away
+      // instead of corked/saved for later
       let strm = fs.createWriteStream('/dev/null');
       n.stdio[1].pipe(strm);
       n.stdio[2].pipe(strm);
