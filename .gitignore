@@ -1,7 +1,12 @@
-node_modules/
-.idea/
-*suman/logs/
-coverage/
-*.log*
 
-test-target/
+### folders
+node_modules
+.idea
+coverage
+
+### matching
+*.log
+
+### files
+yarn.lock
+package-lock.json
