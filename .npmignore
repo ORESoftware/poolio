@@ -1,16 +1,25 @@
+### folders
 node_modules
 .idea
+test
+
+### matching
 *.sh
 *.txt
 *.md
 *.ts
 *.json
 *.yml
+
+### files
 suman.conf.js
 .editorconfig
 .babelrc
-test
 .npmignore
 .gitignore
 yarn.lock
+.travis.yml
+package-lock.json
+
+### negation
 !*.d.ts
