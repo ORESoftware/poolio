@@ -1,12 +1,8 @@
 'use strict';
 
 // typescript imports
-import EventEmitter = NodeJS.EventEmitter;
 import {ChildProcess} from "child_process";
 import {Writable} from "stream";
-
-const isDebug = process.execArgv.indexOf('debug') > 0;
-if (isDebug) console.log('Poolio isDebug flag set to:', isDebug);
 
 /////////////////////////////////////////////////////////////////////////
 
@@ -23,27 +19,30 @@ import * as net from "net";
 //////////////////////////////////////////////////////////
 
 const root = residence.findProjectRoot(process.cwd());
-
-const name = ' => [poolio] =>';
+const name = ' [poolio] ';
 const log = console.log.bind(console, name);
 const logGood = console.log.bind(console, chalk.cyan(name));
 const logVeryGood = console.log.bind(console, chalk.green(name));
 const logWarning = console.error.bind(console, chalk.yellow.bold(name));
 const logError = console.error.bind(console, chalk.red(name));
 
-const acceptableConstructorOptions = [
-  'execArgv',
-  'args',
-  'size',
-  'filePath',
-  'addWorkerOnExit',
-  'oneTimeOnly',
-  'silent',
-  'stdin',
-  'stdout',
-  'stderr',
-  'getSharedWritableStream'
-];
+const acceptableConstructorOptions = <any>{
+  'execArgv': true,
+  'args': true,
+  'size': true,
+  'filePath': true,
+  'addWorkerOnExit': true,
+  'oneTimeOnly': true,
+  'silent': true,
+  'stdin': true,
+  'stdout': true,
+  'stderr': true,
+  'getSharedWritableStream': true,
+  'streamStdioAfterDelegation': true,
+  'inheritStdio': true,
+  'resolveWhenWorkerExits': true,
+  'env': true
+};
 
 ////////////////////////////////////////////////////////
 
@@ -61,6 +60,9 @@ const defaultOpts = <IPoolOptionsPartial> {
   args: []
 
 };
+
+const isDebug = process.execArgv.indexOf('debug') > 0;
+if (isDebug) log('isDebug flag set to:', isDebug);
 
 ///////////////////////////////////////////////////////
 
@@ -182,17 +184,22 @@ const handleCallback = function (pool: Pool, data: IPoolioResponseMsg) {
       const err = new Error(util.inspect(data.error));
       if (cbOrPromise.cb) {
         cbOrPromise.cb(err, result);
-      } else if (cbOrPromise.reject) {
+      }
+      else if (cbOrPromise.reject) {
         cbOrPromise.reject(err)
-      } else {
+      }
+      else {
         throw 'Internal Poolio error => no resolution callback fn available [a], please report on Github.';
       }
-    } else {
+    }
+    else {
       if (cbOrPromise.cb) {
         cbOrPromise.cb(null, result);
-      } else if (cbOrPromise.resolve) {
+      }
+      else if (cbOrPromise.resolve) {
         cbOrPromise.resolve(result);
-      } else {
+      }
+      else {
         throw 'Internal Poolio error => no resolution callback fn available [b], please report on Github.';
       }
     }
@@ -235,7 +242,6 @@ const handleStdio = function (pool: Pool, n: IPoolioChildProcess, opts?: Partial
     n.stdio[2].pipe(getWritable(pool.stderr));
   }
 
-
   if (opts.tty) {
     let fd = fs.openSync(opts.tty, 'r+');
     let strm = fs.createWriteStream(null, {fd});
@@ -256,7 +262,6 @@ const handleStdio = function (pool: Pool, n: IPoolioChildProcess, opts?: Partial
   }
 
   if (opts.socket) {
-    console.log('streaming data to socket.');
     n.stdio[1].pipe(opts.socket);
     n.stdio[2].pipe(opts.socket);
   }
@@ -272,7 +277,7 @@ const delegateNewlyAvailableWorker = function (pool: Pool, n: IPoolioChildProces
 
   if (pool.oneTimeOnly) {
     removeSpecificWorker(pool, n);
-    console.error(' => Poolio warning => delegateNewlyAvailableWorker() was called on a worker that should have been "oneTimeOnly".');
+    logWarning('warning => delegateNewlyAvailableWorker() was called on a worker that should have been "oneTimeOnly".');
     return;
   }
 
@@ -287,7 +292,8 @@ const delegateNewlyAvailableWorker = function (pool: Pool, n: IPoolioChildProces
     msg.__poolioWorkerId = n.workerId;
     n.workId = msg.workId;
     n.send(msg);
-  } else {
+  }
+  else {
     pool.available.push(n);
   }
 };
@@ -345,15 +351,13 @@ export class Pool extends EE {
     this.numberOfSpawnedWorkers = 0;
     this.numberOfDeadWorkers = 0;
 
-    debugger;
-
     if (typeof options !== 'object' || Array.isArray(options)) {
       throw new Error('Options object should be defined for your poolio pool, as "filePath" option property is required.');
     }
 
     Object.keys(options).forEach(function (key) {
-      if (acceptableConstructorOptions.indexOf(key) < 0) {
-        console.error(' => Poolio message => the following option property is not a valid Poolio constructor option:', key);
+      if (!acceptableConstructorOptions[key]) {
+        logWarning('the following option property is not a valid Poolio constructor option:', key);
       }
     });
 
@@ -419,8 +423,8 @@ export class Pool extends EE {
 
     this.on('error', err => {
       if (this.listenerCount('error') === 1) {
-        console.error(' => Poolio: your worker pool experienced an error => ', (err.stack || err));
-        console.error(' => Poolio => please add your own "error" event listener using pool.on("error", fn) ' +
+        logError('your worker pool experienced an error => ', (err.stack || err));
+        logError('please add your own "error" event listener using pool.on("error", fn) ' +
           'to prevent these error messages from being logged.');
       }
     });
@@ -556,17 +560,18 @@ export class Pool extends EE {
   removeWorker(): Pool {
 
     if (this.all.length < 1) {
-      console.error(' => Poolio warning => Cannot remove worker from pool of 0 workers.');
+      logWarning('warning => Cannot remove worker from pool of 0 workers.');
     }
     else if (this.all.length === 1 && this.removeNextAvailableWorker) {
-      console.error(' => Poolio warning => Already removed last worker, there will soon' +
+      logWarning('warning => Already removed last worker, there will soon' +
         ' be 0 workers in the pool.');
     }
     else {
       const n = this.available.pop();
       if (n) {
         removeSpecificWorker(this, n);
-      } else {
+      }
+      else {
         this.removeNextAvailableWorker = true;
       }
     }

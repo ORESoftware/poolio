@@ -10,9 +10,6 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var isDebug = process.execArgv.indexOf('debug') > 0;
-if (isDebug)
-    console.log('Poolio isDebug flag set to:', isDebug);
 var assert = require("assert");
 var cp = require("child_process");
 var path = require("path");
@@ -22,25 +19,29 @@ var fs = require("fs");
 var chalk = require("chalk");
 var residence = require("residence");
 var root = residence.findProjectRoot(process.cwd());
-var name = ' => [poolio] =>';
+var name = ' [poolio] ';
 var log = console.log.bind(console, name);
 var logGood = console.log.bind(console, chalk.cyan(name));
 var logVeryGood = console.log.bind(console, chalk.green(name));
 var logWarning = console.error.bind(console, chalk.yellow.bold(name));
 var logError = console.error.bind(console, chalk.red(name));
-var acceptableConstructorOptions = [
-    'execArgv',
-    'args',
-    'size',
-    'filePath',
-    'addWorkerOnExit',
-    'oneTimeOnly',
-    'silent',
-    'stdin',
-    'stdout',
-    'stderr',
-    'getSharedWritableStream'
-];
+var acceptableConstructorOptions = {
+    'execArgv': true,
+    'args': true,
+    'size': true,
+    'filePath': true,
+    'addWorkerOnExit': true,
+    'oneTimeOnly': true,
+    'silent': true,
+    'stdin': true,
+    'stdout': true,
+    'stderr': true,
+    'getSharedWritableStream': true,
+    'streamStdioAfterDelegation': true,
+    'inheritStdio': true,
+    'resolveWhenWorkerExits': true,
+    'env': true
+};
 var id = 1;
 var defaultOpts = {
     inheritStdio: true,
@@ -51,6 +52,9 @@ var defaultOpts = {
     execArgv: [],
     args: []
 };
+var isDebug = process.execArgv.indexOf('debug') > 0;
+if (isDebug)
+    log('isDebug flag set to:', isDebug);
 var getWritable = function (fnOrStrm) {
     return (typeof fnOrStrm === 'function') ? fnOrStrm() : fnOrStrm;
 };
@@ -153,7 +157,6 @@ var handleStdio = function (pool, n, opts) {
         n.stdio[2].pipe(strm);
     }
     if (opts.socket) {
-        console.log('streaming data to socket.');
         n.stdio[1].pipe(opts.socket);
         n.stdio[2].pipe(opts.socket);
     }
@@ -165,7 +168,7 @@ var delegateNewlyAvailableWorker = function (pool, n) {
     }
     if (pool.oneTimeOnly) {
         removeSpecificWorker(pool, n);
-        console.error(' => Poolio warning => delegateNewlyAvailableWorker() was called on a worker that should have been "oneTimeOnly".');
+        logWarning('warning => delegateNewlyAvailableWorker() was called on a worker that should have been "oneTimeOnly".');
         return;
     }
     if (pool.removeNextAvailableWorker) {
@@ -199,13 +202,12 @@ var Pool = (function (_super) {
         _this.__poolId = '@poolio_pool_' + id++;
         _this.numberOfSpawnedWorkers = 0;
         _this.numberOfDeadWorkers = 0;
-        debugger;
         if (typeof options !== 'object' || Array.isArray(options)) {
             throw new Error('Options object should be defined for your poolio pool, as "filePath" option property is required.');
         }
         Object.keys(options).forEach(function (key) {
-            if (acceptableConstructorOptions.indexOf(key) < 0) {
-                console.error(' => Poolio message => the following option property is not a valid Poolio constructor option:', key);
+            if (!acceptableConstructorOptions[key]) {
+                logWarning('the following option property is not a valid Poolio constructor option:', key);
             }
         });
         var opts = Object.assign({}, defaultOpts, options);
@@ -252,8 +254,8 @@ var Pool = (function (_super) {
         _this.oneJobPerWorker = opts.oneJobPerWorker;
         _this.on('error', function (err) {
             if (_this.listenerCount('error') === 1) {
-                console.error(' => Poolio: your worker pool experienced an error => ', (err.stack || err));
-                console.error(' => Poolio => please add your own "error" event listener using pool.on("error", fn) ' +
+                logError('your worker pool experienced an error => ', (err.stack || err));
+                logError('please add your own "error" event listener using pool.on("error", fn) ' +
                     'to prevent these error messages from being logged.');
             }
         });
@@ -363,10 +365,10 @@ var Pool = (function (_super) {
     };
     Pool.prototype.removeWorker = function () {
         if (this.all.length < 1) {
-            console.error(' => Poolio warning => Cannot remove worker from pool of 0 workers.');
+            logWarning('warning => Cannot remove worker from pool of 0 workers.');
         }
         else if (this.all.length === 1 && this.removeNextAvailableWorker) {
-            console.error(' => Poolio warning => Already removed last worker, there will soon' +
+            logWarning('warning => Already removed last worker, there will soon' +
                 ' be 0 workers in the pool.');
         }
         else {
