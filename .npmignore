@@ -11,6 +11,7 @@ scripts
 *.ts
 *.json
 *.yml
+*.log
 
 ### files
 suman.conf.js
