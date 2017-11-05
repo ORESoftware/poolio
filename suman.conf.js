@@ -19,7 +19,7 @@ module.exports = Object.freeze({
   testDir: 'test',
   testSrcDir: 'test/e2e/@src',
   testTargetDir: 'test/e2e/@target',
-  sumanHelpersDir: 'test/_suman',
+  sumanHelpersDir: 'test/.suman',
   runnerLock: true,
   transpile: false,                    //default, can be overridden with command line
   timeoutToSearchForAvailServer: 2000,
