@@ -18,8 +18,6 @@ suman.conf.js
 .npmignore
 .gitignore
 yarn.lock
-.travis.yml
-package-lock.json
 
 ### negation
 !*.d.ts

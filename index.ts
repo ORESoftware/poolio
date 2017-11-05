@@ -20,11 +20,14 @@ import * as net from "net";
 
 const root = residence.findProjectRoot(process.cwd());
 const name = ' [poolio] ';
-const log = console.log.bind(console, name);
-const logGood = console.log.bind(console, chalk.cyan(name));
-const logVeryGood = console.log.bind(console, chalk.green(name));
-const logWarning = console.error.bind(console, chalk.yellow.bold(name));
-const logError = console.error.bind(console, chalk.red(name));
+
+const log = {
+  info: console.log.bind(console, name),
+  good: console.log.bind(console, name),
+  veryGood: console.log.bind(console, chalk.green(name)),
+  warning: console.error.bind(console, chalk.yellow.bold(name)),
+  error: console.error.bind(console, chalk.red(name))
+};
 
 const acceptableConstructorOptions = <any>{
   'execArgv': true,
@@ -62,7 +65,7 @@ const defaultOpts = <IPoolOptionsPartial> {
 };
 
 const isDebug = process.execArgv.indexOf('debug') > 0;
-if (isDebug) log('isDebug flag set to:', isDebug);
+if (isDebug) log.info('isDebug flag set to:', isDebug);
 
 ///////////////////////////////////////////////////////
 
@@ -277,7 +280,7 @@ const delegateNewlyAvailableWorker = function (pool: Pool, n: IPoolioChildProces
 
   if (pool.oneTimeOnly) {
     removeSpecificWorker(pool, n);
-    logWarning('warning => delegateNewlyAvailableWorker() was called on a worker that should have been "oneTimeOnly".');
+    log.warning('warning => delegateNewlyAvailableWorker() was called on a worker that should have been "oneTimeOnly".');
     return;
   }
 
@@ -357,7 +360,7 @@ export class Pool extends EE {
 
     Object.keys(options).forEach(function (key) {
       if (!acceptableConstructorOptions[key]) {
-        logWarning('the following option property is not a valid Poolio constructor option:', key);
+        log.warning('the following option property is not a valid Poolio constructor option:', key);
       }
     });
 
@@ -423,8 +426,8 @@ export class Pool extends EE {
 
     this.on('error', err => {
       if (this.listenerCount('error') === 1) {
-        logError('your worker pool experienced an error => ', (err.stack || err));
-        logError('please add your own "error" event listener using pool.on("error", fn) ' +
+        log.error('your worker pool experienced an error => ', (err.stack || err));
+        log.error('please add your own "error" event listener using pool.on("error", fn) ' +
           'to prevent these error messages from being logged.');
       }
     });
@@ -518,7 +521,7 @@ export class Pool extends EE {
     n.on('message', data => {
 
       if (!data.workId) {
-        logWarning('message sent from worker with no workId => ', '\n', JSON.stringify(data));
+        log.warning('message sent from worker with no workId => ', '\n', JSON.stringify(data));
       }
 
       switch (data.msg) {
@@ -560,10 +563,10 @@ export class Pool extends EE {
   removeWorker(): Pool {
 
     if (this.all.length < 1) {
-      logWarning('warning => Cannot remove worker from pool of 0 workers.');
+      log.warning('warning => Cannot remove worker from pool of 0 workers.');
     }
     else if (this.all.length === 1 && this.removeNextAvailableWorker) {
-      logWarning('warning => Already removed last worker, there will soon' +
+      log.warning('warning => Already removed last worker, there will soon' +
         ' be 0 workers in the pool.');
     }
     else {
@@ -639,7 +642,7 @@ export class Pool extends EE {
       } else {
 
         if (this.all.length < 1) {
-          logWarning('Poolio warning: your Poolio pool has been reduced to size of 0 workers, ' +
+          log.warning('Poolio warning: your Poolio pool has been reduced to size of 0 workers, ' +
             'you will have to add a worker to process new and/or existing messages.');
         }
 
@@ -698,7 +701,7 @@ export class Pool extends EE {
       } else {
 
         if (this.all.length < 1) {
-          logWarning('Poolio warning: your Poolio pool has been reduced to size of 0 workers, ' +
+          log.warning('Poolio warning: your Poolio pool has been reduced to size of 0 workers, ' +
             'you will have to add a worker to process new and/or existing messages.');
         }
 

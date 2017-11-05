@@ -20,11 +20,13 @@ var chalk = require("chalk");
 var residence = require("residence");
 var root = residence.findProjectRoot(process.cwd());
 var name = ' [poolio] ';
-var log = console.log.bind(console, name);
-var logGood = console.log.bind(console, chalk.cyan(name));
-var logVeryGood = console.log.bind(console, chalk.green(name));
-var logWarning = console.error.bind(console, chalk.yellow.bold(name));
-var logError = console.error.bind(console, chalk.red(name));
+var log = {
+    info: console.log.bind(console, name),
+    good: console.log.bind(console, name),
+    veryGood: console.log.bind(console, chalk.green(name)),
+    warning: console.error.bind(console, chalk.yellow.bold(name)),
+    error: console.error.bind(console, chalk.red(name))
+};
 var acceptableConstructorOptions = {
     'execArgv': true,
     'args': true,
@@ -54,7 +56,7 @@ var defaultOpts = {
 };
 var isDebug = process.execArgv.indexOf('debug') > 0;
 if (isDebug)
-    log('isDebug flag set to:', isDebug);
+    log.info('isDebug flag set to:', isDebug);
 var getWritable = function (fnOrStrm) {
     return (typeof fnOrStrm === 'function') ? fnOrStrm() : fnOrStrm;
 };
@@ -168,7 +170,7 @@ var delegateNewlyAvailableWorker = function (pool, n) {
     }
     if (pool.oneTimeOnly) {
         removeSpecificWorker(pool, n);
-        logWarning('warning => delegateNewlyAvailableWorker() was called on a worker that should have been "oneTimeOnly".');
+        log.warning('warning => delegateNewlyAvailableWorker() was called on a worker that should have been "oneTimeOnly".');
         return;
     }
     if (pool.removeNextAvailableWorker) {
@@ -207,7 +209,7 @@ var Pool = (function (_super) {
         }
         Object.keys(options).forEach(function (key) {
             if (!acceptableConstructorOptions[key]) {
-                logWarning('the following option property is not a valid Poolio constructor option:', key);
+                log.warning('the following option property is not a valid Poolio constructor option:', key);
             }
         });
         var opts = Object.assign({}, defaultOpts, options);
@@ -254,8 +256,8 @@ var Pool = (function (_super) {
         _this.oneJobPerWorker = opts.oneJobPerWorker;
         _this.on('error', function (err) {
             if (_this.listenerCount('error') === 1) {
-                logError('your worker pool experienced an error => ', (err.stack || err));
-                logError('please add your own "error" event listener using pool.on("error", fn) ' +
+                log.error('your worker pool experienced an error => ', (err.stack || err));
+                log.error('please add your own "error" event listener using pool.on("error", fn) ' +
                     'to prevent these error messages from being logged.');
             }
         });
@@ -328,7 +330,7 @@ var Pool = (function (_super) {
         });
         n.on('message', function (data) {
             if (!data.workId) {
-                logWarning('message sent from worker with no workId => ', '\n', JSON.stringify(data));
+                log.warning('message sent from worker with no workId => ', '\n', JSON.stringify(data));
             }
             switch (data.msg) {
                 case 'done':
@@ -365,10 +367,10 @@ var Pool = (function (_super) {
     };
     Pool.prototype.removeWorker = function () {
         if (this.all.length < 1) {
-            logWarning('warning => Cannot remove worker from pool of 0 workers.');
+            log.warning('warning => Cannot remove worker from pool of 0 workers.');
         }
         else if (this.all.length === 1 && this.removeNextAvailableWorker) {
-            logWarning('warning => Already removed last worker, there will soon' +
+            log.warning('warning => Already removed last worker, there will soon' +
                 ' be 0 workers in the pool.');
         }
         else {
@@ -429,7 +431,7 @@ var Pool = (function (_super) {
             }
             else {
                 if (_this.all.length < 1) {
-                    logWarning('Poolio warning: your Poolio pool has been reduced to size of 0 workers, ' +
+                    log.warning('Poolio warning: your Poolio pool has been reduced to size of 0 workers, ' +
                         'you will have to add a worker to process new and/or existing messages.');
                 }
                 _this.msgQueue.push({
@@ -475,7 +477,7 @@ var Pool = (function (_super) {
             }
             else {
                 if (_this.all.length < 1) {
-                    logWarning('Poolio warning: your Poolio pool has been reduced to size of 0 workers, ' +
+                    log.warning('Poolio warning: your Poolio pool has been reduced to size of 0 workers, ' +
                         'you will have to add a worker to process new and/or existing messages.');
                 }
                 _this.msgQueue.push({
