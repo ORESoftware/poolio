@@ -18,7 +18,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var Test = suman.init(module);
 
-Test.create('@TestsPoolio', { parallel: true }, function (Pool, suite, path, async, assert, it, after, fixturesDir) {
+Test.create('@TestsPoolio', { parallel: true }, ['Pool', 'fixturesDir', function (b, suite, path, async, assert, it, after) {
+  var _b$ioc = b.ioc,
+      Pool = _b$ioc.Pool,
+      fixturesDir = _b$ioc.fixturesDir;
+
 
   var pool0 = new Pool({
     size: 1,
@@ -100,4 +104,4 @@ Test.create('@TestsPoolio', { parallel: true }, function (Pool, suite, path, asy
       p.once('error', cb);
     }, t.done);
   });
-});
+}]);

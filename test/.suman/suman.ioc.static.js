@@ -9,9 +9,7 @@
 
 const path = require('path');
 
-
 module.exports = () => {  //load async deps for any of your suman tests
-
 
   return {
 
@@ -29,7 +27,7 @@ module.exports = () => {  //load async deps for any of your suman tests
         cb(null, [1, 2, 3]);
       },
 
-      fixturesDir: function(){
+      fixturesDir: function () {
         return path.resolve(__dirname + '/../fixtures');
       }
     }

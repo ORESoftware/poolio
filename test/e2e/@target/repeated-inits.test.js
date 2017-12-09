@@ -6,7 +6,11 @@ var Test = suman.init(module, {
   integrants: ['make-a-bet']
 });
 
-Test.create('Test inits', { parallel: false }, function (Pool, assert, path, fixturesDir) {
+Test.create('Test inits', { parallel: false }, ['Pool', 'fixturesDir', function (b, assert, path, describe, it, beforeEach, after) {
+  var _b$ioc = b.ioc,
+      Pool = _b$ioc.Pool,
+      fixturesDir = _b$ioc.fixturesDir;
+
 
   var data = {
     size: 5,
@@ -29,33 +33,33 @@ Test.create('Test inits', { parallel: false }, function (Pool, assert, path, fix
     console.log('\n', 'worker-added', Array.prototype.slice.apply(arguments));
   });
 
-  this.describe('#remove workers', function () {
+  describe('#remove workers', function (b) {
 
-    this.beforeEach(function (t) {
+    beforeEach(function (t) {
       pool.removeWorker();
     });
 
     for (var i = 0; i < 5; i++) {
-      this.it('remove worker =>' + i, function (t) {
+      it('remove worker =>' + i, function (t) {
         assert.equal(pool.getCurrentSize().all, --size);
       });
     }
   });
 
-  this.describe('#add workers', function () {
+  describe('#add workers', function (b) {
 
-    this.beforeEach(function (t) {
+    beforeEach(function (t) {
       pool.addWorker();
     });
 
     for (var i = 0; i < 5; i++) {
-      this.it('add worker ' + i, function (t) {
+      it('add worker ' + i, function (t) {
         assert.equal(pool.getCurrentSize().all, ++size);
       });
     }
   });
 
-  this.after(function (t) {
+  after(function (t) {
 
     process.nextTick(function () {
       setTimeout(function () {
@@ -63,4 +67,4 @@ Test.create('Test inits', { parallel: false }, function (Pool, assert, path, fix
       }, 1000);
     });
   });
-});
+}]);

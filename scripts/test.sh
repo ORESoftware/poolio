@@ -3,7 +3,7 @@
 SUMAN=$(which suman);
 
 if [[ -z ${SUMAN} ]]; then
-    npm install -g sumanjs/suman#rebase_branch
+    npm install -g suman
 fi
 
 LIB_NAME="poolio";

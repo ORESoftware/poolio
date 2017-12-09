@@ -6,7 +6,9 @@ const Test = suman.init(module, {
 });
 
 Test.create('@TestsPoolio', {parallel: true},
-  function (after, assert, path, async, Pool, fixturesDir, describe, it) {
+  ['Pool', 'fixturesDir', function (b, after, assert, path, async, describe, it) {
+
+    const {Pool, fixturesDir} = b.ioc;
 
     const pool = new Pool({
       size: 3,
@@ -18,7 +20,7 @@ Test.create('@TestsPoolio', {parallel: true},
       filePath: path.resolve(`${fixturesDir}/worker1.js`)
     });
 
-    describe('actual do the tests', {parallel: true}, function () {
+    describe('actual do the tests', {parallel: true}, b => {
 
       it('test worker1', function (t) {
         return pool.any('run').then(function (msg) {
@@ -26,7 +28,7 @@ Test.create('@TestsPoolio', {parallel: true},
         });
       });
 
-      it('test worker1 non-timeout 22', {timeout: 8000}, function*(t) {
+      it('test worker1 non-timeout 22', {timeout: 8000}, function* (t) {
         yield pool.any('run');
         yield pool.any('run');
         yield pool.any('run');
@@ -52,7 +54,8 @@ Test.create('@TestsPoolio', {parallel: true},
           pool1.any('run'),
           pool1.any('run'),
           pool1.any('run')
-        ]).then(function () {
+        ])
+        .then(function () {
           clearTimeout(to);
           t.fail(new Error('Should have timed out, but didnt.'));
         });
@@ -73,12 +76,6 @@ Test.create('@TestsPoolio', {parallel: true},
 
       });
 
-      it('whoa', t => {
-
-        console.log('typeof =>', typeof t);
-        assert(typeof t.apply === 'function');
-
-      });
 
       after.cb(t => {
 
@@ -101,4 +98,4 @@ Test.create('@TestsPoolio', {parallel: true},
 
     });
 
-  });
+  }]);

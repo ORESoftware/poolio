@@ -1,12 +1,20 @@
+'use strict';
+
 const suman = require('suman');
 const Test = suman.init(module, {
   pre: ['make-a-bet'],
   post: ['destroyAllPools']
 });
 
-Test.create('@TestsPoolio', {parallel: true},
-  function (suite, path, async, assert, Pool, describe, it, after, fixturesDir) {
+Test.create('@TestsPoolio', {
 
+  parallel: true,
+  inject: ['Pool', 'fixturesDir']
+
+}, function (b, path, async, assert, describe, it, after) {
+
+
+  const {Pool, fixturesDir} = b.ioc;
   const filePath = path.resolve(`${fixturesDir}/sample-file.js`);
 
   const data = [
@@ -28,7 +36,7 @@ Test.create('@TestsPoolio', {parallel: true},
     }
   ];
 
-  describe('test delay feature', {parallel: true}, function () {
+  describe('test delay feature', {parallel: true}, b => {
 
     data.forEach(p => {
 
@@ -38,7 +46,7 @@ Test.create('@TestsPoolio', {parallel: true},
         console.error(err.stack || err);
       });
 
-      describe('test unique pool', function () {
+      describe('test unique pool', b => {
 
         it('tests poolio', t => {
 

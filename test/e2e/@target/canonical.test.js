@@ -12,7 +12,18 @@ var Test = suman.init(module, {
   post: ['destroyAllPools']
 });
 
-Test.create('@TestsPoolio', { parallel: true }, function (suite, path, async, assert, Pool, describe, it, after, fixturesDir) {
+Test.create('@TestsPoolio', {
+
+  parallel: true,
+  inject: ['Pool', 'fixturesDir']
+
+}, function (b, path, async, assert, describe, it, after) {
+
+  console.log('b.ioc => ', b.ioc);
+
+  var _b$ioc = b.ioc,
+      Pool = _b$ioc.Pool,
+      fixturesDir = _b$ioc.fixturesDir;
 
   var filePath = path.resolve(fixturesDir + '/sample-file.js');
 
@@ -30,7 +41,7 @@ Test.create('@TestsPoolio', { parallel: true }, function (suite, path, async, as
     filePath: filePath
   }];
 
-  describe('test delay feature', { parallel: true }, function () {
+  describe('test delay feature', { parallel: true }, function (b) {
 
     data.forEach(function (p) {
 
@@ -40,7 +51,7 @@ Test.create('@TestsPoolio', { parallel: true }, function (suite, path, async, as
         console.error(err.stack || err);
       });
 
-      describe('test unique pool', function () {
+      describe('test unique pool', function (b) {
 
         it('tests poolio', function (t) {
 

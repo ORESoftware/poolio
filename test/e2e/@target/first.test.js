@@ -14,14 +14,16 @@ var _promise2 = _interopRequireDefault(_promise);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// import * as suman from 'suman';
 var suman = require('suman');
 var Test = suman.init(module, {
   pre: ['make-a-bet'],
   post: ['destroyAllPools']
 });
 
-Test.create('@TestsPoolio', { parallel: true }, function (suite, path, async, assert, Pool, it, after, fixturesDir) {
+Test.create('@TestsPoolio', { parallel: true }, ['Pool', 'fixturesDir', function (b, suite, path, async, assert, it, after) {
+  var _b$ioc = b.ioc,
+      Pool = _b$ioc.Pool,
+      fixturesDir = _b$ioc.fixturesDir;
 
   var filePath = path.resolve(fixturesDir + '/sample-file.js');
 
@@ -55,7 +57,7 @@ Test.create('@TestsPoolio', { parallel: true }, function (suite, path, async, as
     });
   });
 
-  it('tests poolio 2', _regenerator2.default.mark(function _callee(t) {
+  it('tests poolio 2', /*#__PURE__*/_regenerator2.default.mark(function _callee(t) {
     return _regenerator2.default.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
@@ -139,4 +141,4 @@ Test.create('@TestsPoolio', { parallel: true }, function (suite, path, async, as
       p.once('error', cb);
     }, t);
   });
-});
+}]);

@@ -1,9 +1,5 @@
 'use strict';
 
-var _typeof2 = require('babel-runtime/helpers/typeof');
-
-var _typeof3 = _interopRequireDefault(_typeof2);
-
 var _promise = require('babel-runtime/core-js/promise');
 
 var _promise2 = _interopRequireDefault(_promise);
@@ -19,7 +15,11 @@ var Test = suman.init(module, {
   integrants: ['make-a-bet']
 });
 
-Test.create('@TestsPoolio', { parallel: true }, function (after, assert, path, async, Pool, fixturesDir, describe, it) {
+Test.create('@TestsPoolio', { parallel: true }, ['Pool', 'fixturesDir', function (b, after, assert, path, async, describe, it) {
+  var _b$ioc = b.ioc,
+      Pool = _b$ioc.Pool,
+      fixturesDir = _b$ioc.fixturesDir;
+
 
   var pool = new Pool({
     size: 3,
@@ -31,7 +31,7 @@ Test.create('@TestsPoolio', { parallel: true }, function (after, assert, path, a
     filePath: path.resolve(fixturesDir + '/worker1.js')
   });
 
-  describe('actual do the tests', { parallel: true }, function () {
+  describe('actual do the tests', { parallel: true }, function (b) {
 
     it('test worker1', function (t) {
       return pool.any('run').then(function (msg) {
@@ -39,7 +39,7 @@ Test.create('@TestsPoolio', { parallel: true }, function (after, assert, path, a
       });
     });
 
-    it('test worker1 non-timeout 22', { timeout: 8000 }, _regenerator2.default.mark(function _callee(t) {
+    it('test worker1 non-timeout 22', { timeout: 8000 }, /*#__PURE__*/_regenerator2.default.mark(function _callee(t) {
       return _regenerator2.default.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
@@ -87,12 +87,6 @@ Test.create('@TestsPoolio', { parallel: true }, function (after, assert, path, a
       return _promise2.default.all([pool1.any('run'), pool1.any('run'), pool1.any('run'), pool1.any('run'), pool1.any('run'), pool1.any('run')]);
     });
 
-    it('whoa', function (t) {
-
-      console.log('typeof =>', typeof t === 'undefined' ? 'undefined' : (0, _typeof3.default)(t));
-      assert(typeof t.apply === 'function');
-    });
-
     after.cb(function (t) {
 
       async.each([pool, pool1], function (p, cb) {
@@ -109,4 +103,4 @@ Test.create('@TestsPoolio', { parallel: true }, function (after, assert, path, a
       }, t.done);
     });
   });
-});
+}]);

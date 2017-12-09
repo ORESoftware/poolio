@@ -1,10 +1,13 @@
 // import * as suman from 'suman';
 const suman = require('suman');
 const Test = suman.init(module, {
-  integrants: [ 'make-a-bet' ],
+  integrants: ['make-a-bet'],
 });
 
-Test.create('Test inits', { parallel: false }, function (Pool, assert, path, fixturesDir) {
+Test.create('Test inits', {parallel: false},
+  ['Pool', 'fixturesDir', function (b, assert, path, describe, it, beforeEach, after) {
+
+  const {Pool, fixturesDir} = b.ioc;
 
   const data = {
     size: 5,
@@ -13,7 +16,7 @@ Test.create('Test inits', { parallel: false }, function (Pool, assert, path, fix
 
   const pool = new Pool(data);
 
-  var size = pool.getCurrentStats().all;
+  let size = pool.getCurrentStats().all;
 
   pool.on('worker-exited', function () {
     console.log('\n', 'worker-exited', Array.prototype.slice.apply(arguments));
@@ -27,43 +30,44 @@ Test.create('Test inits', { parallel: false }, function (Pool, assert, path, fix
     console.log('\n', 'worker-added', Array.prototype.slice.apply(arguments));
   });
 
-  this.describe('#remove workers', function () {
+  describe('#remove workers', function (b) {
 
-    this.beforeEach(t => {
+    beforeEach(t => {
       pool.removeWorker();
     });
 
-    for (var i = 0; i < 5; i++) {
-      this.it('remove worker =>' + i, t => {
+    for (let i = 0; i < 5; i++) {
+      it('remove worker =>' + i, t => {
         assert.equal(pool.getCurrentSize().all, --size);
       });
     }
 
   });
 
-  this.describe('#add workers', function () {
+  describe('#add workers', function (b) {
 
-    this.beforeEach(t => {
+    beforeEach(t => {
       pool.addWorker();
     });
 
-    for (var i = 0; i < 5; i++) {
-      this.it('add worker ' + i, t => {
+    for (let i = 0; i < 5; i++) {
+      it('add worker ' + i, t => {
         assert.equal(pool.getCurrentSize().all, ++size);
       });
     }
 
   });
 
-  this.after(t => {
+  after.cb(t => {
 
     process.nextTick(function () {
       setTimeout(function () {
         pool.removeAllListeners();
-      }, 1000);
+        t.done(null)
+      }, 100);
 
     });
 
   });
 
-});
+}]);

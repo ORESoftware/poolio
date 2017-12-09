@@ -11,7 +11,10 @@ var Test = suman.init(module, {
   pre: ['make-a-bet']
 });
 
-Test.create('Test inits', { parallel: true }, function (Pool, assert, path, beforeEach, it, fixturesDir) {
+Test.create('Test inits', { parallel: true }, ['Pool', 'fixturesDir', function (b, assert, path, beforeEach, it) {
+  var _b$ioc = b.ioc,
+      Pool = _b$ioc.Pool,
+      fixturesDir = _b$ioc.fixturesDir;
 
   var filePath = path.resolve(fixturesDir + '/sample-file.js');
 
@@ -66,4 +69,4 @@ Test.create('Test inits', { parallel: true }, function (Pool, assert, path, befo
       t.done();
     });
   });
-});
+}]);

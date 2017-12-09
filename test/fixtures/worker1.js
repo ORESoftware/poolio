@@ -1,44 +1,42 @@
 process.on('uncaughtException', function (e) {
-    console.error('\n', ' => Poolio worker process uncaughtException:', e.stack || e, '\n');
+  console.error('\n', ' => Poolio worker process uncaughtException:', e.stack || e, '\n');
 });
-
 
 process.on('error', function (e) {
-    console.error('\n', ' => Poolio worker process error event:', e.stack || e, '\n');
+  console.error('\n', ' => Poolio worker process error event:', e.stack || e, '\n');
 });
-
 
 process.on('message', function (data) {
 
-    const workId = data.workId;
+  const workId = data.workId;
 
-    console.log('workId:',workId,'workerId:',data.__poolioWorkerId);
+  console.log('workId:', workId, 'workerId:', data.__poolioWorkerId);
 
-    if (data.msg === 'run') {
-        console.log(data.__poolioWorkerId);
-        run();
-    }
-    else{
-        process.send({
-            msg: 'error',
-            error: new Error('No action listed').stack,
-            workId: workId,
-            result: module.filename
-        });
-    }
+  if (data.msg === 'run') {
+    console.log(data.__poolioWorkerId);
+    run();
+  }
+  else {
+    process.send({
+      msg: 'error',
+      error: new Error('No action listed').stack,
+      workId: workId,
+      result: module.filename
+    });
+  }
 
-    function run() {
+  function run() {
 
-        setTimeout(function () {
+    setTimeout(function () {
 
-            process.send({
-                msg: 'done/return/to/pool',
-                workId: workId,
-                result: module.filename
-            });
+      process.send({
+        msg: 'done/return/to/pool',
+        workId: workId,
+        result: module.filename
+      });
 
-        }, 2000);
-    }
+    }, 2000);
+  }
 
 });
 

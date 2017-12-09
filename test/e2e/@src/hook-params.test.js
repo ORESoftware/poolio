@@ -3,8 +3,9 @@ const Test = suman.init(module, {
   pre: ['make-a-bet'],
 });
 
-Test.create('Test inits', {parallel: true}, function (Pool, assert, path, beforeEach, it,fixturesDir) {
+Test.create('Test inits', {parallel: true}, ['Pool', 'fixturesDir', function (b, assert, path, beforeEach, it) {
 
+  const {Pool, fixturesDir} = b.ioc;
   const filePath = path.resolve(`${fixturesDir}/sample-file.js`);
 
   const data = [
@@ -63,8 +64,6 @@ Test.create('Test inits', {parallel: true}, function (Pool, assert, path, before
 
   });
 
-  //
-
   data.forEach((d, index) => {
     it.cb(String(index), {value: d}, t => {
       const pool = t.data.pool;
@@ -73,4 +72,4 @@ Test.create('Test inits', {parallel: true}, function (Pool, assert, path, before
     });
   });
 
-});
+}]);
