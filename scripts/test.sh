@@ -28,4 +28,4 @@ chmod -R 777 coverage
 npm link suman
 
 # run tests
-suman --default --coverage
+suman --default --coverage --inherit-all-stdio --inherit-stdio
