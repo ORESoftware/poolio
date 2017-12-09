@@ -6,10 +6,10 @@
   "types": "index.d.ts",
   "typings": "index.d.ts",
   "scripts": {
-    "test": "./∆test.sh"
+    "test": "./scripts/test.sh"
   },
   "author": "Olegzandr VD",
-  "license": "ISC",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git://github.com/oresoftware/poolio.git"
