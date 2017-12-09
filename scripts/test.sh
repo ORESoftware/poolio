@@ -1,10 +1,6 @@
 #!/usr/bin/env bash
 
-SUMAN=$(which suman);
-
-if [[ -z ${SUMAN} ]]; then
-    npm install -g suman
-fi
+npm install -g suman@latest
 
 LIB_NAME="poolio";
 
@@ -31,4 +27,5 @@ chmod -R 777 coverage
 # link to suman
 npm link suman
 
+# run tests
 suman --default --coverage
