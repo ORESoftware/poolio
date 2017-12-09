@@ -25,4 +25,7 @@ if [[ ${IS_LOCALLY_SYMLINKED} != *"affirmative"* || ${IS_GLOBALLY_SYMLINKED} != 
     npm link "${LIB_NAME}" # create a local symlink
 fi
 
+# link to suman
+npm link suman
+
 suman --default
