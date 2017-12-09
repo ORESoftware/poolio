@@ -6,7 +6,7 @@ var Test = suman.init(module, {
   integrants: ['make-a-bet']
 });
 
-Test.create('Test inits', { parallel: false }, ['Pool', 'fixturesDir', function (b, assert, path, describe, it, beforeEach, after) {
+Test.create('Test inits', { parallel: false, inject: ['Pool', 'fixturesDir'] }, [function (b, assert, path, describe, it, beforeEach, after) {
   var _b$ioc = b.ioc,
       Pool = _b$ioc.Pool,
       fixturesDir = _b$ioc.fixturesDir;
@@ -59,12 +59,13 @@ Test.create('Test inits', { parallel: false }, ['Pool', 'fixturesDir', function 
     }
   });
 
-  after(function (t) {
+  after.cb(function (t) {
 
     process.nextTick(function () {
       setTimeout(function () {
         pool.removeAllListeners();
-      }, 1000);
+        t.done(null);
+      }, 100);
     });
   });
 }]);

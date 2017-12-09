@@ -18,6 +18,9 @@ Test.create('Test inits', { parallel: true }, ['Pool', 'fixturesDir', function (
 
   var filePath = path.resolve(fixturesDir + '/sample-file.js');
 
+  process.stdout.setMaxListeners(50);
+  process.stderr.setMaxListeners(50);
+
   var data = [{ //
     size: 5,
     filePath: filePath,
@@ -59,8 +62,6 @@ Test.create('Test inits', { parallel: true }, ['Pool', 'fixturesDir', function (
 
     return _promise2.default.all([pool.any('big'), pool.any('big'), pool.any('big'), pool.any('big'), pool.any('big'), pool.any('big'), pool.any('big')]);
   });
-
-  //
 
   data.forEach(function (d, index) {
     it.cb(String(index), { value: d }, function (t) {

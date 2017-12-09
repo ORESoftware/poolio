@@ -8,6 +8,9 @@ Test.create('Test inits', {parallel: true}, ['Pool', 'fixturesDir', function (b,
   const {Pool, fixturesDir} = b.ioc;
   const filePath = path.resolve(`${fixturesDir}/sample-file.js`);
 
+  process.stdout.setMaxListeners(50);
+  process.stderr.setMaxListeners(50);
+
   const data = [
     {  //
       size: 5,

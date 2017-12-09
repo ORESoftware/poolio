@@ -25,4 +25,4 @@ if [[ ${IS_LOCALLY_SYMLINKED} != *"affirmative"* || ${IS_GLOBALLY_SYMLINKED} != 
     npm link "${LIB_NAME}" # create a local symlink
 fi
 
-suman test/e2e/@src/*.js --inherit-stdio
+suman --default

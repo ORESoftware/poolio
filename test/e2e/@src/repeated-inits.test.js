@@ -4,8 +4,8 @@ const Test = suman.init(module, {
   integrants: ['make-a-bet'],
 });
 
-Test.create('Test inits', {parallel: false},
-  ['Pool', 'fixturesDir', function (b, assert, path, describe, it, beforeEach, after) {
+Test.create('Test inits', {parallel: false,   inject: ['Pool', 'fixturesDir']},
+  [function (b, assert, path, describe, it, beforeEach, after) {
 
   const {Pool, fixturesDir} = b.ioc;
 
