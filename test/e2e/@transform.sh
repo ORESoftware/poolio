@@ -1,21 +1,23 @@
 #!/usr/bin/env bash
 
+set -e;
+
 echo "we are running @transform.sh"
 
-cd $(dirname "$0");
-chmod -R 777 $(pwd)/@target
+#echo "SUMAN_TARGET_DIR => $SUMAN_TARGET_DIR"
+#echo "SUMAN_SRC_DIR => $SUMAN_SRC_DIR"
+#echo "SUMAN_CHILD_TEST_PATH => $SUMAN_CHILD_TEST_PATH"
+#echo "SUMAN_TARGET_TEST_PATH => $SUMAN_TARGET_TEST_PATH"
 
-SUMAN_TARGET="${SUMAN_CHILD_TEST_PATH//@src/@target}"
+mkdir -p "${SUMAN_TARGET_DIR}"
+chmod -R 777 "${SUMAN_TARGET_DIR}"
 
-echo "SUMAN_CHILD_TEST_PATH => $SUMAN_CHILD_TEST_PATH"
-echo "SUMAN_TARGET => $SUMAN_TARGET"
-
-if [[ "${SUMAN_TARGET}" -nt "${SUMAN_CHILD_TEST_PATH}" ]]; then
+if [[ "${SUMAN_TARGET_TEST_PATH}" -nt "${SUMAN_CHILD_TEST_PATH}" ]]; then
     echo "no need to transpile...since the transpiled file is correct."
 else
     echo "we must transpile file."
 #    tsc $(pwd)/@src/*.ts --outDir $(pwd)/@target
 
-    babel ${SUMAN_CHILD_TEST_PATH} --out-file ${SUMAN_TARGET}
-    chmod -R 777 $(pwd)/@target
+    babel "${SUMAN_CHILD_TEST_PATH}" --out-file "${SUMAN_TARGET_TEST_PATH}"
+    chmod -R 777 "${SUMAN_TARGET_DIR}"
 fi

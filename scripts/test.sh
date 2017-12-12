@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+if [[ ! -d "node_modules" ]]; then
+ echo "looks like you are executing this command from the wrong pwd, or node_modules is not installed."
+ exit 1;
+fi
+
 npm install -g suman@latest
 
 LIB_NAME="poolio";
@@ -21,7 +26,7 @@ if [[ ${IS_LOCALLY_SYMLINKED} != *"affirmative"* || ${IS_GLOBALLY_SYMLINKED} != 
     npm link "${LIB_NAME}" # create a local symlink
 fi
 
-mkdir coverage
+mkdir -p coverage
 chmod -R 777 coverage
 
 # link to suman

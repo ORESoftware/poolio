@@ -1,17 +1,22 @@
 #!/usr/bin/env bash
 
-cd $(dirname "$0");
+set -e;
+
 echo "we are running @run.sh"
-chmod -R 777 $(pwd)/@target
+mkdirp -p "${SUMAN_TARGET_DIR}"
+chmod -R 777 "${SUMAN_TARGET_DIR}"
 
-SUMAN_TARGET="${SUMAN_CHILD_TEST_PATH//@src/@target}"
-SUMAN_RUNNABLE=${SUMAN_TARGET%.*}.js
+SUMAN_RUNNABLE=${SUMAN_TARGET_TEST_PATH%.*}.js
 
-echo "SUMAN_RUNNABLE => ${SUMAN_RUNNABLE}"
-echo "node version => $(node -v)"
 #node ${SUMAN_RUNNABLE} | tee -a run.sh.log
 
-node ${SUMAN_RUNNABLE}
+#node ${SUMAN_RUNNABLE}
+
+istanbul cover "${SUMAN_RUNNABLE}" --dir "${SUMAN_COVERAGE_DIR}"
+
+#nyc --dir "${SUMAN_COVERAGE_DIR}" node "${SUMAN_RUNNABLE}"
+
+#nyc node "${SUMAN_RUNNABLE}"
 
 EXIT_CODE=$?;
 echo "run.sh EXIT_CODE => $EXIT_CODE"
