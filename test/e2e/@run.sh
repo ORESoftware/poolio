@@ -12,7 +12,7 @@ SUMAN_RUNNABLE=${SUMAN_TARGET_TEST_PATH%.*}.js
 
 #node ${SUMAN_RUNNABLE}
 
-istanbul cover "${SUMAN_RUNNABLE}" --dir "${SUMAN_COVERAGE_DIR}"
+istanbul cover --report=json "${SUMAN_RUNNABLE}" --dir "${SUMAN_COVERAGE_DIR}"
 
 #nyc --dir "${SUMAN_COVERAGE_DIR}" node "${SUMAN_RUNNABLE}"
 
