@@ -3,7 +3,7 @@
 
 which_istanbul="$(which istanbul)";
 
-if [[ -z "$which_istanbul" ]]; then
+if [[ -z "${which_istanbul}" ]]; then
     npm install -g istanbul
 fi
 

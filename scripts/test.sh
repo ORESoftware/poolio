@@ -5,16 +5,19 @@ if [[ ! -d "node_modules" ]]; then
  exit 1;
 fi
 
-npm install -g suman@latest
+which_suman="$(which suman)"
+if [[ -z "$which_suman" ]]; then
+    npm install -g suman@latest
+fi
 
-LIB_NAME="poolio";
+lib_name="poolio";
 
-IS_GLOBALLY_SYMLINKED=`suman-tools --is-symlinked-globally="${LIB_NAME}"`
-IS_LOCALLY_SYMLINKED=`suman-tools --is-symlinked-locally="${LIB_NAME}"`
+IS_GLOBALLY_SYMLINKED=`suman-tools --is-symlinked-globally="${lib_name}"`
+IS_LOCALLY_SYMLINKED=`suman-tools --is-symlinked-locally="${lib_name}"`
 
-WHICH_ISTANBUL=$(which istanbul);
+which_istanbul="$(which istanbul)";
 
-if [[ -z ${WHICH_ISTANBUL} ]]; then
+if [[ -z ${which_istanbul} ]]; then
     npm install -g istanbul
 fi
 
@@ -23,7 +26,7 @@ if [[ ${IS_GLOBALLY_SYMLINKED} != *"affirmative"* ]]; then
 fi
 
 if [[ ${IS_LOCALLY_SYMLINKED} != *"affirmative"* || ${IS_GLOBALLY_SYMLINKED} != *"affirmative"* ]]; then
-    npm link "${LIB_NAME}" # create a local symlink
+    npm link "${lib_name}" # create a local symlink
 fi
 
 mkdir -p coverage
