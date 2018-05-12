@@ -3,7 +3,7 @@ import { ChildProcess } from "child_process";
 import { Writable } from "stream";
 import * as EE from 'events';
 import * as net from "net";
-export interface IPoolOptions {
+export interface PoolioOpts {
     filePath: string;
     inheritStdio: boolean;
     addWorkerOnExit: boolean;
@@ -22,9 +22,8 @@ export interface IPoolOptions {
     doNotListenForMessagesFromWorkers: boolean;
     oneJobPerWorker: boolean;
 }
-export declare type IPoolOptionsPartial = Partial<IPoolOptions>;
-export interface IPoolResolutions {
-    [key: string]: IPoolResolution;
+export interface PoolioResolutions {
+    [key: string]: PoolioResolution;
 }
 export interface IStreamFunction {
     (): Writable;
@@ -32,26 +31,27 @@ export interface IStreamFunction {
 export interface IResolutionCallback {
     (err: Error | string, data?: Object): void;
 }
-export interface IPoolioChildProcess extends ChildProcess {
+export interface PoolioChildProcess extends ChildProcess {
+    workId: number;
     workerId: number;
     tempId: string;
 }
-export interface IPoolMsgQueue {
+export interface PoolioMsgQueue {
     workId: number;
     msg: string | Object;
     __poolioWorkerId?: number;
 }
-export interface IPoolResolution {
+export interface PoolioResolution {
     cb?: Function;
     resolve?: Function;
     reject?: Function;
 }
-export interface IPoolioResponseMsg {
+export interface PoolioResponseMsg {
     workId: number;
     error?: string;
     result: Object;
 }
-export interface IPoolioAnyOpts {
+export interface PoolioAnyOpts {
     file: string;
     fd: number;
     tty: string;
@@ -59,10 +59,10 @@ export interface IPoolioAnyOpts {
 }
 export declare class Pool extends EE {
     kill: boolean;
-    all: Array<IPoolioChildProcess>;
-    available: Array<IPoolioChildProcess>;
-    msgQueue: Array<IPoolMsgQueue>;
-    resolutions: IPoolResolutions;
+    all: Array<PoolioChildProcess>;
+    available: Array<PoolioChildProcess>;
+    msgQueue: Array<PoolioMsgQueue>;
+    resolutions: PoolioResolutions;
     removeNextAvailableWorker: boolean;
     workerIdCounter: number;
     jobIdCounter: number;
@@ -88,17 +88,15 @@ export declare class Pool extends EE {
     getSharedWritableStream: IStreamFunction | Writable;
     env: Object;
     detached: boolean;
-    constructor(options: IPoolOptionsPartial);
+    constructor(options: Partial<PoolioOpts>);
     addWorker(): Pool;
     removeWorker(): Pool;
     getCurrentSize(): Object;
     getCurrentStats(): Object;
-    anyCB(msg: Object | string, opts?: Partial<IPoolioAnyOpts>, cb?: IResolutionCallback): void;
-    any(msg: Object | string, opts?: Partial<IPoolioAnyOpts>): Promise<IPoolioResponseMsg>;
+    any(msg: Object | string, opts?: Partial<PoolioAnyOpts>, cb?: IResolutionCallback): void;
+    anyp(msg: Object | string, opts?: Partial<PoolioAnyOpts>): Promise<PoolioResponseMsg>;
     destroy(): Pool;
     killAllActiveWorkers(): Pool;
     killAll(): Pool;
     killAllImmediately(): Pool;
 }
-declare const $exports: any;
-export default $exports;

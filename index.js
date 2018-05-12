@@ -19,13 +19,12 @@ var fs = require("fs");
 var chalk = require("chalk");
 var residence = require("residence");
 var root = residence.findProjectRoot(process.cwd());
-var name = ' [poolio] ';
 var log = {
-    info: console.log.bind(console, name),
-    good: console.log.bind(console, name),
-    veryGood: console.log.bind(console, chalk.green(name)),
-    warning: console.error.bind(console, chalk.yellow.bold(name)),
-    error: console.error.bind(console, chalk.red(name))
+    info: console.log.bind(console, '[poolio]'),
+    good: console.log.bind(console, '[poolio]'),
+    veryGood: console.log.bind(console, chalk.green('[poolio]')),
+    warning: console.error.bind(console, chalk.yellow.bold('[poolio warning]')),
+    error: console.error.bind(console, chalk.red('[poolio error]'))
 };
 var acceptableConstructorOptions = {
     'execArgv': true,
@@ -233,7 +232,7 @@ var Pool = (function (_super) {
         }
         _this.size = opts.size;
         if ('addWorkerOnExit' in opts) {
-            assert(typeof opts.addWorkerOnExit === 'boolean', 'Poolio init error => "addWorkerOnExit" property of options should be a boolean value.');
+            assert.equal(typeof opts.addWorkerOnExit, 'boolean', 'Poolio init error => "addWorkerOnExit" property of options should be a boolean value.');
         }
         _this.oneTimeOnly = Boolean(opts.oneTimeOnly);
         if (_this.oneTimeOnly) {
@@ -243,7 +242,7 @@ var Pool = (function (_super) {
             _this.addWorkerOnExit = Boolean(opts.addWorkerOnExit);
         }
         if ('silent' in opts) {
-            assert(typeof opts.silent === 'boolean', 'Poolio init error => "silent" property of options should be a boolean value.');
+            assert.equal(typeof opts.silent, 'boolean', 'Poolio init error => "silent" property of options should be a boolean value.');
         }
         _this.env = Object.assign({}, opts.env || {});
         _this.silent = opts.silent;
@@ -395,7 +394,7 @@ var Pool = (function (_super) {
     Pool.prototype.getCurrentStats = function () {
         return this.getCurrentSize();
     };
-    Pool.prototype.anyCB = function (msg, opts, cb) {
+    Pool.prototype.any = function (msg, opts, cb) {
         var _this = this;
         if (typeof opts === 'function') {
             cb = opts;
@@ -403,11 +402,11 @@ var Pool = (function (_super) {
         }
         opts = opts || {};
         if (this.kill) {
-            return cb(new Error(' => Poolio usage warning: pool.any() called on pool of dead/dying workers => ' +
+            return process.nextTick(cb, new Error('Poolio usage warning: pool.any() called on pool of dead/dying workers => ' +
                 'use pool.addWorker() to replenish the pool.'));
         }
         if (this.all.length < 1) {
-            this.emit('error', 'warning: you called pool.any() but your worker pool has 0 workers,' +
+            this.emit('error', 'warning: you called pool.anyCb() but your worker pool has 0 workers,' +
                 'most likely because all have exited => ' +
                 'you need to call pool.addWorker() to replenish the pool, or use the {addWorkerOnExit:true} option.');
         }
@@ -445,7 +444,7 @@ var Pool = (function (_super) {
             cb: d ? d.bind(cb) : cb
         };
     };
-    Pool.prototype.any = function (msg, opts) {
+    Pool.prototype.anyp = function (msg, opts) {
         var _this = this;
         opts = opts || {};
         if (this.kill) {
@@ -526,5 +525,3 @@ var Pool = (function (_super) {
     return Pool;
 }(EE));
 exports.Pool = Pool;
-var $exports = module.exports;
-exports.default = $exports;
