@@ -11,7 +11,9 @@ SUMAN_RUNNABLE=${SUMAN_TARGET_TEST_PATH%.*}.js
 #node ${SUMAN_RUNNABLE} | tee -a run.sh.log
 #node ${SUMAN_RUNNABLE}
 
-istanbul cover --report=json "${SUMAN_RUNNABLE}" --dir "${SUMAN_COVERAGE_DIR}"
+#istanbul cover --report=json "${SUMAN_RUNNABLE}" --dir "${SUMAN_COVERAGE_DIR}"
+
+istanbul cover --report=lcov "${SUMAN_RUNNABLE}" --dir "${SUMAN_COVERAGE_DIR}"
 
 # nyc --dir "${SUMAN_COVERAGE_DIR}" node "${SUMAN_RUNNABLE}"
 # nyc node "${SUMAN_RUNNABLE}"
