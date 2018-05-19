@@ -587,11 +587,15 @@ export class Pool extends EE {
     }
   }
   
-  getCurrentStats(): Object {
+  getCurrentStats(): object {
     return this.getCurrentSize()
   }
   
-  any(msg: Object | string, opts?: Partial<PoolioAnyOpts>, cb?: IResolutionCallback): void {
+  noop(){
+  
+  }
+  
+  any(msg: object | string, opts?: Partial<PoolioAnyOpts>, cb?: IResolutionCallback): void {
     
     if (typeof opts === 'function') {
       cb = opts;
@@ -599,6 +603,7 @@ export class Pool extends EE {
     }
     
     opts = opts || {};
+    cb = cb || this.noop;
     
     if (this.kill) {
       return process.nextTick(cb, new Error('Poolio usage warning: pool.any() called on pool of dead/dying workers => ' +
@@ -712,7 +717,7 @@ export class Pool extends EE {
     const d = process.domain;
     return new Promise((resolve, reject) => {
       this.resolutions[workId] = {
-        resolve: d ? d.bind(resolve) : resolve,
+        resolve: d ? d.bind(resolve as any) : resolve,
         reject: d ? d.bind(reject) : reject
       };
     });
