@@ -1,6 +1,6 @@
 {
   "name": "poolio",
-  "version": "0.2.54015",
+  "version": "0.2.54016",
   "description": "Create a versatile pool of child process workers.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
