@@ -3,6 +3,7 @@
 node_modules
 .idea
 coverage
+dist/*
 
 ### matching
 *.log
@@ -10,3 +11,6 @@ coverage
 ### files
 yarn.lock
 package-lock.json
+
+### negation
+!dist/README.md
