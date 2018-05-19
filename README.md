@@ -35,11 +35,6 @@ const n = cp.spawn('node',['<your-worker-script>']);
 
 ```
 
-as per:
-
-https://nodejs.org/api/child_process.html
-
-
 ## Installation
 
 ```bash
@@ -50,23 +45,22 @@ npm install -S poolio
 
 ```js
 
-// in the parent process, we require the module and initialize a pool
-
 const {Pool} = require('poolio');
 
+// in the current process, we initialize a pool
 const pool = new Pool({
     filePath: 'child.js',    //path is relative to root of your project, but it's best to pass in an absolute path
     size: 3
 });
 
 
-function rankPostsUsingWorkerPool(postIds, cb){
+function rankPostsUsingWorkerPool(postIds){
 
-    pool.any({action: 'run', posts: postIds}).then(function resolved(posts) {
-        cb(null, posts);
-    }, function rejected(e) {
-        cb(e, []);              //pro-tip, use the rejected handler instead of the catch block, to ensure cb only gets called once
-    }).catch(function (err) {
+   return pool.anyp({action: 'run', posts: postIds})
+    .then(function(){
+        log.info('successfully processes post ranking.');
+    })
+    .catch(function (err) {
         log.error(err);
     });
     
@@ -133,7 +127,7 @@ const pool = new Pool({
 
 
 function doHeavyDataIntensiveAsyncWork(data){
-    return pool.any({action: 'all', data: data}); // return the promise
+    return pool.anyp({action: 'all', data: data}); // return the promise
 }
        
 
@@ -171,7 +165,7 @@ process.on('message', function (data) {   //use the closure, it is better that w
          case 'bar':
            actions.push(bar);
            break;
-         case 'baz';
+         case 'baz':
            actions.push(baz);
            break;
          case 'all':

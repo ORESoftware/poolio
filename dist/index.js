@@ -388,8 +388,8 @@ class Pool extends EE {
             cb = opts;
             opts = {};
         }
-        opts = opts || {};
-        cb = cb || this.noop;
+        opts = (opts || {});
+        cb = (cb || this.noop);
         if (this.kill) {
             return process.nextTick(cb, new Error('Poolio usage warning: pool.any() called on pool of dead/dying workers => ' +
                 'use pool.addWorker() to replenish the pool.'));

@@ -595,15 +595,15 @@ export class Pool extends EE {
   
   }
   
-  any(msg: object | string, opts?: Partial<PoolioAnyOpts>, cb?: IResolutionCallback): void {
+  any(msg: object | string, opts?: Partial<PoolioAnyOpts> | IResolutionCallback, cb?: IResolutionCallback): void {
     
     if (typeof opts === 'function') {
       cb = opts;
-      opts = {};
+      opts = {} as Partial<PoolioAnyOpts>;
     }
     
-    opts = opts || {};
-    cb = cb || this.noop;
+    opts = (opts || {}) as Partial<PoolioAnyOpts>;
+    cb = (cb || this.noop) as IResolutionCallback;
     
     if (this.kill) {
       return process.nextTick(cb, new Error('Poolio usage warning: pool.any() called on pool of dead/dying workers => ' +
@@ -629,7 +629,7 @@ export class Pool extends EE {
         }
         
         if (this.streamStdioAfterDelegation === true) {
-          handleStdio(this, n, opts);
+          handleStdio(this, n, opts  as Partial<PoolioAnyOpts>);
         }
         
         n.workId = workId;
