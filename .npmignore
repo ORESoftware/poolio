@@ -1,15 +1,15 @@
 ### folders
 node_modules
+.vscode
 .idea
 test
 scripts
 src
+coverage
 
 ### matching
-*.sh
 *.txt
 *.md
-*.ts
 *.json
 *.yml
 *.log
@@ -22,5 +22,3 @@ suman.conf.js
 .gitignore
 yarn.lock
 
-### negation
-!*.d.ts
