@@ -1,5 +1,6 @@
+
+
 ### folders
-node_modules
 .vscode
 .idea
 test
@@ -15,9 +16,11 @@ coverage
 *.log
 
 ### files
+Dockerfile*
 suman.conf.js
 .editorconfig
 .babelrc
+.npmrc
 .npmignore
 .gitignore
 yarn.lock
