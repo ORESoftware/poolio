@@ -3,10 +3,12 @@
 node_modules
 .idea
 coverage
+.nyc_output
 dist/*
 
 ### matching
 *.log
+@target
 
 ### files
 yarn.lock

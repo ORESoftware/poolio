@@ -13,7 +13,7 @@ const pkgJSON = require('./package.json');
 
 module.exports = Object.freeze({
 
-  matchAny: [/\.js$/],                          //recommended =>  match: ['.test.js'],
+  matchAny: [/\.ts$/],                          //recommended =>  match: ['.test.js'],
   matchNone: [/fixture/],
   matchAll: [],
   testDir: 'test',

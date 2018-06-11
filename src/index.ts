@@ -76,11 +76,11 @@ export interface PoolioOpts {
   streamStdioAfterDelegation: boolean,  // only stream stdio to parent after sending first message
   args: Array<string>,
   oneTimeOnly: boolean,  // any spawned workers will not be returned to the pool
-  stdin: IStreamFunction | Writable;
-  stderr: IStreamFunction | Writable;
-  stdout: IStreamFunction | Writable;
+  stdin: StreamProvider | Writable;
+  stderr: StreamProvider | Writable;
+  stdout: StreamProvider | Writable;
   silent: boolean;
-  getSharedWritableStream: IStreamFunction | Writable;
+  getSharedWritableStream: StreamProvider | Writable;
   resolveWhenWorkerExits: boolean;
   doNotListenForMessagesFromWorkers: boolean;
   oneJobPerWorker: boolean; // if true, we can set n.workId = workId;
@@ -90,7 +90,7 @@ export interface PoolioResolutions {
   [key: string]: PoolioResolution
 }
 
-export interface IStreamFunction {
+export interface StreamProvider {
   (): Writable
 }
 
@@ -131,17 +131,20 @@ export interface PoolioAnyOpts {
 
 /////////////////// private helper functions  ////////////////////
 
-const getWritable = function (fnOrStrm: Writable | IStreamFunction): Writable {
+const getWritable = function (fnOrStrm: Writable | StreamProvider): Writable {
   return (typeof fnOrStrm === 'function') ? fnOrStrm() : fnOrStrm
 };
 
 const removeSpecificWorker = function (pool: Pool, n: PoolioChildProcess, callKill?: boolean) {
 
   n.tempId = 'gonna-die';
+
   resetDueToDeadWorkers(pool);
+
   if (callKill !== false) {
     n.kill('SIGINT');
   }
+
   pool.emit('worker-removed', n.workerId);
 
 };
@@ -321,14 +324,14 @@ export class Pool extends EE {
   inheritStdio: boolean;
   oneTimeOnly: boolean;  // works only receive one message, then they are off
   addWorkerOnExit: boolean;
-  stdin: IStreamFunction | Writable;
-  stderr: IStreamFunction | Writable;
-  stdout: IStreamFunction | Writable;
+  stdin: StreamProvider | Writable;
+  stderr: StreamProvider | Writable;
+  stdout: StreamProvider | Writable;
   numberOfSpawnedWorkers: number;
   numberOfDeadWorkers: number;
   streamStdioAfterDelegation: boolean;
   silent: boolean;
-  getSharedWritableStream: IStreamFunction | Writable;
+  getSharedWritableStream: StreamProvider | Writable;
   env: Object;
   detached: boolean; // allow users to decide whether workers should die when parent dies
 
