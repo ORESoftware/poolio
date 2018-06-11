@@ -1,5 +1,6 @@
-// import * as suman from 'suman';
-const suman = require('suman');
+'use strict';
+
+import suman = require('suman');
 const Test = suman.init(module, {
   integrants: ['make-a-bet'],
 });
