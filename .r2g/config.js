@@ -11,10 +11,6 @@ exports.default = {
   tests: '',
   packages: {
     
-    'example1': true,
-    'example2': true,
-    '@org/example3': 0  // if it's falsy it will be ignored
-    
   }
   
 };
