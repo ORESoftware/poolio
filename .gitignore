@@ -4,7 +4,7 @@ node_modules
 .idea
 coverage
 .nyc_output
-dist/*
+dist
 
 ### matching
 *.log
@@ -12,7 +12,6 @@ dist/*
 
 ### files
 yarn.lock
-package-lock.json
 
 ### negation
 !dist/README.md
