@@ -13,19 +13,16 @@ import * as EE from 'events';
 import * as util from 'util';
 import * as fs from 'fs';
 import * as chalk from 'chalk';
-import * as residence from 'residence';
 import * as net from "net";
 
 //////////////////////////////////////////////////////////
 
-const root = residence.findProjectRoot(process.cwd());
-
 const log = {
-  info: console.log.bind(console, '[poolio]'),
-  good: console.log.bind(console, '[poolio]'),
-  veryGood: console.log.bind(console, chalk.green('[poolio]')),
-  warning: console.error.bind(console, chalk.yellow.bold('[poolio warning]')),
-  error: console.error.bind(console, chalk.red('[poolio error]'))
+  info: console.log.bind(console, 'poolio:'),
+  good: console.log.bind(console, 'poolio:'),
+  veryGood: console.log.bind(console, chalk.green('poolio:')),
+  warning: console.error.bind(console, chalk.yellow.bold('poolio warning:')),
+  error: console.error.bind(console, chalk.red('poolio error:'))
 };
 
 const acceptableConstructorOptions = <any>{
@@ -46,7 +43,6 @@ const acceptableConstructorOptions = <any>{
   'env': true
 };
 
-////////////////////////////////////////////////////////
 
 let id = 1; //avoid falsy 0 values, just start with 1
 
@@ -62,9 +58,11 @@ const defaultOpts = <Partial<PoolioOpts>> {
 };
 
 const isDebug = process.execArgv.indexOf('debug') > 0;
-if (isDebug) log.info('isDebug flag set to:', isDebug);
 
-///////////////////////////////////////////////////////
+if (isDebug) {
+  log.info('isDebug flag set to:', isDebug);
+}
+
 
 export interface PoolioOpts {
   filePath: string,   // the path to the start script
@@ -372,9 +370,8 @@ export class Pool extends EE {
     this.inheritStdio = Boolean(opts.inheritStdio);
     this.streamStdioAfterDelegation = Boolean(opts.streamStdioAfterDelegation);
 
-    assert(opts.filePath, ' => Poolio: user error => you need to provide "filePath" option for Poolio constructor');
-
-    this.filePath = path.isAbsolute(opts.filePath) ? opts.filePath : path.resolve(root + '/' + this.filePath);
+    assert(opts.filePath, 'Poolio: user error => you need to provide "filePath" option for Poolio constructor');
+    this.filePath = path.resolve(opts.filePath);
 
     let isFile = false;
     try {

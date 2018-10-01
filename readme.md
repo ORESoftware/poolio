@@ -1,5 +1,6 @@
 # Poolio
 
+[![Version](https://img.shields.io/npm/v/poolio.svg?colorB=green)](https://www.npmjs.com/package/poolio)
 [![Build Status](https://travis-ci.org/ORESoftware/poolio.svg?branch=master)](https://travis-ci.org/ORESoftware/poolio)
 
 
@@ -12,11 +13,9 @@ workers for the lifecycle of the worker pool.
 * dynamically add or remove workers at will
 
 <br>
-<br>
 
 <a href="https://nodei.co/npm/poolio/"><img src="https://nodei.co/npm/poolio.png?downloads=true&downloadRank=true&stars=true"></a>
 
-<br>
 <br>
 
 This module behaves much like these two pre-existing modules:
@@ -45,29 +44,22 @@ npm install -S poolio
 
 ```js
 
-const {Pool} = require('poolio');
+import {Pool} from 'poolio';
+const workerScript = require.resolve(path.resolve(__dirname) + '/worker.js');
 
 // in the current process, we initialize a pool
 const pool = new Pool({
-    filePath: 'child.js',    //path is relative to root of your project, but it's best to pass in an absolute path
+    filePath: workerScript,  // must pass an absolute path
     size: 3
 });
 
 
-function rankPostsUsingWorkerPool(postIds){
-
-   return pool.anyp({action: 'run', posts: postIds})
-    .then(function(){
-        log.info('successfully processes post ranking.');
-    })
-    .catch(function (err) {
-        log.error(err);
-    });
-    
+const rankPostsUsingWorkerPool = function (postIds){
+   return pool.anyp({action: 'run', posts: postIds});
 }
        
 
-// in a child process - simple example
+// in the worker script/process - simple example:
 
 process.on('message', function (data) {   //use the closure, it is better that way
 
@@ -140,7 +132,6 @@ const domain = require('domain');
 process.on('message', function (data) {   //use the closure, it is better that way
 
     const workId = data.workId;
-    const d = domain.create();
     
     d.once('error', function(err){
        this.exit();
