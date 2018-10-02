@@ -43,9 +43,6 @@ const acceptableConstructorOptions = <any>{
   'env': true
 };
 
-
-let id = 1; //avoid falsy 0 values, just start with 1
-
 //opts
 const defaultOpts = <Partial<PoolioOpts>> {
   inheritStdio: true,
@@ -62,7 +59,6 @@ const isDebug = process.execArgv.indexOf('debug') > 0;
 if (isDebug) {
   log.info('isDebug flag set to:', isDebug);
 }
-
 
 export interface PoolioOpts {
   filePath: string,   // the path to the start script
@@ -302,6 +298,7 @@ const delegateNewlyAvailableWorker = function (pool: Pool, n: PoolioChildProcess
 
 export class Pool extends EE {
 
+  static poolioId = 1;
   kill: boolean;
   all: Array<PoolioChildProcess>;
   available: Array<PoolioChildProcess>;
@@ -314,7 +311,7 @@ export class Pool extends EE {
   doNotListenForMessagesFromWorkers: boolean;
   oneJobPerWorker: boolean;
   okToDelegate: boolean;
-  __poolId: string;
+  poolId: number;
   execArgv: Array<string>;
   args: Array<string>;
   filePath: string;
@@ -347,7 +344,7 @@ export class Pool extends EE {
     this.workerIdCounter = 1; //avoid falsy 0 values, start with 1
     this.jobIdCounter = 1; //avoid falsy 0 values, start with 1
     this.okToDelegate = false;
-    this.__poolId = '@poolio_pool_' + id++;
+    this.poolId = Pool.poolioId++;
     this.numberOfSpawnedWorkers = 0;
     this.numberOfDeadWorkers = 0;
 
@@ -378,17 +375,14 @@ export class Pool extends EE {
       isFile = fs.statSync(this.filePath).isFile()
     }
     catch (e) {
-      throw new Error('=> Poolio worker pool constructor error: "filePath" property passed is not a file => ' + this.filePath + '\n' + e.stack);
+      throw new Error('Poolio worker pool constructor error: "filePath" property passed is not a file => ' + this.filePath + '\n' + e.stack);
     }
 
     assert(isFile, ' => Poolio constructor error: filePath is not a file => ' + this.filePath);
 
-    if ('size' in opts) {
-      assert(Number.isInteger(opts.size),
-        'Poolio init error => "size" property of options should be an integer.');
-    }
-
-    this.size = opts.size;
+    this.size = opts.size || 1;
+    assert(Number.isInteger(this.size),
+      'Poolio init error => "size" property of options should be an integer.');
 
     if ('addWorkerOnExit' in opts) {
       assert.equal(typeof opts.addWorkerOnExit, 'boolean',
@@ -443,7 +437,7 @@ export class Pool extends EE {
     const execArgv = this.execArgv.slice(0);
 
     if (isDebug) {
-      execArgv.push('--debug=' + (53034 + id)); //http://stackoverflow.com/questions/16840623/how-to-debug-node-js-child-forked-process
+      execArgv.push('--debug=' + (53034 + this.poolId)); //http://stackoverflow.com/questions/16840623/how-to-debug-node-js-child-forked-process
     }
 
     execArgv.forEach((arg) => {
@@ -618,47 +612,46 @@ export class Pool extends EE {
 
     const workId = this.jobIdCounter++;
 
-    setImmediate(() => {
-      if (this.available.length > 0) {
-
-        const n = this.available.shift();
-
-        if (this.oneTimeOnly) {
-          n.tempId = 'gonna-die';
-          resetDueToDeadWorkers(this);
-        }
-
-        if (this.streamStdioAfterDelegation === true) {
-          handleStdio(this, n, opts  as Partial<PoolioAnyOpts>);
-        }
-
-        n.workId = workId;
-
-        n.send({
-          msg,
-          workId,
-          __poolioWorkerId: n.workerId
-        });
-
-      }
-      else {
-
-        if (this.all.length < 1) {
-          log.warning('Poolio warning: your Poolio pool has been reduced to size of 0 workers, ' +
-            'you will have to add a worker to process new and/or existing messages.');
-        }
-
-        this.msgQueue.push({
-          workId,
-          msg
-        });
-      }
-    });
-
     const d = process.domain;
     this.resolutions[workId] = {
       cb: d ? d.bind(cb) : cb
     };
+
+    if (this.available.length > 0) {
+
+      const n = this.available.shift();
+
+      if (this.oneTimeOnly) {
+        n.tempId = 'gonna-die';
+        resetDueToDeadWorkers(this);
+      }
+
+      if (this.streamStdioAfterDelegation === true) {
+        handleStdio(this, n, opts  as Partial<PoolioAnyOpts>);
+      }
+
+      n.workId = workId;
+
+      n.send({
+        msg,
+        workId,
+        __poolioWorkerId: n.workerId
+      });
+
+    }
+    else {
+
+      if (this.all.length < 1) {
+        log.warning('Poolio warning: your Poolio pool has been reduced to size of 0 workers, ' +
+          'you will have to add a worker to process new and/or existing messages.');
+      }
+
+      this.msgQueue.push({
+        workId,
+        msg
+      });
+    }
+
   }
 
   anyp(msg: Object | string, opts?: Partial<PoolioAnyOpts>): Promise<PoolioResponseMsg> {
@@ -678,7 +671,15 @@ export class Pool extends EE {
 
     const workId = this.jobIdCounter++;
 
-    setImmediate(() => {
+    return new Promise((resolve, reject) => {
+
+      const d = process.domain;
+
+      this.resolutions[workId] = {
+        resolve: d ? d.bind(resolve as any) : resolve,
+        reject: d ? d.bind(reject) : reject
+      };
+
       if (this.available.length > 0) {
 
         const n = this.available.shift();
@@ -712,14 +713,7 @@ export class Pool extends EE {
           msg: msg
         });
       }
-    });
 
-    const d = process.domain;
-    return new Promise((resolve, reject) => {
-      this.resolutions[workId] = {
-        resolve: d ? d.bind(resolve as any) : resolve,
-        reject: d ? d.bind(reject) : reject
-      };
     });
 
   }
