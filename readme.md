@@ -42,6 +42,12 @@ npm install -S poolio
 
 ## Basic Use
 
+
+```js
+import * as poolio from 'poolio';
+
+```
+
 ```js
 
 import {Pool} from 'poolio';

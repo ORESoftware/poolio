@@ -788,7 +788,7 @@ export const r2gSmokeTest = function () {
 
 export type PoolioResult = { type: MessageType, result: any };
 export type MessageRegisterCallback = (err: any, v?: PoolioResult) => void;
-export type MessageRegisterHandler = (m: PoolioMessage, cb: MessageRegisterCallback) => void;
+export type MessageRegisterHandler = (m: object | string, cb: MessageRegisterCallback) => void;
 
 export const registerMessageHandler = (cb: MessageRegisterHandler) => {
 
