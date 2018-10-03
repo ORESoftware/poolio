@@ -12,7 +12,7 @@ process.on('message', function (data) {
 
   const workId = data.workId;
 
-  console.log('workId:', workId, 'workerId:', data.__poolioWorkerId);
+  console.log('workId:', workId, 'workerId:', data.poolioWorkerId);
 
   if (data.msg === 'run') {
     run(data);

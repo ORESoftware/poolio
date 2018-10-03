@@ -6,7 +6,7 @@ process.on('unhandledRejection', (r, p) => {
 });
 
 const path = require('path');
-const Pool = require('poolio');
+const {Pool} = require('poolio');
 const workerScript = require.resolve(path.resolve(__dirname + '/child.js'));
 
 const pool = new Pool({

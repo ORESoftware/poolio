@@ -25,7 +25,14 @@ const log = {
   error: console.error.bind(console, chalk.red('poolio error:'))
 };
 
-const acceptableConstructorOptions = <any>{
+export interface StatsObject {
+  available: number,
+  all: number,
+  numberOfDeadWorkers: number,
+  numberOfSpawnedWorkers: number
+}
+
+const acceptableConstructorOptions = <any> {
   'execArgv': true,
   'args': true,
   'size': true,
@@ -65,7 +72,7 @@ export interface PoolioOpts {
   inheritStdio: boolean,  // whether to inheritStdio from all the workers
   addWorkerOnExit: boolean, // if a worker exits, we will automatically add a new worker to replace it
   size: number, // the number of workers in the pool
-  env: Object,
+  env: { [key: string]: string },
   execArgv: Array<string>,
   streamStdioAfterDelegation: boolean,  // only stream stdio to parent after sending first message
   args: Array<string>,
@@ -80,16 +87,12 @@ export interface PoolioOpts {
   oneJobPerWorker: boolean; // if true, we can set n.workId = workId;
 }
 
-export interface PoolioResolutions {
-  [key: string]: PoolioResolution
-}
-
 export interface StreamProvider {
   (): Writable
 }
 
 export interface IResolutionCallback {
-  (err: Error | string, data?: Object): void
+  (err: any, data?: any): void
 }
 
 export interface PoolioChildProcess extends ChildProcess {
@@ -101,7 +104,7 @@ export interface PoolioChildProcess extends ChildProcess {
 export interface PoolioMsgQueue {
   workId: number,
   msg: string | Object,
-  __poolioWorkerId?: number
+  poolioWorkerId?: number
 }
 
 export interface PoolioResolution {
@@ -123,7 +126,19 @@ export interface PoolioAnyOpts {
   socket: net.Socket
 }
 
-/////////////////// private helper functions  ////////////////////
+export interface PoolioMessage {
+  message: { value: JSON }
+  workId: number,
+  poolioWorkerId: number
+}
+
+export enum MessageType {
+  DONE = 'done',
+  ERROR = 'error',
+  FATAL = 'fatal',
+  RETURN_TO_POOL = 'return/to/pool',
+  DONE_AND_RETURN_TO_POOL = 'done/return/to/pool'
+}
 
 const getWritable = function (fnOrStrm: Writable | StreamProvider): Writable {
   return (typeof fnOrStrm === 'function') ? fnOrStrm() : fnOrStrm
@@ -139,7 +154,7 @@ const removeSpecificWorker = function (pool: Pool, n: PoolioChildProcess, callKi
     n.kill('SIGINT');
   }
 
-  pool.emit('worker-removed', n.workerId);
+  pool.emit(Pool.events.WorkerRemoved, n.workerId);
 
 };
 
@@ -169,40 +184,41 @@ const resetDueToDeadWorkers = function (pool: Pool): void {
 const handleCallback = function (pool: Pool, data: PoolioResponseMsg) {
 
   const workId = data.workId;
-  const cbOrPromise = pool.resolutions[workId];
+  const cbOrPromise = pool.resolutions.get(workId);
   const result = data.result || null;
 
   // callback can't be fired more than once
-  delete pool.resolutions[workId];
+  pool.resolutions.delete(workId);
 
-  if (cbOrPromise) {
-    if (data.error) {
-      const err = new Error(util.inspect(data.error));
-      if (cbOrPromise.cb) {
-        cbOrPromise.cb(err, result);
-      }
-      else if (cbOrPromise.reject) {
-        cbOrPromise.reject(err);
-      }
-      else {
-        throw 'Internal Poolio error => no resolution callback fn available [a], please report on Github.';
-      }
+  if (!cbOrPromise) {
+    // no-op - we deleted it so that the resolution won't be fired more than once
+    return;
+  }
+
+  if (data.error) {
+    const err = new Error(typeof data.error === 'string' ? data.error : util.inspect(data.error));
+    if (cbOrPromise.cb) {
+      cbOrPromise.cb(err, result);
+    }
+    else if (cbOrPromise.reject) {
+      cbOrPromise.reject(err);
     }
     else {
-      if (cbOrPromise.cb) {
-        cbOrPromise.cb(null, result);
-      }
-      else if (cbOrPromise.resolve) {
-        cbOrPromise.resolve(result);
-      }
-      else {
-        throw 'Internal Poolio error => no resolution callback fn available [b], please report on Github.';
-      }
+      throw 'Internal Poolio error => no resolution callback fn available [a], please report on Github.';
     }
   }
   else {
-    // no-op - we deleted it so that the resolution won't be fired more than once
+    if (cbOrPromise.cb) {
+      cbOrPromise.cb(null, result);
+    }
+    else if (cbOrPromise.resolve) {
+      cbOrPromise.resolve(result);
+    }
+    else {
+      throw 'Internal Poolio error => no resolution callback fn available [b], please report on Github.';
+    }
   }
+
 };
 
 const delegateNewWorker = function (pool: Pool, n: PoolioChildProcess): void {
@@ -218,9 +234,19 @@ const delegateNewWorker = function (pool: Pool, n: PoolioChildProcess): void {
   }
 
   pool.available.push(n);
+
 };
 
-const handleStdio = function (pool: Pool, n: PoolioChildProcess, opts?: Partial<PoolioAnyOpts>) {
+enum PoolioEvents {
+  WorkerCreated = 'worker-created',
+  WorkerRemoved = 'worker-removed',
+  WorkerExited = 'worker-exited',
+  WorkerError = 'worker-error',
+  AllKilled = 'all-killed',
+  WorkerAdded = 'worker-added'
+}
+
+const handleStdio = (pool: Pool, n: PoolioChildProcess, opts?: Partial<PoolioAnyOpts>) => {
 
   opts = opts || {};
 
@@ -234,6 +260,7 @@ const handleStdio = function (pool: Pool, n: PoolioChildProcess, opts?: Partial<
   if (pool.stdout) {
     n.stdio[1].pipe(getWritable(pool.stdout));
   }
+
   if (pool.stderr) {
     n.stdio[2].pipe(getWritable(pool.stderr));
   }
@@ -264,7 +291,7 @@ const handleStdio = function (pool: Pool, n: PoolioChildProcess, opts?: Partial<
 
 };
 
-const delegateNewlyAvailableWorker = function (pool: Pool, n: PoolioChildProcess) {
+const delegateNewlyAvailableWorker = (pool: Pool, n: PoolioChildProcess) => {
 
   if (pool.kill) {
     removeSpecificWorker(pool, n);
@@ -285,7 +312,7 @@ const delegateNewlyAvailableWorker = function (pool: Pool, n: PoolioChildProcess
 
   if (pool.msgQueue.length > 0) {
     const msg = pool.msgQueue.shift();
-    msg.__poolioWorkerId = n.workerId;
+    msg.poolioWorkerId = n.workerId;
     n.workId = msg.workId;
     n.send(msg);
   }
@@ -299,11 +326,12 @@ const delegateNewlyAvailableWorker = function (pool: Pool, n: PoolioChildProcess
 export class Pool extends EE {
 
   static poolioId = 1;
+  static events = PoolioEvents;
   kill: boolean;
-  all: Array<PoolioChildProcess>;
-  available: Array<PoolioChildProcess>;
-  msgQueue: Array<PoolioMsgQueue>;
-  resolutions: PoolioResolutions;
+  all = [] as Array<PoolioChildProcess>;
+  available = [] as Array<PoolioChildProcess>;
+  msgQueue = [] as Array<PoolioMsgQueue>;
+  resolutions = new Map<number, PoolioResolution>();
   removeNextAvailableWorker: boolean;
   workerIdCounter: number;
   jobIdCounter: number;
@@ -322,31 +350,24 @@ export class Pool extends EE {
   stdin: StreamProvider | Writable;
   stderr: StreamProvider | Writable;
   stdout: StreamProvider | Writable;
-  numberOfSpawnedWorkers: number;
-  numberOfDeadWorkers: number;
+  numberOfSpawnedWorkers = 0;
+  numberOfDeadWorkers = 0;
   streamStdioAfterDelegation: boolean;
   silent: boolean;
   getSharedWritableStream: StreamProvider | Writable;
-  env: Object;
+  env: { [key: string]: string };
   detached: boolean; // allow users to decide whether workers should die when parent dies
 
   constructor(options: Partial<PoolioOpts>) {
 
     super();
 
-    //internal
     this.kill = false;
-    this.all = [];
-    this.available = [];
-    this.msgQueue = [];
-    this.resolutions = {};
     this.removeNextAvailableWorker = false;
     this.workerIdCounter = 1; //avoid falsy 0 values, start with 1
     this.jobIdCounter = 1; //avoid falsy 0 values, start with 1
     this.okToDelegate = false;
     this.poolId = Pool.poolioId++;
-    this.numberOfSpawnedWorkers = 0;
-    this.numberOfDeadWorkers = 0;
 
     if (typeof options !== 'object' || Array.isArray(options)) {
       throw new Error('Options object should be defined for your poolio pool, as "filePath" option property is required.');
@@ -404,7 +425,7 @@ export class Pool extends EE {
         'Poolio init error => "silent" property of options should be a boolean value.');
     }
 
-    this.env = Object.assign({}, opts.env || {});
+    this.env = Object.assign({FORCE_COLOR: 1}, opts.env || {});
     this.silent = opts.silent;
     this.stdin = opts.stdin;
     this.stdout = opts.stdout;
@@ -416,7 +437,11 @@ export class Pool extends EE {
 
     this.on('error', err => {
       if (this.listenerCount('error') === 1) {
-        log.error('your worker pool experienced an error => ', (err.stack || err));
+        if (!err) {
+          log.error('missing error object in error evemt listener.');
+          err = new Error('Missing error object in error event listener.');
+        }
+        log.error('your worker pool experienced an error:', (err.stack || err));
         log.error('please add your own "error" event listener using pool.on("error", fn) ' +
           'to prevent these error messages from being logged.');
       }
@@ -430,10 +455,9 @@ export class Pool extends EE {
 
   }
 
-  addWorker(): Pool {
+  addWorker(): this {
 
-    const args = this.args.slice(0);
-    args.unshift(this.filePath);
+    const args = [this.filePath, ...this.args.slice(0)];
     const execArgv = this.execArgv.slice(0);
 
     if (isDebug) {
@@ -476,10 +500,12 @@ export class Pool extends EE {
     n.workerId = this.workerIdCounter++;
 
     n.on('error', err => {
-      this.emit('worker-error', err, n.workerId);
+      this.emit(Pool.events.WorkerError, err, n.workerId);
     });
 
     n.once('exit', (code, signal) => {
+
+      n.removeAllListeners();
 
       this.numberOfDeadWorkers++;
 
@@ -493,71 +519,68 @@ export class Pool extends EE {
         });
       }
 
-      n.removeAllListeners();
-      this.emit('worker-exited', code, signal, n.workerId);
+      this.emit(Pool.events.WorkerExited, code, signal, n.workerId);
       removeSpecificWorker(this, n, false);
 
       if (this.addWorkerOnExit) {
         this.addWorker();
       }
-      else {
-        if (this.all.length < 1) {
-          this.kill = false;
-          this.emit('all-killed', null);
-        }
+      else if (this.all.length < 1) {
+        this.kill = false;
+        this.emit(Pool.events.AllKilled, true);
       }
     });
 
-    n.on('message', data => {
+    n.on('message', d => {
 
-      if (!data.workId) {
-        log.warning('message sent from worker with no workId => ', '\n', JSON.stringify(data));
+      if (!d.workId) {
+        log.warning('message sent from worker with no workId:', util.inspect(d));
       }
 
-      switch (data.msg) {
-        case 'done':
-          handleCallback(this, data);
-          break;
-        case 'return/to/pool':
-          delegateNewlyAvailableWorker(this, n);
-          break;
-        case 'done/return/to/pool':
-          handleCallback(this, data); //probably want to handle callback first
-          delegateNewlyAvailableWorker(this, n);
-          break;
-        case 'error':
-          this.emit('error', data); // TODO: handle this error event
-          handleCallback(this, data);
-          delegateNewlyAvailableWorker(this, n);
-          break;
-        case 'fatal':
-          this.emit('error', data); // TODO: handle this error event
-          handleCallback(this, data);
-          removeSpecificWorker(this, n);
-          break;
+      switch (d.msg) {
+
+        case MessageType.DONE:
+          return handleCallback(this, d);
+
+        case MessageType.RETURN_TO_POOL:
+          return delegateNewlyAvailableWorker(this, n);
+
+        case MessageType.DONE_AND_RETURN_TO_POOL:
+          handleCallback(this, d); //probably want to handle callback first
+          return delegateNewlyAvailableWorker(this, n);
+
+        case MessageType.ERROR:
+          this.emit('error', d); // TODO: handle this error event
+          handleCallback(this, d);
+          return delegateNewlyAvailableWorker(this, n);
+
+        case MessageType.FATAL:
+          this.emit('error', d); // TODO: handle this error event
+          handleCallback(this, d);
+          return removeSpecificWorker(this, n);
+
         default:
           const err = new Error('Poolio warning: your Poolio worker sent a message that ' +
-            'was not recognized by the Poolio library =>' + '\n' + util.inspect(data));
+            'was not recognized by the Poolio library =>' + util.inspect(d));
           this.emit('error', err);
       }
     });
 
     this.all.push(n);
-    this.emit('worker-created', n.workerId);
-    this.emit('worker-added', n.workerId);
+    this.emit(Pool.events.WorkerCreated, n.workerId);
+    this.emit(Pool.events.WorkerAdded, n.workerId);
 
     delegateNewWorker(this, n);
     return this;
   }
 
-  removeWorker(): Pool {
+  removeWorker(): this {
 
     if (this.all.length < 1) {
-      log.warning('warning => Cannot remove worker from pool of 0 workers.');
+      log.warning('cannot remove worker from pool of 0 workers.');
     }
     else if (this.all.length === 1 && this.removeNextAvailableWorker) {
-      log.warning('warning => Already removed last worker, there will soon' +
-        ' be 0 workers in the pool.');
+      log.warning('already removed last worker, there will soon be 0 workers in the pool.');
     }
     else {
       const n = this.available.pop();
@@ -572,7 +595,7 @@ export class Pool extends EE {
     return this;
   }
 
-  getCurrentSize(): Object {
+  getCurrentSize(): StatsObject {
     return {
       available: this.available.length,
       all: this.all.length,
@@ -581,7 +604,7 @@ export class Pool extends EE {
     }
   }
 
-  getCurrentStats(): object {
+  getCurrentStats(): StatsObject {
     return this.getCurrentSize()
   }
 
@@ -613,9 +636,9 @@ export class Pool extends EE {
     const workId = this.jobIdCounter++;
 
     const d = process.domain;
-    this.resolutions[workId] = {
+    this.resolutions.set(workId, {
       cb: d ? d.bind(cb) : cb
-    };
+    });
 
     if (this.available.length > 0) {
 
@@ -635,7 +658,7 @@ export class Pool extends EE {
       n.send({
         msg,
         workId,
-        __poolioWorkerId: n.workerId
+        poolioWorkerId: n.workerId
       });
 
     }
@@ -654,7 +677,7 @@ export class Pool extends EE {
 
   }
 
-  anyp(msg: Object | string, opts?: Partial<PoolioAnyOpts>): Promise<PoolioResponseMsg> {
+  anyp(msg: object | string, opts?: Partial<PoolioAnyOpts>): Promise<PoolioResponseMsg> {
 
     opts = opts || {};
 
@@ -675,10 +698,10 @@ export class Pool extends EE {
 
       const d = process.domain;
 
-      this.resolutions[workId] = {
+      this.resolutions.set(workId, {
         resolve: d ? d.bind(resolve as any) : resolve,
         reject: d ? d.bind(reject) : reject
-      };
+      });
 
       if (this.available.length > 0) {
 
@@ -698,7 +721,7 @@ export class Pool extends EE {
         n.send({
           msg: msg,
           workId: workId,
-          __poolioWorkerId: n.workerId
+          poolioWorkerId: n.workerId
         });
 
       } else {
@@ -718,13 +741,13 @@ export class Pool extends EE {
 
   }
 
-  destroy(): Pool {
+  destroy(): this {
 
     // killall and remove all listeners
     return this;
   }
 
-  killAllActiveWorkers(): Pool {
+  killAllActiveWorkers(): this {
 
     this.all.slice(0).forEach(n => {
       // if child process is not in the available list, we should kill it
@@ -736,7 +759,7 @@ export class Pool extends EE {
     return this;
   };
 
-  killAll(): Pool {
+  killAll(): this {
 
     this.kill = true;
     this.available.slice(0).forEach(n => {
@@ -745,7 +768,7 @@ export class Pool extends EE {
     return this;
   }
 
-  killAllImmediately(): Pool {
+  killAllImmediately(): this {
 
     this.kill = true;
     this.all.slice(0).forEach(n => {
@@ -757,6 +780,42 @@ export class Pool extends EE {
 
 }
 
+export default Pool;
+
 export const r2gSmokeTest = function () {
   return true;
+};
+
+export type PoolioResult = { type: MessageType, result: any };
+export type MessageRegisterCallback = (err: any, v?: PoolioResult) => void;
+export type MessageRegisterHandler = (m: PoolioMessage, cb: MessageRegisterCallback) => void;
+
+export const registerMessageHandler = (cb: MessageRegisterHandler) => {
+
+  process.on('message', m => {
+
+    const workId = m.workId;
+    const v = JSON.parse(m.message);
+    let callable = true;
+
+    cb(v.value, (err, result) => {
+
+      if (!callable) {
+        log.error('callback called more than once.');
+        return;
+      }
+
+      callable = false;
+
+      process.send({
+        error: err || null,
+        result: result || null,
+        workId,
+        type: (result && result.type) || MessageType.DONE_AND_RETURN_TO_POOL
+      });
+
+    });
+
+  });
+
 };
